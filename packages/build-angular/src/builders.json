@@ -1,0 +1,19 @@
+{
+	"builders": {
+		"dev-server": {
+			"implementation": "./builders/entry.js#devServer",
+			"schema": "./builders/schema.json",
+			"description": "Build a browser app using lit components"
+		},
+		"extract-i18n": {
+			"implementation": "./builders/entry.js#extractI18n",
+			"schema": "./builders/schema.json",
+			"description": "Build a browser app using lit components"
+		},
+		"browser": {
+			"implementation": "./builders/entry.js#browser",
+			"schema": "./builders/schema.json",
+			"description": "Build a browser app using lit components"
+		}
+	}
+}

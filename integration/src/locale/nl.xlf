@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="lit-text" datatype="html">
+        <source>This is translated text for <x id="PH" equiv-text="this.name"/></source>
+        <target>Dit is een vertaalde tekst voor <x id="PH" equiv-text="this.name"/></target>
+      </trans-unit>
+      <trans-unit id="lit-html" datatype="html">
+        <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="me"/>&lt;/b&gt;</source>
+        <target>Dit is een vertaald sjabloon voor &lt;b&gt;<x id="PH" equiv-text="me"/>&lt;/b&gt;</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

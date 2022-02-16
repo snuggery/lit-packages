@@ -1,0 +1,6 @@
+.yarn
+.pnp.*
+.angular
+
+/dist
+/packages/*/dist

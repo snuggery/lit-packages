@@ -1,0 +1,9 @@
+/* eslint-disable */
+//prettier-ignore
+module.exports = {
+name: "@yarnpkg/plugin-snuggery",
+factory: function (require) {
+var plugin=(()=>{var l=Object.create,r=Object.defineProperty;var f=Object.getOwnPropertyDescriptor;var k=Object.getOwnPropertyNames;var x=Object.getPrototypeOf,w=Object.prototype.hasOwnProperty;var y=t=>r(t,"__esModule",{value:!0});var a=t=>{if(typeof require!="undefined")return require(t);throw new Error('Dynamic require of "'+t+'" is not supported')};var P=(t,s)=>{for(var e in s)r(t,e,{get:s[e],enumerable:!0})},v=(t,s,e)=>{if(s&&typeof s=="object"||typeof s=="function")for(let n of k(s))!w.call(t,n)&&n!=="default"&&r(t,n,{get:()=>s[n],enumerable:!(e=f(s,n))||e.enumerable});return t},p=t=>v(y(r(t!=null?l(x(t)):{},"default",t&&t.__esModule&&"default"in t?{get:()=>t.default,enumerable:!0}:{value:t,enumerable:!0})),t);var j={};P(j,{default:()=>b});var d=p(a("@yarnpkg/cli")),o=p(a("@yarnpkg/core")),g=p(a("clipanion")),i=class extends d.BaseCommand{constructor(){super(...arguments);this.args=g.Option.Proxy()}async execute(){let s=await o.Configuration.find(this.context.cwd,this.context.plugins),{project:e,workspace:n}=await o.Project.find(s,this.context.cwd);await e.restoreInstallState();let m=o.structUtils.makeIdent("snuggery","snuggery").identHash,u=[e.topLevelWorkspace];n!=null&&u.unshift(n);for(let[h,c]of u.entries())if(!!c.dependencies.has(m)){if(h===0&&o.scriptUtils.hasWorkspaceScript(c,"sn"))break;return await o.scriptUtils.executePackageAccessibleBinary(c.anchoredLocator,"sn",this.args,{cwd:this.context.cwd,project:e,stdin:this.context.stdin,stdout:this.context.stdout,stderr:this.context.stderr})}return this.cli.run(["run","sn",...this.args])}};i.paths=[["sn"]];var H={commands:[i],hooks:{setupScriptEnvironment(t,s,e){return e("sn",process.execPath,[process.argv[1],"sn"])}}},b=H;return j;})();
+return plugin;
+}
+};

@@ -1,0 +1,48 @@
+{
+	"name": "ngx-lit",
+	"private": true,
+	"workspaces": [
+		"integration",
+		"packages/*"
+	],
+	"license": "MIT",
+	"scripts": {
+		"postinstall": "is-ci || husky install",
+		"build": "sn build",
+		"lint": "sn lint",
+		"test": "sn test"
+	},
+	"packageManager": "yarn@3.1.1",
+	"devDependencies": {
+		"@angular-devkit/build-angular": "^12.2.0",
+		"@angular-eslint/builder": "^12.2.0",
+		"@angular/cdk": "^12.2.0",
+		"@angular/common": "^12.2.0",
+		"@angular/compiler": "^12.2.0",
+		"@angular/compiler-cli": "^12.2.0",
+		"@angular/core": "^12.2.0",
+		"@angular/platform-browser": "^12.2.0",
+		"@ngx-lit/build-angular": "workspace:*",
+		"@ngx-playwright/test": "^0.1.1",
+		"@snuggery/node": "^0.2.2",
+		"@snuggery/snuggery": "^0.5.0",
+		"@snuggery/yarn": "^0.2.1",
+		"@typescript-eslint/eslint-plugin": "^5.12.0",
+		"@typescript-eslint/parser": "^5.12.0",
+		"cspell-lib": "^5.18.5",
+		"eslint": "^8.9.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-import-resolver-node": "^0.3.6",
+		"eslint-plugin-import": "^2.25.4",
+		"express-check-in": "^0.1.0",
+		"husky": "^7.0.4",
+		"is-ci": "^3.0.1",
+		"prettier": "^2.5.1",
+		"rxjs": "6.6.7",
+		"typescript": "4.3.5",
+		"zone.js": "0.11.4"
+	},
+	"resolutions": {
+		"esbuild@0.13.8": "npm:esbuild-wasm@0.13.8"
+	}
+}

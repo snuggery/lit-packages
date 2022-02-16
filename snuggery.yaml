@@ -1,0 +1,151 @@
+# This file has a format identical to Angular CLI's angular.json, except it's a YAML file
+
+version: 1
+
+# Not actually a useful object, it's just a container for all anchor definitions
+__anchors:
+  readmeAsset: &readmeAsset
+    include: README.md
+  licenseAsset: &licenseAsset
+    include: LICENSE.md
+    from: '.'
+  builderOrSchematicAsset: &builderOrSchematicAsset
+    include:
+      - '**/*.d.ts'
+      - '**/*.json'
+
+projects:
+  all:
+    root: ''
+    architect:
+      build:
+        builder: '@snuggery/snuggery:glob'
+        options:
+          include: '@ngx-lit/*'
+      deploy:
+        builder: '@snuggery/yarn:deploy'
+        options:
+          useWorkspacePlugin: true
+          exclude:
+            - all
+            - integration
+        configurations:
+          next:
+            distTag: next
+      lint:
+        builder: '@angular-eslint/builder:lint'
+        options:
+          eslintConfig: .eslintrc.yml
+          ignorePath: .eslintignore
+          lintFilePatterns:
+            - packages/*/src/**/*.[tj]s
+
+  integration:
+    projectType: application
+    schematics:
+      '@schematics/angular:application':
+        strict: true
+    root: integration
+    sourceRoot: integration/src
+    prefix: app
+    architect:
+      build:
+        builder: '@ngx-lit/build-angular/dist:browser'
+        options:
+          outputPath: dist/integration
+          index: integration/src/index.html
+          main: integration/src/main.ts
+          polyfills: integration/src/polyfills.ts
+          tsConfig: integration/tsconfig.app.json
+          assets:
+            - integration/src/favicon.ico
+            - integration/src/assets
+          styles:
+            - integration/src/styles.css
+          scripts: []
+        configurations:
+          production:
+            budgets:
+              - type: initial
+                maximumWarning: 500kb
+                maximumError: 1mb
+              - type: anyComponentStyle
+                maximumWarning: 2kb
+                maximumError: 4kb
+            fileReplacements:
+              - replace: integration/src/environments/environment.ts
+                with: integration/src/environments/environment.prod.ts
+            outputHashing: all
+          development:
+            buildOptimizer: false
+            optimization: false
+            vendorChunk: true
+            extractLicenses: false
+            sourceMap: true
+            namedChunks: true
+            localize: ['en']
+          translated:
+            localize: ['en', 'nl']
+          nl:
+            localize: ['nl']
+        defaultConfiguration: production
+      serve:
+        builder: '@ngx-lit/build-angular/dist:dev-server'
+        configurations:
+          production:
+            browserTarget: integration:build:production
+          development:
+            browserTarget: integration:build:development
+          nl:
+            browserTarget: integration:build:development,nl
+          e2e:
+            port: 0
+        defaultConfiguration: development
+      extract-i18n:
+        builder: '@ngx-lit/build-angular/dist:extract-i18n'
+        options:
+          browserTarget: integration:build
+          outputPath: integration
+      test:
+        builder: '@angular-devkit/build-angular:karma'
+        options:
+          main: integration/src/test.ts
+          polyfills: integration/src/polyfills.ts
+          tsConfig: integration/tsconfig.spec.json
+          karmaConfig: integration/karma.conf.js
+          assets:
+            - integration/src/favicon.ico
+            - integration/src/assets
+          styles:
+            - integration/src/styles.css
+          scripts: []
+      e2e:
+        builder: '@ngx-playwright/test:run'
+        options:
+          devServerTarget: :serve:nl,e2e
+        configurations:
+          ci:
+            forbidOnly: true
+    i18n:
+      sourceLocale: en-US
+      locales:
+        en:
+          translation: integration/src/locale/en.xlf
+        nl:
+          translation: integration/src/locale/nl.xlf
+
+  '@ngx-lit/build-angular':
+    root: packages/build-angular
+    architect:
+      build:
+        builder: '@snuggery/node:build'
+        options:
+          assets:
+            - *readmeAsset
+            - *licenseAsset
+            - <<: *builderOrSchematicAsset
+              from: packages/build-angular/src
+          packager: '@snuggery/yarn'
+
+cli:
+  packageManager: yarn

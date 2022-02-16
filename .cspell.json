@@ -1,0 +1,17 @@
+{
+	"version": "0.2",
+	"words": [
+		"arcanis",
+		"bgotink",
+		"CLI's",
+		"dedupe",
+		"devkit",
+		"esbenp",
+		"eslintignore",
+		"postpack",
+		"snuggery",
+		"yarnpkg"
+	],
+	"ignoreRegExpList": ["from '[^']+'"],
+	"ignorePaths": ["**/dist/**", "yarn.lock", ".gitignore"]
+}
