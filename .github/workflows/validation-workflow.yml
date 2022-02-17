@@ -41,6 +41,11 @@ jobs:
         with:
           node-version: 16.x
 
+      - name: Install
+        shell: bash
+        run: |
+          yarn install --immutable
+
       - name: Type-Check
         shell: bash
         run: |
