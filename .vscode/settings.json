@@ -29,5 +29,6 @@
 	},
 	"cSpell.enabled": true,
 	"editor.detectIndentation": false,
-	"editor.insertSpaces": false
+	"editor.insertSpaces": false,
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

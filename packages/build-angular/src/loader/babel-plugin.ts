@@ -1,6 +1,6 @@
 /* cspell:word quasis */
 
-import {type PluginObj, template} from '@babel/core';
+import {PluginObj, template} from '@babel/core';
 import type {Expression, TemplateElement} from '@babel/types';
 
 module.exports = ({
