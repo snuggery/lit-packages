@@ -42,9 +42,6 @@ projects:
 
   integration:
     projectType: application
-    schematics:
-      '@schematics/angular:application':
-        strict: true
     root: integration
     sourceRoot: integration/src
     prefix: app
@@ -126,6 +123,12 @@ projects:
         configurations:
           ci:
             forbidOnly: true
+    schematics:
+      '@schematics/angular:application':
+        strict: true
+      '@ngx-lit/build-angular/dist:elements-to-components':
+        project: integration/src/elements
+        outputDirectory: integration/src/generated-components
     i18n:
       sourceLocale: en-US
       locales:

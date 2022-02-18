@@ -4,15 +4,24 @@
 set -e
 
 cd "$(dirname "$0")"
-TESTDIR="$(mktemp -d)"
+TEST_DIR="$(mktemp -d)"
 
 # Test extract-i18n
 
 echo "Testing extract-i18n..." >&2
 echo >&2
 
-sn extract-i18n --output-path "$TESTDIR"
-diff messages.xlf "$TESTDIR/messages.xlf"
+sn extract-i18n --output-path "$TEST_DIR"
+diff messages.xlf "$TEST_DIR/messages.xlf"
+
+# Test generation of components
+
+echo "Testing generation of components..." >&2
+echo >&2
+
+cp -a src/generated-components "$TEST_DIR"
+sn run schematic @ngx-lit/build-angular/dist:elements-to-components
+diff --recursive "$TEST_DIR/generated-components" src/generated-components
 
 # Test build
 
@@ -20,16 +29,16 @@ echo >&2
 echo "Testing build..." >&2
 echo >&2
 
-sn build --configuration development,translated --output-path "$TESTDIR"
+sn build --configuration development,translated --output-path "$TEST_DIR"
 
 function expect_translation {
-	if ! grep -q "$2" "$TESTDIR/$1/main.js"; then
+	if ! grep -q "$2" "$TEST_DIR/$1/main.js"; then
 		echo "Expected \"$2\" for translation $1" >&2;
 		exit 1
 	fi
 }
 function expect_not_translation {
-	if grep -q "$2" "$TESTDIR/$1/main.js"; then
+	if grep -q "$2" "$TEST_DIR/$1/main.js"; then
 		echo "Didn't expect \"$2\" for translation $1" >&2;
 		exit 1
 	fi

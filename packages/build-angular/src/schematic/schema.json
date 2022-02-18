@@ -1,0 +1,45 @@
+{
+	"type": "object",
+	"properties": {
+		"project": {
+			"type": "string",
+			"description": "Path to the project in which to look for custom elements, either a folder or a tsconfig/jsconfig file"
+		},
+
+		"include": {
+			"description": "Which custom elements to include",
+			"default": "*",
+			"oneOf": [
+				{"type": "string"},
+				{
+					"type": "array",
+					"items": {"type": "string"}
+				}
+			]
+		},
+		"exclude": {
+			"description": "Which custom elements to include",
+			"oneOf": [
+				{"type": "string"},
+				{
+					"type": "array",
+					"items": {"type": "string"}
+				}
+			]
+		},
+
+		"outputDirectory": {
+			"type": "string",
+			"description": "Path to write the components to, defaults to a folder called 'generated' in the project root"
+		},
+
+		"angularProjectName": {
+			"type": "string",
+			"description": "The name of the project.",
+			"$default": {
+				"$source": "projectName"
+			}
+		}
+	},
+	"additionalProperties": false
+}

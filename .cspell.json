@@ -13,5 +13,12 @@
 		"yarnpkg"
 	],
 	"ignoreRegExpList": ["from '[^']+'"],
-	"ignorePaths": ["**/dist/**", "yarn.lock", ".gitignore"]
+	"ignorePaths": [
+		"**/dist/**",
+		"yarn.lock",
+		".gitignore",
+		"integration/test.sh",
+		"integration/messages.xlf",
+		"integration/src/locale/*.xlf"
+	]
 }

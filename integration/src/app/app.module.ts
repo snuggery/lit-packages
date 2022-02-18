@@ -1,13 +1,14 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
+
+import {IntegrationTestComponent} from '../generated-components/integration-test.component';
 
 import {AppComponent} from './app.component';
 
 @NgModule({
-	declarations: [AppComponent],
+	declarations: [AppComponent, IntegrationTestComponent],
 	imports: [BrowserModule],
 	providers: [],
 	bootstrap: [AppComponent],
-	schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}

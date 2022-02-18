@@ -262,6 +262,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-devkit/schematics@npm:^12.2.0":
+  version: 12.2.16
+  resolution: "@angular-devkit/schematics@npm:12.2.16"
+  dependencies:
+    "@angular-devkit/core": 12.2.16
+    ora: 5.4.1
+    rxjs: 6.6.7
+  checksum: 3071281e44c2771740f1bc443a575d830b84beff11425037631905cdd174309a5193e66cccf363e417f539514b5b685c6165be742725340a20bc7d7c08947f0a
+  languageName: node
+  linkType: hard
+
 "@angular-eslint/builder@npm:^12.2.0":
   version: 12.7.0
   resolution: "@angular-eslint/builder@npm:12.7.0"
@@ -2374,6 +2385,7 @@ __metadata:
     "@angular-devkit/architect": ">= 0.1202.0 < 0.1300.0"
     "@angular-devkit/build-angular": ^12.2.0
     "@angular-devkit/core": ^12.2.0
+    "@angular-devkit/schematics": ^12.2.0
     "@angular/common": ^12.2.0
     "@angular/compiler": ^12.2.0
     "@angular/compiler-cli": ^12.2.0
@@ -2381,6 +2393,8 @@ __metadata:
     "@angular/platform-browser": ^12.2.0
     "@babel/core": 7.17.4
     "@babel/types": ^7.17.0
+    "@snuggery/core": ^0.3.0
+    "@snuggery/schematics": ^0.3.0
     "@types/babel__core": ^7.1.18
     "@types/node": ^17.0.18
     rxjs: 6.6.7
@@ -2388,6 +2402,7 @@ __metadata:
     zone.js: ^0.11.4
   peerDependencies:
     "@angular-devkit/build-angular": ^12.2.0 || ^13.0.0
+    typescript: "*"
   languageName: unknown
   linkType: soft
 
@@ -2589,7 +2604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/core@npm:0.3.0":
+"@snuggery/core@npm:0.3.0, @snuggery/core@npm:^0.3.0":
   version: 0.3.0
   resolution: "@snuggery/core@npm:0.3.0"
   dependencies:
@@ -2616,6 +2631,18 @@ __metadata:
     typescript:
       optional: true
   checksum: f10d4f695512004ce9ce73c5212d0c9442cb42c456f31b5e5773660448c96fed89d56907b2f744d244c4bf49519110b7ee001f30c72f8bac196c0bef2b686b17
+  languageName: node
+  linkType: hard
+
+"@snuggery/schematics@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@snuggery/schematics@npm:0.3.0"
+  dependencies:
+    "@snuggery/core": 0.3.0
+  peerDependencies:
+    "@angular-devkit/core": ^12.0.0-rc.2 || ^13.0.0
+    "@angular-devkit/schematics": ^12.0.0-rc.2 || ^13.0.0
+  checksum: 522afb6372a82a0ae642fcf6aa12375af9cb5313e0ce39100bde4b2543c495d425d76d11a6f82dbc6e0fc2e3f14467aa6f89423da8b6297fcc3203e6e02f6326
   languageName: node
   linkType: hard
 

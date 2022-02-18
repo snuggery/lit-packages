@@ -1,0 +1,9 @@
+{
+	"schematics": {
+		"elements-to-components": {
+			"factory": "./schematic/index.js",
+			"schema": "./schematic/schema.json",
+			"description": "Generate Angular components from Lit custom elements"
+		}
+	}
+}
