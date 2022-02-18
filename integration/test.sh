@@ -21,6 +21,7 @@ echo >&2
 
 cp -a src/generated-components "$TEST_DIR"
 sn run schematic @ngx-lit/build-angular/dist:elements-to-components
+yarn run -TB prettier --write src/generated-components
 diff --recursive "$TEST_DIR/generated-components" src/generated-components
 
 # Test build
