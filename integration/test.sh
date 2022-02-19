@@ -20,7 +20,11 @@ echo "Testing generation of components..." >&2
 echo >&2
 
 cp -a src/generated-components "$TEST_DIR"
-sn run schematic @ngx-lit/build-angular/dist:elements-to-components
+sn run schematic @ngx-lit/build-angular/dist:elements-to-components | tee "$TEST_DIR/schematic.out"
+if grep -F "Nothing to do" "$TEST_DIR/schematic.out" >/dev/null 2>&1; then
+	echo "Schematic didn't do anything" >&2
+	exit 1
+fi
 yarn run -TB prettier --write src/generated-components
 diff --recursive "$TEST_DIR/generated-components" src/generated-components
 
