@@ -1,8 +1,8 @@
 import {join, normalize, relative} from '@angular-devkit/core';
 import type {Tree} from '@angular-devkit/schematics';
+import {virtualFileSystemFolder} from '@snuggery/schematics';
 import type ts from 'typescript';
 
-import {fsProjectPrefix} from './index.js';
 import {isReadonly, isGetterOnly} from './ts-utils.js';
 
 function toLowerCamelCase(str: string) {
@@ -66,8 +66,8 @@ export function write(
 	function getImportPath(module: string) {
 		module = module.replace(/\.[cm]?tsx?$/, '');
 
-		if (module.startsWith(fsProjectPrefix)) {
-			module = module.slice(fsProjectPrefix.length);
+		if (module.startsWith(virtualFileSystemFolder)) {
+			module = module.slice(virtualFileSystemFolder.length);
 		}
 
 		const relative = makeRelative(module);

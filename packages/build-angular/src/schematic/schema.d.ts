@@ -1,7 +1,7 @@
 export interface Schema {
 	project?: string;
 
-	angularProjectName?: string;
+	workspaceProjectName?: string;
 
 	include?: string | string[];
 

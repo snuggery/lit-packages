@@ -17,7 +17,7 @@
 		"noUncheckedIndexedAccess": true,
 		"importsNotUsedAsValues": "error",
 		"forceConsistentCasingInFileNames": true,
-		"useUnknownInCatchVariables": true,
+		// "useUnknownInCatchVariables": true,
 
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
