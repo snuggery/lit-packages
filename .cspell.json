@@ -14,9 +14,11 @@
 	],
 	"ignoreRegExpList": ["from '[^']+'"],
 	"ignorePaths": [
+		".yarn/**",
 		"**/dist/**",
 		"yarn.lock",
 		".gitignore",
+		"integration/lib-dist/**",
 		"integration/test.sh",
 		"integration/messages.xlf",
 		"integration/src/locale/*.xlf"

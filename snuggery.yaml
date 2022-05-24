@@ -119,6 +119,7 @@ projects:
       e2e:
         builder: '@ngx-playwright/test:run'
         options:
+          config: integration/playwright/playwright.config.ts
           devServerTarget: :serve:nl,e2e
         configurations:
           ci:
@@ -136,6 +137,20 @@ projects:
           translation: integration/src/locale/en.xlf
         nl:
           translation: integration/src/locale/nl.xlf
+  integration-lib:
+    projectType: library
+    root: integration/lib
+    architect:
+      build:
+        builder: '@snuggery/angular:build'
+        options:
+          outputFolder: integration/lib-dist
+          plugins:
+            - '@ngx-lit/localize'
+    schematics:
+      '@ngx-lit/build-angular/dist:elements-to-components':
+        project: integration/lib/src/elements
+        outputDirectory: integration/lib/src/generated-components
 
   '@ngx-lit/build-angular':
     root: packages/build-angular

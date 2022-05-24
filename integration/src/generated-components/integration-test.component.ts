@@ -12,6 +12,7 @@ import type {TestElement} from '../elements/test.element';
 import '../elements/test.element';
 
 @Component({
+	standalone: true,
 	selector: 'integration-test',
 	template: '<ng-content></ng-content>',
 	changeDetection: ChangeDetectionStrategy.OnPush,

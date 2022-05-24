@@ -139,6 +139,7 @@ export function write(
 	lines.push(
 		``,
 		`@Component({`,
+		`  standalone: true,`,
 		`  selector: '${name}',`,
 		`  template: '<ng-content></ng-content>',`,
 		`  changeDetection: ChangeDetectionStrategy.OnPush,`,

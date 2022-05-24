@@ -10,6 +10,23 @@
         <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="me"/>&lt;/b&gt;</source>
         <target>This is a translated template for &lt;b&gt;<x id="PH" equiv-text="me"/>&lt;/b&gt;</target>
       </trans-unit>
+
+			<trans-unit id="lit-lib-html" datatype="html">
+        <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="t"/>&lt;/b&gt;</source>
+        <target>This is translated template for &lt;b&gt;<x id="PH" equiv-text="t"/>&lt;/b&gt;</target>
+      </trans-unit>
+      <trans-unit id="lit-lib-text" datatype="html">
+        <source>This is translated text for <x id="PH" equiv-text="this.name"/></source>
+        <target>This is translated text for <x id="PH" equiv-text="this.name"/></target>
+      </trans-unit>
+      <trans-unit id="lit-lib-text-no-param" datatype="html">
+        <source>This is translated text without parameter</source>
+        <target>This is translated text without parameter</target>
+      </trans-unit>
+      <trans-unit id="lit-lib-html-no-param" datatype="html">
+        <source>This is translated template &lt;em&gt;without parameters&lt;/em&gt;</source>
+        <target>This is translated template &lt;em&gt;without parameters&lt;/em&gt;</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

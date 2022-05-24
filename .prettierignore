@@ -4,3 +4,4 @@
 
 /dist
 /packages/*/dist
+/integration/lib-dist

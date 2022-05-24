@@ -1,6 +1,13 @@
 /* cspell:word ngtools */
 
+import {createRequire} from 'module';
 import type webpack from 'webpack';
+
+const babelLoaderPath = createRequire(
+	createRequire(__filename).resolve(
+		'@angular-devkit/build-angular/package.json',
+	),
+).resolve('babel-loader');
 
 /**
  * Install a rule in the webpack configuration to transform `@lit/localize` translations into `$localize` translations.
@@ -14,15 +21,16 @@ export function installLoader(
 	const rules = config.module!.rules!;
 
 	const rule = {
-		include: /\.[cm]?[tj]s$/,
-		exclude: /\/@angular\//,
+		include: /\.[cm]?[tj]sx?$/,
+		exclude:
+			/[\\/](?:@angular|core-js(?:-pure)?|tslib|@babel|@?lit|web-animations-js|web-streams-polyfill|whatwg-url)[\\/]/,
 		use: {
 			// We don't have a dependency on babel-loader, but @angular-devkit/build-angular does.
 			// We could add a dependency to babel-loader ourselves, but that's kinda annoying,
 			// because then we pull in a peer dependency on webpack that we can't really fill, as
 			// the version of webpack that will be used is the one of the angular devkit. Let's
 			// cross that bridge if angular ever removes their own dependency on babel-loader.
-			loader: 'babel-loader',
+			loader: babelLoaderPath,
 			options: {
 				babelrc: false,
 				plugins: [require.resolve('./babel-plugin.js')],

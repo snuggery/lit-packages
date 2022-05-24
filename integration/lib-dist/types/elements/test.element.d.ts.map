@@ -1,0 +1,1 @@
+{"version":3,"file":"test.element.d.ts","sourceRoot":"file:///vendor/@integration/lib/","sources":["elements/test.element.ts"],"names":[],"mappings":"AACA,OAAO,EAAC,UAAU,EAAO,MAAM,KAAK,CAAC;AAErC,qBAAa,WAAY,SAAQ,UAAU;IAC1C,OAAgB,UAAU;;;;MAExB;IAEM,IAAI,EAAE,MAAM,CAAC;IAEZ,MAAM;CAwBf"}

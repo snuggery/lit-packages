@@ -1,0 +1,8 @@
+{
+	"name": "@integration/lib",
+	"main": "src/index.ts",
+	"dependencies": {
+		"@lit/localize": "^0.11.2",
+		"lit": "^2.1.4"
+	}
+}
