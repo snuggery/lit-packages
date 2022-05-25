@@ -2499,35 +2499,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@ngx-playwright/harness@npm:0.8.1":
-  version: 0.8.1
-  resolution: "@ngx-playwright/harness@npm:0.8.1"
+"@ngx-playwright/harness@npm:0.8.3":
+  version: 0.8.3
+  resolution: "@ngx-playwright/harness@npm:0.8.3"
   peerDependencies:
-    "@angular/cdk": ^13.3.2
+    "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0
     "@playwright/test": ^1.20.2
-  checksum: e5d04ecd23345944e57f94c1897d896cc075407a4018f04876ad24286bc74bd88e86330f75cd353b196706ccf3f210d8150602d38d7da22d68639aab67d3ea98
+  checksum: f2d8e5a3c07c69c36588e3ac823cbc1f879284c62ce2a2f026c77ea9f0827d80bca9baf2b8cfe9debb068d60c08ef8171d5d3a801f07c3232da0ce1aa90183ae
   languageName: node
   linkType: hard
 
-"@ngx-playwright/test@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "@ngx-playwright/test@npm:0.2.3"
+"@ngx-playwright/test@npm:^0.2.5":
+  version: 0.2.5
+  resolution: "@ngx-playwright/test@npm:0.2.5"
   dependencies:
     "@angular-devkit/architect": ">= 0.1303.1 < 0.1400.0"
     "@angular-devkit/core": ^13.3.1
     "@angular-devkit/schematics": ^13.3.1
-    "@ngx-playwright/harness": 0.8.1
+    "@ngx-playwright/harness": 0.8.3
     "@playwright/test": ^1.20.2
     "@snuggery/architect": ^0.3.2
     "@snuggery/schematics": ^0.3.2
     "@snuggery/snuggery": ^0.6.4
     rxjs: ^6.6.6
   peerDependencies:
-    "@angular/cdk": ^13.3.2
+    "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0
     "@playwright/test": ^1.20.2
   bin:
     playwright: ./bin.cjs
-  checksum: fdd1bd5516df6ef645ac68f081c721eeb7f67f7f39a5b52378940cd61d2da9f9cb232ce6effde848fe3ca19f881b428930b31696fcc3fe25ed43626057e51fb5
+  checksum: e4793f39fd8ec1277ce40ec6b50b4f09e980580861160d30da382c557778a5db87ad8240a63aa773435e556d72bdebffce075e745f557f3ec06fdb9fb10864f8
   languageName: node
   linkType: hard
 
@@ -6910,7 +6910,7 @@ __metadata:
     "@angular/platform-browser-dynamic": ^14.0.0-rc.0
     "@angular/router": ^14.0.0-rc.0
     "@lit/localize": ^0.11.2
-    "@ngx-playwright/test": ^0.2.3
+    "@ngx-playwright/test": ^0.2.5
     "@types/jasmine": ~3.10.0
     "@types/node": ^12.11.1
     jasmine-core: ~4.0.0
@@ -8272,7 +8272,7 @@ __metadata:
     "@angular/platform-browser": ^14.0.0-rc.0
     "@ngx-lit/build-angular": "workspace:*"
     "@ngx-lit/localize": "workspace:*"
-    "@ngx-playwright/test": ^0.2.3
+    "@ngx-playwright/test": ^0.2.5
     "@snuggery/angular": 0.0.1
     "@snuggery/node": ^0.2.5
     "@snuggery/snuggery": ^0.6.5

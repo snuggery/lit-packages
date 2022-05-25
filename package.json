@@ -25,7 +25,7 @@
 		"@angular/platform-browser": "^14.0.0-rc.0",
 		"@ngx-lit/build-angular": "workspace:*",
 		"@ngx-lit/localize": "workspace:*",
-		"@ngx-playwright/test": "^0.2.3",
+		"@ngx-playwright/test": "^0.2.5",
 		"@snuggery/angular": "0.0.1",
 		"@snuggery/node": "^0.2.5",
 		"@snuggery/snuggery": "^0.6.5",
