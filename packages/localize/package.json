@@ -4,13 +4,13 @@
 	"version": "0.0.0",
 	"exports": "./src/index.js",
 	"peerDependencies": {
-		"@snuggery/angular": "^0.0.1",
+		"@snuggery/angular": "^0.2.1",
 		"typescript": "*"
 	},
 	"devDependencies": {
 		"@angular/compiler": "^14.0.0-next",
 		"@angular/compiler-cli": "^14.0.0-next",
-		"@snuggery/angular": "0.0.1",
+		"@snuggery/angular": "0.2.1",
 		"typescript": "4.6.4"
 	},
 	"publishConfig": {

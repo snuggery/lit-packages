@@ -1,4 +1,4 @@
-// integration/lib-dist/esm2020/elements/test.element.js
+// lib-dist/esm2020/elements/test.element.js
 import { LitElement, html } from "lit";
 var localizedHtml = () => {
   const separator = "$_$ngx-lit$_$", translated = ((name) => $localize`:@@lit-lib-html:This is translated template for <b>${name}</b>`)(separator).split(separator), result = Object.freeze(Object.defineProperty(translated, "raw", { value: translated }));
@@ -33,7 +33,7 @@ TestElement.properties = {
 };
 customElements.define("integration-lib-test", TestElement);
 
-// integration/lib-dist/esm2020/generated-components/integration-lib-test.component.js
+// lib-dist/esm2020/generated-components/integration-lib-test.component.js
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from "@angular/core";
 import * as i0 from "@angular/core";
 var IntegrationLibTestComponent = class {

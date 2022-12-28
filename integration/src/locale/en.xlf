@@ -12,8 +12,8 @@
       </trans-unit>
 
 			<trans-unit id="lit-lib-html" datatype="html">
-        <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="t"/>&lt;/b&gt;</source>
-        <target>This is translated template for &lt;b&gt;<x id="PH" equiv-text="t"/>&lt;/b&gt;</target>
+        <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="this"/>&lt;/b&gt;</source>
+        <target>This is translated template for &lt;b&gt;<x id="PH" equiv-text="this"/>&lt;/b&gt;</target>
       </trans-unit>
       <trans-unit id="lit-lib-text" datatype="html">
         <source>This is translated text for <x id="PH" equiv-text="this.name"/></source>

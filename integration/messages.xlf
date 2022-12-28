@@ -3,10 +3,10 @@
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="lit-lib-html" datatype="html">
-        <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="t"/>&lt;/b&gt;</source>
+        <source>This is translated template for &lt;b&gt;<x id="PH" equiv-text="this"/>&lt;/b&gt;</source>
         <context-group purpose="location">
           <context context-type="sourcefile">integration/lib-dist/esm2020/elements/elements/test.element.ts</context>
-          <context context-type="linenumber">7,24</context>
+          <context context-type="linenumber">8,24</context>
         </context-group>
       </trans-unit>
       <trans-unit id="lit-lib-text" datatype="html">
