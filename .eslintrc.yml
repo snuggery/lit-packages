@@ -8,7 +8,8 @@ plugins:
   - 'import'
 reportUnusedDisableDirectives: true
 parserOptions:
-  ecmaVersion: 12
+  ecmaVersion: 2022
+  sourceType: module
 
 rules:
   # Require packages to be listed in package.json
@@ -36,16 +37,12 @@ rules:
         order: asc
 
 overrides:
-  - files: ['packages/localize/**/*.js']
-    parserOptions:
-      ecmaVersion: 12
-      sourceType: module
   - files: ['**/*.ts']
     plugins:
       - '@typescript-eslint'
     parser: '@typescript-eslint/parser'
     parserOptions:
-      ecmaVersion: 12
+      ecmaVersion: 2022
       sourceType: module
     extends:
       - 'plugin:@typescript-eslint/recommended'
@@ -59,3 +56,8 @@ overrides:
       '@typescript-eslint/no-unused-vars':
         - error
         - ignoreRestSiblings: true
+  - files:
+      - integration/lib/src/generated-components/**
+      - integration/src/generated-components/**
+    rules:
+      'import/order': off

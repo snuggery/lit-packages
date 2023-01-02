@@ -1,3 +1,4 @@
+import { css as $ngxLit$sass$css } from "lit";
 import { LitElement, html } from 'lit';
 let localizedHtml = () => {
     const separator = "$_$ngx-lit$_$", translated = (name => $localize `:@@lit-lib-html:This is translated template for <b>${name}</b>`)(separator).split(separator), result = Object.freeze(Object.defineProperty(translated, "raw", { value: translated }));
@@ -30,5 +31,6 @@ export class TestElement extends LitElement {
 TestElement.properties = {
     name: { type: String },
 };
+TestElement.styles = $ngxLit$sass$css `p {\n  color: #ff3399;\n}`;
 customElements.define('integration-lib-test', TestElement);
 //# sourceMappingURL=test.element.js.map

@@ -1,7 +1,7 @@
 // cspell:words subdirs subfiles
 
 import {normalize, join, resolve, Path} from '@angular-devkit/core';
-import {Rule, SchematicsException} from '@angular-devkit/schematics';
+import {type Rule, SchematicsException} from '@angular-devkit/schematics';
 import {filterByPatterns} from '@snuggery/core';
 import {getWorkspace, createProgram, ts} from '@snuggery/schematics';
 

@@ -1,0 +1,185 @@
+// This file has a format similar to Angular CLI's angular.json, except it's a KDL file
+
+version 0
+
+cli packageManager="yarn"
+
+project "all" root="" {
+	target "build" builder="@snuggery/snuggery:glob" {
+		options {
+			include "@ngx-lit/*"
+		}
+	}
+
+	target "deploy" builder="@snuggery/yarn:deploy" {
+		options {
+			useWorkspacePlugin true
+      exclude "all" "integration"
+		}
+		configuration "next" {
+			distTag "next"
+		}
+	}
+
+	target "lint" builder="@angular-eslint/builder:lint" {
+		options {
+			eslintConfig ".eslintrc.yml"
+			ignorePath ".eslintignore"
+			lintFilePatterns {
+				- "packages/*/src/**/*.[tj]s"
+			}
+		}
+	}
+}
+
+project "integration" root="integration" projectType="application" prefix="app" {
+	target "build" builder="@ngx-lit/build-angular/dist:browser" {
+		options {
+			outputPath "dist/integration"
+			index "integration/src/index.html"
+			main "integration/src/main.ts"
+			polyfills "integration/src/polyfills.ts"
+			tsConfig "integration/tsconfig.app.json"
+			assets \
+				"integration/src/favicon.ico" \
+				"integration/src/assets"
+			(array)styles "integration/src/styles.css"
+		}
+		defaultConfiguration "production"
+		configuration "production" {
+			budgets {
+				- type="initial" \
+					maximumWarning="500kb" \
+					maximumError="1mb"
+				- type="anyComponentStyle" \
+					maximumWarning="2kb" \
+					maximumError="4kb"
+			}
+			fileReplacements {
+				- replace="integration/src/environments/environment.ts" \
+					with="integration/src/environments/environment.prod.ts"
+			}
+			outputHashing "all"
+		}
+		configuration "development" {
+			buildOptimizer false
+			optimization false
+			vendorChunk true
+			extractLicenses false
+			sourceMap true
+			namedChunks true
+			(array)localize "en"
+		}
+		configuration "translated" {
+			localize "en" "nl"
+		}
+		configuration "nl" {
+			(array)localize "nl"
+		}
+	}
+
+	target "serve" builder="@ngx-lit/build-angular/dist:dev-server" {
+		configuration "production" {
+			browserTarget "integration:build:production"
+		}
+		configuration "development" {
+			browserTarget "integration:build:development"
+		}
+		configuration "nl" {
+			browserTarget "integration:build:development,nl"
+		}
+		configuration "e2e" {
+			port 0
+		}
+		defaultConfiguration "development"
+	}
+      
+	target "extract-i18n" builder="@ngx-lit/build-angular/dist:extract-i18n" {
+		options {
+			browserTarget "integration:build"
+			outputPath "integration"
+		}
+	}
+
+  target "test" builder="@ngx-lit/build-angular/dist:karma" {
+		options {
+			main "integration/src/test.ts"
+			polyfills "integration/src/polyfills.ts"
+			tsConfig "integration/tsconfig.spec.json"
+			karmaConfig "integration/karma.conf.js"
+			assets \
+				"integration/src/favicon.ico"
+				"integration/src/assets"
+			(array)styles \
+				"integration/src/styles.css"
+		}
+	}
+
+	target "e2e" builder="@ngx-playwright/test:run" {
+		options {
+			config "integration/playwright/playwright.config.js"
+			devServerTarget ":serve:nl,e2e"
+		}
+		configuration "ci" {
+			forbidOnly true
+		}
+	}
+
+	schematics {
+		"@schematics/angular:application" {
+			strict true
+		}
+		"@ngx-lit/build-angular/dist:elements-to-components" {
+			project "integration/src/elements"
+			outputDirectory "integration/src/generated-components"
+		}
+	}
+
+  i18n {
+		sourceLocale "en-US"
+		locales {
+			en translation="integration/src/locale/en.xlf"
+			nl translation="integration/src/locale/nl.xlf"
+		}
+	}
+}
+
+project "integration-lib" root="integration/lib" {
+	target "build" builder="@snuggery/angular:build" {
+		options {
+			outputFolder "integration/lib-dist"
+			plugins {
+				- "@ngx-lit/localize/snuggery"
+				- "@ngx-lit/sass/snuggery"
+			}
+		}
+	}
+	schematics {
+		"@ngx-lit/build-angular/dist:elements-to-components" {
+			project "integration/lib/src/elements"
+			outputDirectory "integration/lib/src/generated-components"
+		}
+	}
+}
+
+(abstract)project "package" {
+	target "build" builder="@snuggery/node:build" {
+		options {
+			assets {
+				- "README.md"
+				- "LICENSE.md" from="."
+				- "**/*.d.ts" "**/*.json" from=(project-relative)"src" allowEmpty=true {
+					exclude {
+						- "dist/**"
+						- "node_modules/**"
+					}
+				}
+			}
+			packager "@snuggery/yarn"
+		}
+	}
+}
+
+project "@ngx-lit/build-angular" root="packages/build-angular" extends="package"
+project "@ngx-lit/localize" root="packages/localize" extends="package"
+project "@ngx-lit/sass" root="packages/sass" extends="package"

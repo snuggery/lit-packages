@@ -24,9 +24,6 @@ function extendsLitElement(classType: ts.InterfaceType) {
 }
 
 const litExcludedProperties = new Set([
-	// https://html.spec.whatwg.org/multipage/custom-elements.html#concept-custom-element-definition-lifecycle-callbacks
-
-	// custom element callbacks
 	'render',
 	'renderRoot',
 	'createRenderRoot',

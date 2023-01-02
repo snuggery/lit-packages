@@ -9,6 +9,6 @@ export declare class IntegrationLibTestComponent {
     set name(val: TestElement['name']);
     get name(): TestElement['name'];
     static ɵfac: i0.ɵɵFactoryDeclaration<IntegrationLibTestComponent, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<IntegrationLibTestComponent, "integration-lib-test", never, { "name": "name"; }, {}, never, ["*"], true>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<IntegrationLibTestComponent, "integration-lib-test", never, { "name": "name"; }, {}, never, ["*"], true, never>;
 }
 //# sourceMappingURL=integration-lib-test.component.d.ts.map

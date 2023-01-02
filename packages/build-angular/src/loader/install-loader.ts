@@ -1,23 +1,40 @@
-/* cspell:word ngtools */
+/* cspell:word ngtools whatwg */
 
 import {createRequire} from 'module';
 import type webpack from 'webpack';
 
+const require = createRequire(import.meta.url);
+
+// We don't have a dependency on babel-loader, but @angular-devkit/build-angular does.
+// We could add a dependency to babel-loader ourselves, but that's kinda annoying,
+// because then we pull in a peer dependency on webpack that we can't really fill, as
+// the version of webpack that will be used is the one of the angular devkit. Let's
+// cross that bridge if angular ever removes their own dependency on babel-loader.
 const babelLoaderPath = createRequire(
-	createRequire(__filename).resolve(
-		'@angular-devkit/build-angular/package.json',
-	),
+	require.resolve('@angular-devkit/build-angular/package.json'),
 ).resolve('babel-loader');
 
-/**
- * Install a rule in the webpack configuration to transform `@lit/localize` translations into `$localize` translations.
- *
- * @param config Webpack configuration
- * @returns The webpack configuration
- */
+function hasPackage(name: string) {
+	try {
+		require.resolve(name);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
 export function installLoader(
 	config: webpack.Configuration,
 ): webpack.Configuration {
+	const plugins = [
+		'@ngx-lit/localize/build-angular',
+		'@ngx-lit/sass/build-angular',
+	].filter(hasPackage);
+
+	if (plugins.length === 0) {
+		return config;
+	}
+
 	const rules = config.module!.rules!;
 
 	const rule = {
@@ -25,15 +42,10 @@ export function installLoader(
 		exclude:
 			/[\\/](?:@angular|core-js(?:-pure)?|tslib|@babel|@?lit|web-animations-js|web-streams-polyfill|whatwg-url)[\\/]/,
 		use: {
-			// We don't have a dependency on babel-loader, but @angular-devkit/build-angular does.
-			// We could add a dependency to babel-loader ourselves, but that's kinda annoying,
-			// because then we pull in a peer dependency on webpack that we can't really fill, as
-			// the version of webpack that will be used is the one of the angular devkit. Let's
-			// cross that bridge if angular ever removes their own dependency on babel-loader.
 			loader: babelLoaderPath,
 			options: {
 				babelrc: false,
-				plugins: [require.resolve('./babel-plugin.js')],
+				plugins: plugins.map(p => require.resolve(p)),
 			},
 		},
 	};
@@ -71,7 +83,7 @@ export function installLoader(
 	});
 
 	if (index === -1) {
-		rules.push(rule);
+		rules.unshift(rule);
 	} else {
 		rules.splice(index, 0, rule);
 	}

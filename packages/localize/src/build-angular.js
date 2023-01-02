@@ -1,13 +1,13 @@
 /* cspell:word quasis */
 
-import {PluginObj, template} from '@babel/core';
-import type {Expression, TemplateElement} from '@babel/types';
-
-module.exports = ({
-	types: t,
-}: {
-	types: typeof import('@babel/types');
-}): PluginObj => {
+/**
+ * @param {{
+ *   types: import('@babel/types');
+ *   template: import('@babel/core')['template']
+ * }} babel
+ * @returns {import('@babel/core').PluginObj}
+ */
+export default ({types: t, template}) => {
 	return {
 		visitor: {
 			ImportDeclaration(path) {
@@ -58,7 +58,8 @@ module.exports = ({
 					quasi: {quasis, expressions},
 				} = message.node;
 
-				let transformQuasis = (quasis: TemplateElement[]) => quasis;
+				/** @type {(quasis: [import('@babel/types').TemplateElement, ...import('@babel/types').TemplateElement[]]) => import('@babel/types').TemplateElement[]} */
+				let transformQuasis = quasis => quasis;
 
 				if (info?.type === 'ObjectExpression') {
 					const {confident, value} = info.evaluate();
@@ -74,13 +75,13 @@ module.exports = ({
 							return [
 								t.templateElement(
 									{
-										raw: `:@@${id}:${first!.value.raw}`,
+										raw: `:@@${id}:${first.value.raw}`,
 										cooked:
-											first!.value.cooked != null
-												? `:${id}:${first!.value.cooked}`
+											first.value.cooked != null
+												? `:${id}:${first.value.cooked}`
 												: undefined,
 									},
-									first!.tail,
+									first.tail,
 								),
 								...quasis,
 							];
@@ -92,7 +93,14 @@ module.exports = ({
 					path.replaceWith(
 						t.taggedTemplateExpression(
 							t.identifier('$localize'),
-							t.templateLiteral(transformQuasis(quasis), expressions),
+							t.templateLiteral(
+								transformQuasis(
+									/** @type {[import('@babel/types').TemplateElement, ...import('@babel/types').TemplateElement[]]} */ (
+										quasis
+									),
+								),
+								expressions,
+							),
 						),
 					);
 				} else if (tag.name === 'html') {
@@ -111,12 +119,15 @@ module.exports = ({
 										t.taggedTemplateExpression(
 											t.identifier('$localize'),
 											t.templateLiteral(
-												transformQuasis(quasis),
+												transformQuasis(
+													/** @type {[import('@babel/types').TemplateElement, ...import('@babel/types').TemplateElement[]]} */ (
+														quasis
+													),
+												),
 												expressions.map((_, i) => t.identifier(`p${i}`)),
 											),
 										),
 									)});
-
                 ${t.cloneNode(tmp)} = () => result;
                 return result;
               }`,
@@ -125,7 +136,9 @@ module.exports = ({
 					path.replaceWith(
 						t.callExpression(tag, [
 							t.callExpression(t.cloneNode(tmp), []),
-							...(expressions as Expression[]),
+							.../** @type {import('@babel/types').Expression[]} */ (
+								expressions
+							),
 						]),
 					);
 				} else {

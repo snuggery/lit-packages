@@ -3,28 +3,34 @@ import {
 	BrowserBuilderOptions,
 	DevServerBuilderOptions,
 	ExtractI18nBuilderOptions,
+	KarmaBuilderOptions,
 	executeBrowserBuilder as _executeBrowserBuilder,
 	executeDevServerBuilder as _executeDevServerBuilder,
 	executeExtractI18nBuilder as _executeExtractI18nBuilder,
+	executeKarmaBuilder as _executeKarmaBuilder,
 } from '@angular-devkit/build-angular';
 
 import {installLoader} from '../loader/install-loader.js';
 
-type BrowserBuilderTransforms = NonNullable<
+export type BrowserBuilderTransforms = NonNullable<
 	Parameters<typeof _executeBrowserBuilder>[2]
 >;
-type DevServerBuilderTransforms = NonNullable<
+export type DevServerBuilderTransforms = NonNullable<
 	Parameters<typeof _executeDevServerBuilder>[2]
 >;
-type ExtractI18nBuilderTransforms = NonNullable<
+export type ExtractI18nBuilderTransforms = NonNullable<
 	Parameters<typeof _executeExtractI18nBuilder>[2]
+>;
+export type KarmaBuilderTransforms = NonNullable<
+	Parameters<typeof _executeKarmaBuilder>[2]
 >;
 
 function modifyTransform<
 	T extends
 		| BrowserBuilderTransforms
 		| DevServerBuilderTransforms
-		| ExtractI18nBuilderTransforms,
+		| ExtractI18nBuilderTransforms
+		| KarmaBuilderTransforms,
 >(value?: T): T {
 	return {
 		...value,
@@ -68,4 +74,12 @@ export function executeExtractI18nBuilder(
 		context,
 		modifyTransform(transforms),
 	);
+}
+
+export function executeKarmaBuilder(
+	options: KarmaBuilderOptions,
+	context: BuilderContext,
+	transforms?: KarmaBuilderTransforms,
+): ReturnType<typeof _executeKarmaBuilder> {
+	return _executeKarmaBuilder(options, context, modifyTransform(transforms));
 }

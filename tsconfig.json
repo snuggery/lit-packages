@@ -1,4 +1,8 @@
 {
 	"include": [],
-	"references": [{"path": "./packages/build-angular"}]
+	"references": [
+		{"path": "./packages/build-angular"},
+		{"path": "./packages/localize"},
+		{"path": "./packages/sass"}
+	]
 }

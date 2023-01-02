@@ -1,17 +1,22 @@
 {
 	"builders": {
+		"browser": {
+			"implementation": "./builders/entry.js",
+			"schema": "./builders/schema.json",
+			"description": "Build a browser app using lit components"
+		},
 		"dev-server": {
-			"implementation": "./builders/entry.js#devServer",
+			"implementation": "./builders/entry.js",
 			"schema": "./builders/schema.json",
 			"description": "Build a browser app using lit components"
 		},
 		"extract-i18n": {
-			"implementation": "./builders/entry.js#extractI18n",
+			"implementation": "./builders/entry.js",
 			"schema": "./builders/schema.json",
 			"description": "Build a browser app using lit components"
 		},
-		"browser": {
-			"implementation": "./builders/entry.js#browser",
+		"karma": {
+			"implementation": "./builders/entry.js",
 			"schema": "./builders/schema.json",
 			"description": "Build a browser app using lit components"
 		}

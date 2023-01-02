@@ -1,32 +1,39 @@
 {
 	"name": "@ngx-lit/build-angular",
 	"version": "0.0.0",
-	"builders": "./builders.json",
+	"type": "module",
 	"schematics": "./collection.json",
+	"builders": "./builders.json",
 	"peerDependencies": {
-		"@angular-devkit/build-angular": "^14.0.0-rc.0",
-		"typescript": "*"
+		"@angular-devkit/build-angular": "^15.0.0",
+		"@ngx-lit/localize": "^0.0.0",
+		"@ngx-lit/sass": "^0.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@ngx-lit/localize": {
+			"optional": true
+		},
+		"@ngx-lit/sass": {
+			"optional": true
+		}
 	},
 	"dependencies": {
-		"@angular-devkit/architect": ">= 0.1400.0-rc < 0.1500.0",
-		"@angular-devkit/core": "^14.0.0-rc.0",
-		"@angular-devkit/schematics": "^14.0.0-rc.0",
-		"@babel/core": "7.17.4",
-		"@snuggery/core": "^0.3.3",
-		"@snuggery/schematics": "^0.3.3",
+		"@angular-devkit/architect": ">= 0.1500.4 < 0.1600.0",
+		"@angular-devkit/core": "^15.0.4",
+		"@angular-devkit/schematics": "^15.0.4",
+		"@snuggery/core": "^0.5.0",
+		"@snuggery/schematics": "^0.6.2",
 		"rxjs": "6.6.7"
 	},
 	"devDependencies": {
-		"@angular-devkit/build-angular": "^14.0.0-rc.0",
-		"@angular/common": "^14.0.0-rc.0",
-		"@angular/compiler": "^14.0.0-rc.0",
-		"@angular/compiler-cli": "^14.0.0-rc.0",
-		"@angular/core": "^14.0.0-rc.0",
-		"@angular/platform-browser": "^14.0.0-rc.0",
-		"@babel/types": "^7.17.0",
-		"@types/babel__core": "^7.1.18",
-		"@types/node": "^17.0.18",
-		"typescript": "4.6.4",
-		"zone.js": "^0.11.4"
+		"@angular-devkit/build-angular": "15.0.4",
+		"@angular/common": "15.0.4",
+		"@angular/compiler": "15.0.4",
+		"@angular/compiler-cli": "15.0.4",
+		"@angular/core": "15.0.4",
+		"@angular/platform-browser": "15.0.4",
+		"@types/node": "18.11.18",
+		"typescript": "4.8.4",
+		"zone.js": "0.12.0"
 	}
 }

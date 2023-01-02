@@ -1,0 +1,4 @@
+releases:
+  "@ngx-lit/build-angular": minor
+  "@ngx-lit/localize": minor
+  "@ngx-lit/sass": minor

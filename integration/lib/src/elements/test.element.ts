@@ -1,10 +1,17 @@
+/* cspell:word hotpink */
+
 import {msg, str} from '@lit/localize';
+import {scss} from '@ngx-lit/sass';
 import {LitElement, html} from 'lit';
 
 export class TestElement extends LitElement {
 	static override properties = {
 		name: {type: String},
 	};
+
+	static override styles = scss`
+		@import './test.element.scss';
+	`;
 
 	declare name: string;
 

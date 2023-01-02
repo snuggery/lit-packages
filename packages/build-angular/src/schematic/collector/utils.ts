@@ -37,5 +37,13 @@ export function getAllSuperTypes(classType: ts.InterfaceType) {
 }
 
 export function isPropertyOfType(property: ts.Symbol, type: ts.InterfaceType) {
-	return type.getProperty(property.name) === property;
+	const typeProperty = type.getProperty(property.name);
+
+	if (!typeProperty?.declarations) {
+		return false;
+	}
+
+	return typeProperty.declarations.every(
+		(decl, i) => property.declarations?.[i] === decl,
+	);
 }

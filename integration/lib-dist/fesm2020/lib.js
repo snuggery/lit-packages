@@ -1,4 +1,5 @@
-// integration/lib-dist/esm2020/elements/test.element.js
+// lib-dist/esm2020/elements/test.element.js
+import { css as $ngxLit$sass$css } from "lit";
 import { LitElement, html } from "lit";
 var localizedHtml = () => {
   const separator = "$_$ngx-lit$_$", translated = ((name) => $localize`:@@lit-lib-html:This is translated template for <b>${name}</b>`)(separator).split(separator), result = Object.freeze(Object.defineProperty(translated, "raw", { value: translated }));
@@ -31,9 +32,10 @@ var TestElement = class extends LitElement {
 TestElement.properties = {
   name: { type: String }
 };
+TestElement.styles = $ngxLit$sass$css`p {\n  color: #ff3399;\n}`;
 customElements.define("integration-lib-test", TestElement);
 
-// integration/lib-dist/esm2020/generated-components/integration-lib-test.component.js
+// lib-dist/esm2020/generated-components/integration-lib-test.component.js
 import { Component, ChangeDetectionStrategy, ViewEncapsulation, Input } from "@angular/core";
 import * as i0 from "@angular/core";
 var IntegrationLibTestComponent = class {
@@ -51,9 +53,9 @@ var IntegrationLibTestComponent = class {
     return this._e.name;
   }
 };
-IntegrationLibTestComponent.\u0275fac = i0.\u0275\u0275ngDeclareFactory({ minVersion: "12.0.0", version: "14.0.0-rc.1", ngImport: i0, type: IntegrationLibTestComponent, deps: [{ token: i0.ElementRef }, { token: i0.NgZone }, { token: i0.ChangeDetectorRef }], target: i0.\u0275\u0275FactoryTarget.Component });
-IntegrationLibTestComponent.\u0275cmp = i0.\u0275\u0275ngDeclareComponent({ minVersion: "14.0.0", version: "14.0.0-rc.1", type: IntegrationLibTestComponent, isStandalone: true, selector: "integration-lib-test", inputs: { name: "name" }, ngImport: i0, template: "<ng-content></ng-content>", isInline: true, changeDetection: i0.ChangeDetectionStrategy.OnPush, encapsulation: i0.ViewEncapsulation.None });
-i0.\u0275\u0275ngDeclareClassMetadata({ minVersion: "12.0.0", version: "14.0.0-rc.1", ngImport: i0, type: IntegrationLibTestComponent, decorators: [{
+IntegrationLibTestComponent.\u0275fac = i0.\u0275\u0275ngDeclareFactory({ minVersion: "12.0.0", version: "15.0.4", ngImport: i0, type: IntegrationLibTestComponent, deps: [{ token: i0.ElementRef }, { token: i0.NgZone }, { token: i0.ChangeDetectorRef }], target: i0.\u0275\u0275FactoryTarget.Component });
+IntegrationLibTestComponent.\u0275cmp = i0.\u0275\u0275ngDeclareComponent({ minVersion: "14.0.0", version: "15.0.4", type: IntegrationLibTestComponent, isStandalone: true, selector: "integration-lib-test", inputs: { name: "name" }, ngImport: i0, template: "<ng-content></ng-content>", isInline: true, changeDetection: i0.ChangeDetectionStrategy.OnPush, encapsulation: i0.ViewEncapsulation.None });
+i0.\u0275\u0275ngDeclareClassMetadata({ minVersion: "12.0.0", version: "15.0.4", ngImport: i0, type: IntegrationLibTestComponent, decorators: [{
   type: Component,
   args: [{
     standalone: true,
