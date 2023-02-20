@@ -1,0 +1,89 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"properties": {
+		"entryPoints": {
+			"oneOf": [
+				{
+					"type": "array",
+					"items": {"type": "string"},
+					"additionalItems": false
+				},
+				{
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"in": {"type": "string"},
+							"out": {"type": "string"}
+						},
+						"additionalProperties": false
+					},
+					"additionalItems": false
+				},
+				{
+					"type": "object",
+					"additionalProperties": {"type": "string"}
+				}
+			]
+		},
+		"outdir": {
+			"type": "string"
+		},
+		"outbase": {
+			"type": "string"
+		},
+		"tsconfig": {
+			"type": "string"
+		},
+		"banner": {
+			"type": "object",
+			"additionalProperties": {"type": "string"}
+		},
+		"footer": {
+			"type": "object",
+			"additionalProperties": {"type": "string"}
+		},
+		"inject": {
+			"type": "array",
+			"items": {"type": "string"},
+			"additionalItems": false
+		},
+		"target": {
+			"type": "array",
+			"items": {"type": "string"},
+			"additionalItems": false
+		},
+		"minify": {
+			"type": "boolean"
+		},
+		"baseHref": {
+			"oneOf": [
+				{
+					"type": "string"
+				},
+				{
+					"type": "object",
+					"additionalItems": {"type": "string"}
+				}
+			]
+		},
+		"deployUrl": {
+			"type": "string"
+		},
+		"localize": {
+			"oneOf": [
+				{
+					"type": "string"
+				},
+				{
+					"type": "array",
+					"items": {"type": "string"},
+					"additionalItems": false
+				}
+			]
+		}
+	},
+	"required": ["entryPoints"],
+	"additionalProperties": false
+}

@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"module": "Node16",
+		"moduleResolution": "node16"
+	},
+	"files": ["src/styles.d.ts", "src/index.ts"]
+}

@@ -32,6 +32,42 @@ project "all" root="" {
 	}
 }
 
+project "demo" root="demo" projectType="application" {
+	target "build" builder="@ngx-lit/build-lit/dist:browser" {
+		options {
+			tsconfig "demo/tsconfig.json"
+			baseHref "/lorem/ipsum"
+			entryPoints {
+				- "demo/src/index.html"
+			}
+		}
+
+		configuration "translated" {
+			localize "en" "nl"
+		}
+	}
+
+	target "serve" builder="@ngx-lit/build-lit/dist:dev-server" {
+		options {
+			browserTarget "build"
+		}
+	}
+
+	target "extract-i18n" builder="@ngx-lit/build-lit/dist:extract-i18n" {
+		options {
+			browserTarget "build"
+		}
+	}
+
+	i18n {
+		sourceLocale "en-US"
+		targetLocales "nl" "en"
+		interchange format="xliff" {
+			xliffDir "demo/locale"
+		}
+	}
+}
+
 project "integration" root="integration" projectType="application" prefix="app" {
 	target "build" builder="@ngx-lit/build-angular/dist:browser" {
 		options {
@@ -181,5 +217,6 @@ project "integration-lib" root="integration/lib" {
 }
 
 project "@ngx-lit/build-angular" root="packages/build-angular" extends="package"
+project "@ngx-lit/build-lit" root="packages/build-lit" extends="package"
 project "@ngx-lit/localize" root="packages/localize" extends="package"
 project "@ngx-lit/sass" root="packages/sass" extends="package"

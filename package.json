@@ -2,6 +2,7 @@
 	"name": "ngx-lit",
 	"private": true,
 	"workspaces": [
+		"demo",
 		"integration",
 		"integration/lib",
 		"packages/*"

@@ -1,0 +1,19 @@
+{
+	"builders": {
+		"browser": {
+			"implementation": "./builders/browser/index.js",
+			"schema": "./builders/browser/schema.json",
+			"description": "Build a lit browser app using esbuild"
+		},
+		"dev-server": {
+			"implementation": "./builders/dev-server/index.js",
+			"schema": "./builders/dev-server/schema.json",
+			"description": "Serve a lit browser app using esbuild"
+		},
+		"extract-i18n": {
+			"implementation": "./builders/extract-i18n/index.js",
+			"schema": "./builders/extract-i18n/schema.json",
+			"description": "Extract i18n messages from a lit browser app"
+		}
+	}
+}
