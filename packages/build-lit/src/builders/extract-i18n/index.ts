@@ -25,7 +25,7 @@ export default createBuilder<Schema>(
 			browserInput,
 		);
 
-		if (localizeConfiguration.error != null) {
+		if ('error' in localizeConfiguration) {
 			return {success: false, error: localizeConfiguration.error};
 		}
 
@@ -33,7 +33,7 @@ export default createBuilder<Schema>(
 			'@lit/localize-tools/lib/modes/transform.js'
 		);
 
-		const localizer = new TransformLitLocalizer(localizeConfiguration.config);
+		const localizer = new TransformLitLocalizer(localizeConfiguration);
 
 		await localizer.writeInterchangeFiles();
 		return {success: true};

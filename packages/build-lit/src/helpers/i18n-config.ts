@@ -75,7 +75,5 @@ export async function readLocalizeToolsConfig(
 		output: {mode: 'transform'},
 	};
 
-	return {
-		config,
-	};
+	return config;
 }

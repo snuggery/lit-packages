@@ -44,13 +44,13 @@ export default createBuilder<Schema>(
 				context,
 				input,
 			);
-			if (localizeConfiguration.error != null) {
+			if ('error' in localizeConfiguration) {
 				return {success: false, error: localizeConfiguration.error};
 			}
 
 			const plugins = await localizePluginFactory(
 				context,
-				localizeConfiguration.config,
+				localizeConfiguration,
 			);
 			if ('error' in plugins) {
 				return {success: false, error: plugins.error};
