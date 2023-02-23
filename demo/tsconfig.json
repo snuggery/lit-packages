@@ -1,7 +1,8 @@
 {
 	"compilerOptions": {
 		"module": "Node16",
-		"moduleResolution": "node16"
+		"moduleResolution": "node16",
+		"types": ["@ngx-lit/build-lit/styles"]
 	},
-	"files": ["src/styles.d.ts", "src/index.ts"]
+	"files": ["src/index.ts"]
 }

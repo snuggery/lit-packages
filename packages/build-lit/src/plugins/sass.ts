@@ -22,16 +22,39 @@ export function sassPlugin(): import('esbuild').Plugin {
 				{
 					filter: /\.s[ac]ss$/,
 				},
-				async ({importer}) => {
-					const namespace = /\.[cm][tj]sx?$/.test(importer)
-						? 'sass-lit'
-						: 'sass-style';
+				async ({importer, kind, path, pluginData, ...rest}) => {
+					if (pluginData?.litSass) {
+						return;
+					}
 
-					return {namespace};
+					pluginData = {
+						...pluginData,
+						litSass:
+							kind !== 'entry-point' && /\.[cm]?[tj]sx?$/.test(importer)
+								? 'lit'
+								: 'css',
+					};
+
+					return {
+						...(await build.resolve(path, {
+							importer,
+							kind,
+							...rest,
+							pluginData,
+						})),
+						pluginData,
+					};
 				},
 			);
 
-			build.onLoad({filter: /\.s[ac]ss$/}, async ({path, namespace}) => {
+			build.onLoad({filter: /\.s[ac]ss$/}, async ({path, pluginData}) => {
+				if (!pluginData?.litSass) {
+					return null;
+				}
+				const litSass: 'css' | 'lit' = pluginData.litSass;
+				pluginData = {...pluginData};
+				delete pluginData.litSass;
+
 				const require = createRequire(path);
 
 				if (sassPromise == null) {
@@ -66,8 +89,6 @@ export function sassPlugin(): import('esbuild').Plugin {
 									throw e;
 								}
 
-								build.resolve('', {});
-
 								const packageJson = require(packageJsonPath);
 								const deepImport = '.' + url.slice(packageName.length);
 								return pathToFileURL(
@@ -88,7 +109,7 @@ export function sassPlugin(): import('esbuild').Plugin {
 					.filter(url => url.protocol === 'file:')
 					.map(url => fileURLToPath(url));
 
-				if (namespace === 'sass-style') {
+				if (litSass === 'css') {
 					return {
 						loader: 'css',
 						contents: result.css,

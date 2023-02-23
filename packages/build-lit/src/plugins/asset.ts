@@ -10,19 +10,46 @@ export function assetPlugin(): import('esbuild').Plugin {
 				{
 					filter: assetRe,
 				},
-				async ({importer, kind}) => {
-					const namespace =
-						kind !== 'entry-point' && /\.[cm][tj]sx?$/.test(importer)
-							? 'asset-lit'
-							: 'asset';
+				async ({importer, kind, path, pluginData, ...rest}) => {
+					if (pluginData?.litAsset) {
+						return;
+					}
 
-					return {namespace};
+					pluginData = {
+						...pluginData,
+						litAsset:
+							kind !== 'entry-point' && /\.[cm]?[tj]sx?$/.test(importer)
+								? 'lit'
+								: 'copy',
+					};
+
+					return {
+						...(await build.resolve(path, {
+							importer,
+							kind,
+							...rest,
+							pluginData,
+						})),
+						pluginData,
+					};
 				},
 			);
 
-			build.onLoad({filter: assetRe}, async ({path, namespace}) => {
+			build.onLoad({filter: assetRe}, async ({path, pluginData}) => {
+				let loader;
+				switch (pluginData?.litAsset) {
+					case 'copy':
+						loader = 'copy' as const;
+						break;
+					case 'lit':
+						loader = 'file' as const;
+						break;
+					default:
+						return null;
+				}
+
 				return {
-					loader: namespace === 'asset' ? 'copy' : 'file',
+					loader,
 					contents: await readFile(path),
 				};
 			});

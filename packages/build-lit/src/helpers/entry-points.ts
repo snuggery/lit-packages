@@ -13,6 +13,10 @@ function areStringEntries(
 	return typeof entryPoints[0] === 'string';
 }
 
+function isNotNull<T>(value: T): value is NonNullable<T> {
+	return value != null;
+}
+
 export async function extractEntryPoints(
 	context: BuilderContext,
 	{
@@ -187,11 +191,24 @@ export async function extractEntryPoints(
 		) {
 			const outputs = new Map(
 				Object.entries(result.metafile.outputs)
-					.filter(([, {entryPoint}]) => entryPoint != null)
-					.map(([output, {entryPoint}]) => [
-						entryPoint!,
-						relative(outdir, resolveWorkspacePath(context, output)),
-					]),
+					.map(([output, {entryPoint, inputs}]) => {
+						let input;
+						if (entryPoint) {
+							input = entryPoint;
+						} else {
+							const inputPaths = Object.keys(inputs);
+							if (inputPaths.length !== 1) {
+								return null;
+							}
+							input = inputPaths[0]!;
+						}
+
+						return [
+							input,
+							relative(outdir, resolveWorkspacePath(context, output)),
+						] as const;
+					})
+					.filter(isNotNull),
 			);
 
 			for (const outputHandler of outputHandlers) {
