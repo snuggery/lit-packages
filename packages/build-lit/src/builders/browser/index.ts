@@ -2,7 +2,7 @@ import {BuilderOutput, createBuilder} from '@angular-devkit/architect';
 import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveProjectPath, resolveWorkspacePath} from '@snuggery/architect';
 import type {Plugin} from 'esbuild';
-import {rm} from 'node:fs/promises';
+import {rm, writeFile} from 'node:fs/promises';
 import path, {posix} from 'node:path';
 
 import {build, isBuildFailure} from '../../esbuild.js';
@@ -156,6 +156,13 @@ export default createBuilder<Schema>(
 				});
 
 				await processResult(result);
+
+				if (input.metafile) {
+					await writeFile(
+						path.join(outdir, 'meta.json'),
+						JSON.stringify(result.metafile!),
+					);
+				}
 			} catch (e) {
 				if (isBuildFailure(e)) {
 					return {success: false};

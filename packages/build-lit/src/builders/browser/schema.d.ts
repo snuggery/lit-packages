@@ -22,4 +22,6 @@ export interface Schema {
 	deployUrl?: string;
 
 	localize?: string | string[];
+
+	metafile?: boolean;
 }

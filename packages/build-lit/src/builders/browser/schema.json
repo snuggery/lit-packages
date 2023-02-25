@@ -82,6 +82,9 @@
 					"additionalItems": false
 				}
 			]
+		},
+		"metafile": {
+			"type": "boolean"
 		}
 	},
 	"required": ["entryPoints"],
