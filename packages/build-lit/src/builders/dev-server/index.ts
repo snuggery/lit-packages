@@ -15,6 +15,7 @@ import {
 	isBuildFailure,
 } from '../../esbuild.js';
 import {extractEntryPoints} from '../../helpers/entry-points.js';
+import {minifyOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {localizePluginFactory} from '../../plugins/localize.js';
@@ -116,20 +117,7 @@ export default createBuilder<Schema>(
 				outdir,
 				outbase: browserInput.outdir,
 
-				...(browserInput.minify
-					? {
-							minify: true,
-							entryNames: '[dir]/[name]-[hash]',
-							assetNames: '[dir]/[name]-[hash]',
-							chunkNames: 'chunks/[name]-[hash]',
-					  }
-					: {
-							minify: false,
-							conditions: ['development'],
-							entryNames: '[dir]/[name]',
-							assetNames: '[dir]/[name]',
-							chunkNames: 'chunks/[name]',
-					  }),
+				...minifyOptions(browserInput.minify),
 
 				tsconfig: browserInput.tsconfig,
 				banner: browserInput.banner,

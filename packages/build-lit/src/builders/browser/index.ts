@@ -7,6 +7,7 @@ import path, {posix} from 'node:path';
 
 import {build, isBuildFailure} from '../../esbuild.js';
 import {extractEntryPoints} from '../../helpers/entry-points.js';
+import {minifyOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {localizePluginFactory} from '../../plugins/localize.js';
@@ -134,20 +135,7 @@ export default createBuilder<Schema>(
 					outdir,
 					outbase: input.outbase,
 
-					...(input.minify
-						? {
-								minify: true,
-								entryNames: '[dir]/[name]-[hash]',
-								assetNames: '[dir]/[name]-[hash]',
-								chunkNames: 'chunks/[name]-[hash]',
-						  }
-						: {
-								minify: false,
-								conditions: ['development'],
-								entryNames: '[dir]/[name]',
-								assetNames: '[dir]/[name]',
-								chunkNames: 'chunks/[name]',
-						  }),
+					...minifyOptions(input.minify),
 
 					tsconfig: input.tsconfig,
 					banner: input.banner,
@@ -160,7 +148,7 @@ export default createBuilder<Schema>(
 				if (input.metafile) {
 					await writeFile(
 						path.join(outdir, 'meta.json'),
-						JSON.stringify(result.metafile!),
+						JSON.stringify(result.metafile),
 					);
 				}
 			} catch (e) {

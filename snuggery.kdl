@@ -39,6 +39,7 @@ project "demo" root="demo" projectType="application" {
 			baseHref "/lorem/ipsum"
 			entryPoints {
 				- "demo/src/index.html"
+				- "demo/src/lib.ts"
 			}
 		}
 

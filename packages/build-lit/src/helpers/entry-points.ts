@@ -2,7 +2,7 @@ import type {BuilderContext} from '@angular-devkit/architect';
 import {resolveWorkspacePath} from '@snuggery/architect';
 import type {BuildResult} from 'esbuild';
 import {JSDOM} from 'jsdom';
-import {readFile, writeFile} from 'node:fs/promises';
+import {copyFile, readFile, writeFile} from 'node:fs/promises';
 import {dirname, join, relative, resolve} from 'node:path/posix';
 
 import {findCommonPathPrefix} from './longest-common-path-prefix.js';
@@ -26,6 +26,7 @@ export async function extractEntryPoints(
 		watch = false,
 		baseHref,
 		deployUrl = '/',
+		minify = false,
 	}: {
 		entryPoints:
 			| string[]
@@ -36,6 +37,7 @@ export async function extractEntryPoints(
 		watch?: boolean;
 		baseHref?: string;
 		deployUrl?: string;
+		minify?: boolean;
 	},
 ) {
 	if (!Array.isArray(entryPoints)) {
@@ -98,6 +100,25 @@ export async function extractEntryPoints(
 		actualEntryPoints.map(entryPoint => [entryPoint.in, entryPoint.out]),
 	);
 	const outputHandlers: ((outputs: Map<string, string>) => void)[] = [];
+
+	if (minify) {
+		for (const entryPoint of actualEntryPoints) {
+			outputHandlers.push(async output => {
+				const writtenOutput = output.get(entryPoint.in);
+				if (writtenOutput == null) {
+					throw new Error(
+						`Expected output to be generated for ${entryPoint.in}`,
+					);
+				}
+
+				const expectedOutput = writtenOutput.replace(/-[^.]+(\.[^.]+)+$/, '$1');
+				await copyFile(
+					join(outdir, writtenOutput),
+					join(outdir, expectedOutput),
+				);
+			});
+		}
+	}
 
 	for (const htmlEntryPoint of htmlEntryPoints) {
 		const dom = new JSDOM(
