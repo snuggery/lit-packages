@@ -4,7 +4,7 @@ import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import type {TransformOutputConfig} from '@lit/localize-tools/lib/types/modes.js';
 import type {Loader} from 'esbuild';
 import {dirname, extname} from 'node:path';
-import type {FormatDiagnosticsHost} from 'typescript';
+import type {FormatDiagnosticsHost, Program, SourceFile} from 'typescript';
 
 /* cspell:disable */
 const loaders: Record<string, Loader> = {
@@ -58,12 +58,46 @@ export async function localizePluginFactory(
 		return {error: ts.formatDiagnostics(tsConfig.errors, formatDiagnosticHost)};
 	}
 
-	const program = ts.createProgram({
+	const rootProgram = ts.createProgram({
 		options: tsConfig.options,
 		rootNames: tsConfig.fileNames,
 		configFileParsingDiagnostics: tsConfig.errors,
 		projectReferences: tsConfig.projectReferences,
 	});
+
+	const programs = new Map<string, [Program, SourceFile]>();
+
+	{
+		const queue = [rootProgram];
+		const handled = new Set<string>();
+
+		let currentProgram;
+		while ((currentProgram = queue.shift())) {
+			for (const file of currentProgram.getSourceFiles()) {
+				programs.set(file.fileName, [currentProgram, file]);
+			}
+
+			const references = currentProgram.getResolvedProjectReferences();
+			if (references == null) {
+				continue;
+			}
+
+			for (const reference of references) {
+				if (reference != null && !handled.has(reference.sourceFile.fileName)) {
+					handled.add(reference.sourceFile.fileName);
+
+					queue.push(
+						ts.createProgram({
+							options: reference.commandLine.options,
+							rootNames: reference.commandLine.fileNames,
+							configFileParsingDiagnostics: reference.commandLine.errors,
+							projectReferences: reference.commandLine.projectReferences,
+						}),
+					);
+				}
+			}
+		}
+	}
 
 	const localizer = new TransformLitLocalizer(config);
 	const printer = ts.createPrinter();
@@ -76,17 +110,19 @@ export async function localizePluginFactory(
 				{
 					name: '@ngx-lit/build-lit:localize',
 					setup(build) {
-						const transformer = [transformerFactory(program)];
-
 						build.onLoad({filter: /\.[cm]?[jt]sx?/}, ({path}) => {
-							const sourceFile = program.getSourceFile(path);
+							const programAndSourceFile = programs.get(path);
+							if (programAndSourceFile == null) {
+								return null;
+							}
+							const [program, sourceFile] = programAndSourceFile;
 							if (sourceFile == null) {
 								return null;
 							}
 
 							const result = ts.transform(
 								sourceFile,
-								transformer,
+								[transformerFactory(program)],
 								tsConfig.options,
 							);
 							const errors = result.diagnostics?.filter(
