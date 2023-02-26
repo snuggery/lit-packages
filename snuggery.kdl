@@ -54,6 +54,13 @@ project "demo" root="demo" projectType="application" {
 		}
 	}
 
+	target "test" builder="@ngx-lit/build-lit/dist:karma" {
+		options {
+			karmaConfig "demo/karma.conf.cjs"
+			tsconfig "demo/tsconfig.spec.json"
+		}
+	}
+
 	target "extract-i18n" builder="@ngx-lit/build-lit/dist:extract-i18n" {
 		options {
 			browserTarget "build"
@@ -218,6 +225,16 @@ project "integration-lib" root="integration/lib" {
 }
 
 project "@ngx-lit/build-angular" root="packages/build-angular" extends="package"
-project "@ngx-lit/build-lit" root="packages/build-lit" extends="package"
+project "@ngx-lit/build-lit" root="packages/build-lit" extends="package" {
+	target "build" {
+		options {
+			assets {
+				super
+				- "styles.d.ts"
+				- "third_party"
+			}
+		}
+	}
+}
 project "@ngx-lit/localize" root="packages/localize" extends="package"
 project "@ngx-lit/sass" root="packages/sass" extends="package"

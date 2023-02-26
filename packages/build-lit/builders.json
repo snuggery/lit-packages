@@ -14,6 +14,11 @@
 			"implementation": "./never/used",
 			"schema": "./src/builders/extract-i18n/schema.json",
 			"description": "Extract i18n messages from a lit browser app"
+		},
+		"karma": {
+			"implementation": "./never/used",
+			"schema": "./src/builders/karma/schema.json",
+			"description": "Run tests via karma"
 		}
 	}
 }

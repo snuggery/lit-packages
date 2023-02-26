@@ -5,3 +5,5 @@
 /dist
 /packages/*/dist
 /integration/lib-dist
+
+third_party

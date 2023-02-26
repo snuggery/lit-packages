@@ -26,6 +26,7 @@
 		"integration/lib-dist/**",
 		"integration/test.sh",
 		"integration/messages.xlf",
-		"integration/src/locale/*.xlf"
+		"integration/src/locale/*.xlf",
+		"**/third_party/**"
 	]
 }

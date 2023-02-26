@@ -3,5 +3,10 @@
 	"dependencies": {
 		"@lit/localize": "0.11.4",
 		"lit": "2.5.0"
+	},
+	"devDependencies": {
+		"karma": "^6.4.1",
+		"karma-chrome-launcher": "3.1.1",
+		"karma-jasmine": "^5.1.0"
 	}
 }
