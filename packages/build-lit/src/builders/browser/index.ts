@@ -1,6 +1,6 @@
-import {BuilderOutput, createBuilder} from '@angular-devkit/architect';
 import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveProjectPath, resolveWorkspacePath} from '@snuggery/architect';
+import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
 import type {Plugin} from 'esbuild';
 import {rm, writeFile} from 'node:fs/promises';
 import path, {posix} from 'node:path';
@@ -45,17 +45,11 @@ export default createBuilder<Schema>(
 				context,
 				input,
 			);
-			if ('error' in localizeConfiguration) {
-				return {success: false, error: localizeConfiguration.error};
-			}
 
 			const plugins = await localizePluginFactory(
 				context,
 				localizeConfiguration,
 			);
-			if ('error' in plugins) {
-				return {success: false, error: plugins.error};
-			}
 
 			if (typeof input.localize === 'string') {
 				const plugin = plugins.get(input.localize as Locale);

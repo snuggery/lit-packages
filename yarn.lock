@@ -2602,12 +2602,13 @@ __metadata:
     "@angular-devkit/architect": ">= 0.1500.4 < 0.1600.0"
     "@angular-devkit/core": ^15.0.4
     "@lit/localize-tools": ^0.6.7
-    "@snuggery/architect": ^0.7.0
+    "@snuggery/architect": ^0.7.1
     "@snuggery/core": ^0.5.0
     "@types/jsdom": ^21.1.0
     "@types/node": 18.11.18
     esbuild: ^0.17.4
     esbuild-wasm: ^0.17.4
+    fast-glob: ^3.2.12
     jsdom: ^21.1.0
     resolve.exports: ^2.0.0
     sass: ^1.58.1
@@ -2825,9 +2826,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/architect@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@snuggery/architect@npm:0.7.0"
+"@snuggery/architect@npm:^0.7.0, @snuggery/architect@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@snuggery/architect@npm:0.7.1"
   dependencies:
     "@snuggery/core": ^0.5.0
     fs-extra: 10.0.0
@@ -2840,7 +2841,7 @@ __metadata:
   peerDependenciesMeta:
     typanion:
       optional: true
-  checksum: 8e19db120ad73030e078c9e4972b70b4b2578ba4cf9325b4dd2d2f7d18ee9984652328695588794d82f129f7576d764aa7e014e827b4c95bb8abd603a693b8a9
+  checksum: 916af1989053bc5501a5c1506bfc5e0757f2a855b15ae442bbb5392ae6e01575f90ce9813f2f035a0ba7251f22a9db23bf08bc26b1c25d1985bc8bf03d55a27c
   languageName: node
   linkType: hard
 
@@ -6281,7 +6282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
   version: 3.2.12
   resolution: "fast-glob@npm:3.2.12"
   dependencies:

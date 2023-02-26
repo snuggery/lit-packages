@@ -1,5 +1,5 @@
-import {BuilderOutput, createBuilder} from '@angular-devkit/architect';
 import {resolveTargetString, targetFromTargetString} from '@snuggery/architect';
+import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
 import type {JsonObject} from '@snuggery/core';
 
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
@@ -24,10 +24,6 @@ export default createBuilder<Schema>(
 			context,
 			browserInput,
 		);
-
-		if ('error' in localizeConfiguration) {
-			return {success: false, error: localizeConfiguration.error};
-		}
 
 		const {TransformLitLocalizer} = await import(
 			'@lit/localize-tools/lib/modes/transform.js'

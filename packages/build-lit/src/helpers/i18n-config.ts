@@ -1,4 +1,3 @@
-import type {BuilderContext} from '@angular-devkit/architect';
 import type {
 	Config,
 	TransformOutputConfig,
@@ -6,6 +5,10 @@ import type {
 import type {FormatConfig} from '@lit/localize-tools/lib/types/formatters.js';
 import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveWorkspacePath} from '@snuggery/architect';
+import {
+	type BuilderContext,
+	BuildFailureError,
+} from '@snuggery/architect/create-builder';
 import {isJsonArray, isJsonObject} from '@snuggery/core';
 
 import type {Schema} from '../builders/browser/schema.js';
@@ -20,29 +23,34 @@ interface I18nConfiguration {
 
 async function readI18nConfiguration(context: BuilderContext) {
 	if (!context.target?.target) {
-		return {error: 'Using i18n requires a project'};
+		throw new BuildFailureError('Using i18n requires a project');
 	}
 
-	const {i18n = {}} = await context.getProjectMetadata(context.target.project);
+	const {i18n} = await context.getProjectMetadata(context.target.project);
 	const {isLocale} = await import('@lit/localize-tools/lib/locales.js');
 
+	if (i18n == null) {
+		throw new BuildFailureError("Project's is missing i18n configuration");
+	}
 	if (!isJsonObject(i18n)) {
-		return {
-			error: `Project's i18n metadata is misconfigured, expected an object`,
-		};
+		throw new BuildFailureError(
+			"Project's i18n metadata is misconfigured, expected an object",
+		);
 	}
 
 	const {sourceLocale, targetLocales, interchange} = i18n;
 
 	if (typeof sourceLocale !== 'string' || !isLocale(sourceLocale)) {
-		return {error: `Expected sourceLocale to be a locale string`};
+		throw new BuildFailureError('Expected sourceLocale to be a locale string');
 	}
 
 	if (
 		!isJsonArray(targetLocales) ||
 		targetLocales.some(l => typeof l !== 'string' || !isLocale(l))
 	) {
-		return {error: `Expected targetLocales to be an array of locale strings`};
+		throw new BuildFailureError(
+			'Expected targetLocales to be an array of locale strings',
+		);
 	}
 
 	return {
@@ -57,13 +65,12 @@ export async function readLocalizeToolsConfig(
 	input: Schema,
 ) {
 	if (input.tsconfig == null) {
-		return {error: 'The tsConfig setting is required when using localize'};
+		throw new BuildFailureError(
+			'The tsconfig setting is required when using localize',
+		);
 	}
 
 	const i18n = await readI18nConfiguration(context);
-	if ('error' in i18n) {
-		return i18n;
-	}
 
 	const config: Config & {output: TransformOutputConfig; tsConfig: string} = {
 		baseDir: context.workspaceRoot,

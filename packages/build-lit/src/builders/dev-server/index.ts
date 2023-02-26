@@ -1,14 +1,13 @@
 /* cspell:word servedir */
 
-import {BuilderOutput, createBuilder} from '@angular-devkit/architect';
 import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveTargetString, targetFromTargetString} from '@snuggery/architect';
+import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
 import type {JsonObject} from '@snuggery/core';
 import type {Plugin} from 'esbuild';
 import {mkdtemp, rm} from 'fs/promises';
-import {posix} from 'node:path';
+import path, {posix} from 'node:path';
 import os from 'os';
-import {join} from 'path';
 
 import {
 	context as createEsbuildContext,
@@ -26,7 +25,7 @@ import type {Schema} from './schema.js';
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
-		const tmpdir = await mkdtemp(join(os.tmpdir(), 'ngx-lit-dev-server'));
+		const tmpdir = await mkdtemp(path.join(os.tmpdir(), 'ngx-lit-dev-server'));
 		context.addTeardown(() => rm(tmpdir, {force: true, recursive: true}));
 
 		const watch = input.watch !== false;
@@ -67,17 +66,11 @@ export default createBuilder<Schema>(
 				context,
 				browserInput,
 			);
-			if ('error' in localizeConfiguration) {
-				return {success: false, error: localizeConfiguration.error};
-			}
 
 			const plugins = await localizePluginFactory(
 				context,
 				localizeConfiguration,
 			);
-			if ('error' in plugins) {
-				return {success: false, error: plugins.error};
-			}
 
 			const plugin = plugins.get(input.localize as Locale);
 			if (plugin == null) {
