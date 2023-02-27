@@ -8,10 +8,15 @@
 		"#karma-esbuild": "./third_party/karma-esbuild/index.js"
 	},
 	"exports": {
-		"./dist/karma": "./dist/karma.cjs",
+		"./styles": "./styles.d.ts",
 		"./dist/package.json": "./dist/package.json",
-		"./karma": "./dist/karma.cjs",
 		"./package.json": "./package.json"
+	},
+	"publishConfig": {
+		"exports": {
+			"./styles": "./styles.d.ts",
+			"./package.json": "./package.json"
+		}
 	},
 	"peerDependencies": {
 		"karma": "^6.4.1",
