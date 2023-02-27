@@ -144,7 +144,8 @@ export async function extractEntryPoints(
 		if (baseHref) {
 			const base = document.querySelector('base');
 			if (base != null) {
-				base.href = join(baseHref, dirname(htmlEntryPoint.out));
+				// ensure base href starts and ends with /
+				base.href = resolve('/', baseHref, dirname(htmlEntryPoint.out)) + '/';
 			}
 		}
 
