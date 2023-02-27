@@ -30,6 +30,7 @@ export default createBuilder<Schema>(
 			extraPlugins: Plugin[];
 			baseHref: string | undefined;
 			outdir: string;
+			locale?: string;
 		}[];
 		if (input.localize == null) {
 			if (input.baseHref != null && typeof input.baseHref !== 'string') {
@@ -68,6 +69,7 @@ export default createBuilder<Schema>(
 							typeof input.baseHref === 'string'
 								? input.baseHref
 								: input.baseHref?.[input.localize],
+						locale: input.localize,
 					},
 				];
 			} else {
@@ -87,6 +89,7 @@ export default createBuilder<Schema>(
 						input.baseHref != null
 							? {
 									extraPlugins: [plugin],
+									locale,
 									outdir,
 									baseHref:
 										typeof input.baseHref === 'string'
@@ -95,6 +98,7 @@ export default createBuilder<Schema>(
 							  }
 							: {
 									extraPlugins: [plugin],
+									locale,
 									outdir: path.join(outdir, locale),
 									baseHref: undefined,
 							  },

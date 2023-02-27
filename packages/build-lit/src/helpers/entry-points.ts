@@ -27,6 +27,7 @@ export async function extractEntryPoints(
 		baseHref,
 		deployUrl = '/',
 		minify = false,
+		locale,
 	}: {
 		entryPoints:
 			| string[]
@@ -38,6 +39,7 @@ export async function extractEntryPoints(
 		baseHref?: string;
 		deployUrl?: string;
 		minify?: boolean;
+		locale?: string;
 	},
 ) {
 	if (!Array.isArray(entryPoints)) {
@@ -144,6 +146,10 @@ export async function extractEntryPoints(
 			if (base != null) {
 				base.href = join(baseHref, dirname(htmlEntryPoint.out));
 			}
+		}
+
+		if (locale && document.documentElement.hasAttribute('lang')) {
+			document.documentElement.setAttribute('lang', locale);
 		}
 
 		if (watch) {
