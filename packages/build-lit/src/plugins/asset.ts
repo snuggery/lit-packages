@@ -1,6 +1,6 @@
 import {readFile} from 'node:fs/promises';
 
-const assetRe = /\.(?:png|jpe?g|gif|ico|svg|avif|mp4|web[pm]|woff2?)$/;
+const assetRe = /\.(?:png|jpe?g|gif|ico|svg|avif|mp4|web[pm]|woff2?|json)$/;
 
 export function assetPlugin(): import('esbuild').Plugin {
 	return {
