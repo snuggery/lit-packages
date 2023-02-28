@@ -134,6 +134,18 @@ export function sassPlugin(): import('esbuild').Plugin {
 						};
 					}
 
+					if (build.initialOptions.minify) {
+						css = (
+							await build.esbuild.transform(css, {
+								banner: build.initialOptions.banner?.css,
+								footer: build.initialOptions.footer?.css,
+								loader: 'css',
+								target: build.initialOptions.target,
+								minify: true,
+							})
+						).code;
+					}
+
 					return {
 						loader: 'js',
 						contents: `import {css} from 'lit';\nexport default css\`${css
