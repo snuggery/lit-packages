@@ -50,6 +50,12 @@
 			],
 			"description": "Environment target(s) (e.g. es2017, chrome58, firefox57, safari11, edge16, node10, ie9, opera45, default esnext)"
 		},
+		"conditions": {
+			"type": "array",
+			"items": {"type": "string"},
+			"additionalItems": false,
+			"description": "Custom conditions to include during resolution"
+		},
 		"watch": {
 			"type": "boolean",
 			"description": "Whether to watch and re-run tests on changes",

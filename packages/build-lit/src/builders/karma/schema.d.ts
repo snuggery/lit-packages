@@ -19,5 +19,7 @@ export interface Schema {
 
 	target?: string | string[];
 
+	conditions?: string[];
+
 	watch?: boolean;
 }

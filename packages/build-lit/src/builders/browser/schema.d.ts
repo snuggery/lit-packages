@@ -30,4 +30,6 @@ export interface Schema {
 	localize?: string | string[];
 
 	metafile?: boolean;
+
+	conditions?: string[];
 }

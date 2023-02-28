@@ -57,6 +57,10 @@ Applications can be translated into multiple locales. This requires configuratio
 
 Pass a `localize` option into the build with as value one or more locales as defined in the `targetLocales`. If you pass a `baseHref` path, the locale name will be appended to the path if an array of locales is passed in `localize`. It's also possible to pass into `baseHref` an object mapping locale names onto the path to use for that locale.
 
+#### Conditions
+
+Custom conditions can be added via the `conditions` option. The `development` or `production` condition is added automatically based on the value of `minify`.
+
 ### `@ngx-lit/build-lit:dev-server`
 
 Serve an application using esbuild.

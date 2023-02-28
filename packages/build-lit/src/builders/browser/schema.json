@@ -108,6 +108,12 @@
 			],
 			"description": "Locale or locales in which to translate the application"
 		},
+		"conditions": {
+			"type": "array",
+			"items": {"type": "string"},
+			"additionalItems": false,
+			"description": "Custom conditions to include during resolution"
+		},
 		"metafile": {
 			"type": "boolean",
 			"description": "Write metadata about the build to a JSON file (see also: https://esbuild.github.io/analyze/)"

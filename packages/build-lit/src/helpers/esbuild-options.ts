@@ -2,6 +2,7 @@ import type {BuildOptions} from 'esbuild';
 
 export function forwardEsbuildOptions({
 	minify,
+	conditions = [],
 	tsconfig,
 	target,
 	banner,
@@ -9,7 +10,13 @@ export function forwardEsbuildOptions({
 	inject,
 }: Pick<
 	BuildOptions,
-	'minify' | 'tsconfig' | 'target' | 'banner' | 'footer' | 'inject'
+	| 'minify'
+	| 'conditions'
+	| 'tsconfig'
+	| 'target'
+	| 'banner'
+	| 'footer'
+	| 'inject'
 >): Pick<
 	BuildOptions,
 	| 'minify'
@@ -27,13 +34,14 @@ export function forwardEsbuildOptions({
 		...(minify
 			? {
 					minify: true,
+					conditions: Array.from(new Set([...conditions, 'production'])),
 					entryNames: '[dir]/[name]-[hash]',
 					assetNames: '[dir]/[name]-[hash]',
 					chunkNames: 'chunks/[name]-[hash]',
 			  }
 			: {
 					minify: false,
-					conditions: ['development'],
+					conditions: Array.from(new Set([...conditions, 'development'])),
 					entryNames: '[dir]/[name]',
 					assetNames: '[dir]/[name]',
 					chunkNames: 'chunks/[name]',
