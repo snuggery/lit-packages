@@ -34,7 +34,9 @@ export default createBuilder<Schema>(
 			await karma.config.parseConfig(
 				resolveWorkspacePath(context, input.karmaConfig),
 				{
-					files: await getFiles(context, input),
+					files: (
+						await getFiles(context, input)
+					).map(pattern => ({pattern, type: 'module'})),
 					esbuild: {
 						absWorkingDir: context.workspaceRoot,
 
@@ -58,7 +60,7 @@ export default createBuilder<Schema>(
 					autoWatch: !!input.watch,
 					singleRun: !input.watch,
 				} as karma.ConfigOptions & {esbuild: BuildOptions},
-				{promiseConfig: true},
+				{promiseConfig: true, throwErrors: true},
 			);
 
 		(config.plugins ??= []).push(require.resolve('#karma-esbuild'), {
