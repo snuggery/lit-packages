@@ -21,3 +21,22 @@ export function minifyOptions(
 				chunkNames: 'chunks/[name]',
 		  };
 }
+
+export function cleanBannerOrFooter({css, js}: {css?: string; js?: string}): {
+	css?: string;
+	js?: string;
+} {
+	if (js != null) {
+		if (css != null) {
+			return {js, css};
+		} else {
+			return {js};
+		}
+	} else {
+		if (css != null) {
+			return {css};
+		} else {
+			return {};
+		}
+	}
+}

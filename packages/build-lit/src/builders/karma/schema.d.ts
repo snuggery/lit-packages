@@ -5,9 +5,15 @@ export interface Schema {
 
 	karmaConfig: string;
 
-	banner?: {[type: string]: string};
+	banner?: {
+		css?: string;
+		js?: string;
+	};
 
-	footer?: {[type: string]: string};
+	footer?: {
+		css?: string;
+		js?: string;
+	};
 
 	inject?: string[];
 

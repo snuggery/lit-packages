@@ -7,7 +7,10 @@ import path, {posix} from 'node:path';
 
 import {build, isBuildFailure} from '../../esbuild.js';
 import {extractEntryPoints} from '../../helpers/entry-points.js';
-import {minifyOptions} from '../../helpers/esbuild-options.js';
+import {
+	cleanBannerOrFooter,
+	minifyOptions,
+} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {localizePluginFactory} from '../../plugins/localize.js';
@@ -136,8 +139,8 @@ export default createBuilder<Schema>(
 					...minifyOptions(input.minify),
 
 					tsconfig: input.tsconfig,
-					banner: input.banner,
-					footer: input.footer,
+					banner: input.banner && cleanBannerOrFooter(input.banner),
+					footer: input.footer && cleanBannerOrFooter(input.footer),
 					inject: input.inject,
 				});
 

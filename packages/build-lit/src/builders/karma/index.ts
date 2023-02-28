@@ -5,7 +5,10 @@ import type karma from 'karma';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 
-import {minifyOptions} from '../../helpers/esbuild-options.js';
+import {
+	cleanBannerOrFooter,
+	minifyOptions,
+} from '../../helpers/esbuild-options.js';
 import {Deferred} from '../../helpers/promise.js';
 import {getFiles} from '../../helpers/typescript.js';
 import {assetPlugin} from '../../plugins/asset.js';
@@ -45,8 +48,8 @@ export default createBuilder<Schema>(
 						...minifyOptions(false),
 
 						tsconfig: input.tsconfig,
-						banner: input.banner,
-						footer: input.footer,
+						banner: input.banner && cleanBannerOrFooter(input.banner),
+						footer: input.footer && cleanBannerOrFooter(input.footer),
 						inject: input.inject,
 
 						singleBundle: false,

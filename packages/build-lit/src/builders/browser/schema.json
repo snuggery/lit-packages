@@ -25,37 +25,54 @@
 					"type": "object",
 					"additionalProperties": {"type": "string"}
 				}
-			]
+			],
+			"description": "List of entry-points to build"
 		},
 		"outdir": {
-			"type": "string"
+			"type": "string",
+			"description": "The output directory"
 		},
 		"outbase": {
-			"type": "string"
+			"type": "string",
+			"description": "The base path used to determine entry point output paths, defaults to the deepest folder containing all entry-points"
 		},
 		"tsconfig": {
-			"type": "string"
+			"type": "string",
+			"description": "Typescript configuration file"
 		},
 		"banner": {
 			"type": "object",
-			"additionalProperties": {"type": "string"}
+			"properties": {
+				"css": {"type": "string"},
+				"js": {"type": "string"}
+			},
+			"additionalProperties": false,
+			"description": "Text to be prepended to each output file of type T where T is one of: css | js"
 		},
 		"footer": {
 			"type": "object",
-			"additionalProperties": {"type": "string"}
+			"properties": {
+				"css": {"type": "string"},
+				"js": {"type": "string"}
+			},
+			"additionalProperties": false,
+			"description": "Text to be appended to each output file of type T where T is one of: css | js"
 		},
 		"inject": {
 			"type": "array",
 			"items": {"type": "string"},
-			"additionalItems": false
+			"additionalItems": false,
+			"description": "Import the file F into all input files and automatically replace matching globals with imports"
 		},
 		"target": {
 			"type": "array",
 			"items": {"type": "string"},
-			"additionalItems": false
+			"additionalItems": false,
+			"description": "Environment target(s) (e.g. es2017, chrome58, firefox57, safari11, edge16, node10, ie9, opera45, default esnext)"
 		},
 		"minify": {
-			"type": "boolean"
+			"type": "boolean",
+			"description": "Whether to minify the application"
 		},
 		"baseHref": {
 			"oneOf": [
@@ -66,10 +83,12 @@
 					"type": "object",
 					"additionalItems": {"type": "string"}
 				}
-			]
+			],
+			"description": "Base URL for the application being built, can be an object passing a base URL per locale"
 		},
 		"deployUrl": {
-			"type": "string"
+			"type": "string",
+			"description": "Path where the application is deployed"
 		},
 		"localize": {
 			"oneOf": [
@@ -81,10 +100,12 @@
 					"items": {"type": "string"},
 					"additionalItems": false
 				}
-			]
+			],
+			"description": "Locale or locales in which to translate the application"
 		},
 		"metafile": {
-			"type": "boolean"
+			"type": "boolean",
+			"description": "Write metadata about the build to a JSON file (see also: https://esbuild.github.io/analyze/)"
 		}
 	},
 	"required": ["entryPoints"],

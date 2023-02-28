@@ -3,25 +3,31 @@
 	"type": "object",
 	"properties": {
 		"browserTarget": {
-			"type": "string"
+			"type": "string",
+			"description": "A browser builder target to serve in the format of `target` or `[project]:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
+			"default": "build"
 		},
 		"host": {
 			"type": "string",
+			"description": "Host to listen on",
 			"default": "localhost"
 		},
 		"port": {
 			"type": "number",
+			"description": "Port to listen on",
 			"minimum": 0,
-			"maximum": 65536
+			"maximum": 65536,
+			"default": 8080
 		},
 		"watch": {
 			"type": "boolean",
+			"description": "Whether to rebuild and reload the page on changes",
 			"default": true
 		},
 		"localize": {
-			"type": "string"
+			"type": "string",
+			"description": "Single language to translate the application into"
 		}
 	},
-	"required": ["browserTarget"],
 	"additionalProperties": false
 }
