@@ -1,42 +1,58 @@
 import type {BuildOptions} from 'esbuild';
 
-export function minifyOptions(
-	minify?: boolean,
-): Pick<
+export function forwardEsbuildOptions({
+	minify,
+	tsconfig,
+	target,
+	banner,
+	footer,
+	inject,
+}: Pick<
 	BuildOptions,
-	'minify' | 'entryNames' | 'assetNames' | 'chunkNames' | 'conditions'
+	'minify' | 'tsconfig' | 'target' | 'banner' | 'footer' | 'inject'
+>): Pick<
+	BuildOptions,
+	| 'minify'
+	| 'conditions'
+	| 'entryNames'
+	| 'assetNames'
+	| 'chunkNames'
+	| 'tsconfig'
+	| 'target'
+	| 'banner'
+	| 'footer'
+	| 'inject'
 > {
-	return minify
-		? {
-				minify: true,
-				entryNames: '[dir]/[name]-[hash]',
-				assetNames: '[dir]/[name]-[hash]',
-				chunkNames: 'chunks/[name]-[hash]',
-		  }
-		: {
-				minify: false,
-				conditions: ['development'],
-				entryNames: '[dir]/[name]',
-				assetNames: '[dir]/[name]',
-				chunkNames: 'chunks/[name]',
-		  };
+	return {
+		...(minify
+			? {
+					minify: true,
+					entryNames: '[dir]/[name]-[hash]',
+					assetNames: '[dir]/[name]-[hash]',
+					chunkNames: 'chunks/[name]-[hash]',
+			  }
+			: {
+					minify: false,
+					conditions: ['development'],
+					entryNames: '[dir]/[name]',
+					assetNames: '[dir]/[name]',
+					chunkNames: 'chunks/[name]',
+			  }),
+
+		tsconfig,
+
+		target,
+
+		banner: banner && cleanBannerOrFooter(banner),
+		footer: footer && cleanBannerOrFooter(footer),
+		inject,
+	};
 }
 
-export function cleanBannerOrFooter({css, js}: {css?: string; js?: string}): {
-	css?: string;
-	js?: string;
-} {
-	if (js != null) {
-		if (css != null) {
-			return {js, css};
-		} else {
-			return {js};
-		}
-	} else {
-		if (css != null) {
-			return {css};
-		} else {
-			return {};
-		}
-	}
+function cleanBannerOrFooter(
+	value: NonNullable<BuildOptions['footer'] & BuildOptions['banner']>,
+): typeof value {
+	return Object.fromEntries(
+		Object.entries(value).filter(([, value]) => value != null),
+	);
 }

@@ -5,10 +5,7 @@ import type karma from 'karma';
 import {createRequire} from 'node:module';
 import path from 'node:path';
 
-import {
-	cleanBannerOrFooter,
-	minifyOptions,
-} from '../../helpers/esbuild-options.js';
+import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
 import {Deferred} from '../../helpers/promise.js';
 import {getFiles} from '../../helpers/typescript.js';
 import {assetPlugin} from '../../plugins/asset.js';
@@ -45,14 +42,8 @@ export default createBuilder<Schema>(
 						plugins: [assetPlugin(), sassPlugin()],
 
 						format: 'esm',
-						target: input.target,
 
-						...minifyOptions(false),
-
-						tsconfig: input.tsconfig,
-						banner: input.banner && cleanBannerOrFooter(input.banner),
-						footer: input.footer && cleanBannerOrFooter(input.footer),
-						inject: input.inject,
+						...forwardEsbuildOptions(input),
 
 						singleBundle: false,
 					},
@@ -67,12 +58,12 @@ export default createBuilder<Schema>(
 			'preprocessor:esbuild-source': ['factory', createPreprocessor],
 		});
 
-		createPreprocessor.$inject = ['preprocessor:esbuild'];
 		type Preprocessor = (
 			content: string,
 			file: {originalPath: string},
 			next: (error: unknown, content?: string) => void,
 		) => unknown;
+		createPreprocessor.$inject = ['preprocessor:esbuild'];
 		function createPreprocessor(
 			esbuildPreprocessor: Preprocessor,
 		): Preprocessor {

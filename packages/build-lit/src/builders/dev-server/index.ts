@@ -14,7 +14,7 @@ import {
 	isBuildFailure,
 } from '../../esbuild.js';
 import {extractEntryPoints} from '../../helpers/entry-points.js';
-import {minifyOptions} from '../../helpers/esbuild-options.js';
+import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {localizePluginFactory} from '../../plugins/localize.js';
@@ -95,27 +95,20 @@ export default createBuilder<Schema>(
 
 		try {
 			const esbuildContext = await createEsbuildContext({
-				entryPoints,
-
 				absWorkingDir: context.workspaceRoot,
+
+				entryPoints,
+				format: 'esm',
 
 				bundle: true,
 				metafile: true,
 
 				plugins: [assetPlugin(), sassPlugin(), ...extraPlugins],
 
-				format: 'esm',
-				target: browserInput.target,
-
 				outdir,
-				outbase: browserInput.outdir,
+				outbase: browserInput.outbase,
 
-				...minifyOptions(browserInput.minify),
-
-				tsconfig: browserInput.tsconfig,
-				banner: browserInput.banner,
-				footer: browserInput.footer,
-				inject: browserInput.inject,
+				...forwardEsbuildOptions(browserInput),
 			});
 
 			await processResult(await esbuildContext.rebuild());

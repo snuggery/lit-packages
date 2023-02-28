@@ -7,10 +7,7 @@ import path, {posix} from 'node:path';
 
 import {build, isBuildFailure} from '../../esbuild.js';
 import {extractEntryPoints} from '../../helpers/entry-points.js';
-import {
-	cleanBannerOrFooter,
-	minifyOptions,
-} from '../../helpers/esbuild-options.js';
+import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {localizePluginFactory} from '../../plugins/localize.js';
@@ -121,27 +118,20 @@ export default createBuilder<Schema>(
 
 			try {
 				const result = await build({
-					entryPoints,
-
 					absWorkingDir: context.workspaceRoot,
+
+					entryPoints,
+					format: 'esm',
 
 					bundle: true,
 					metafile: true,
 
 					plugins: [assetPlugin(), sassPlugin(), ...extraPlugins],
 
-					format: 'esm',
-					target: input.target,
-
 					outdir,
 					outbase: input.outbase,
 
-					...minifyOptions(input.minify),
-
-					tsconfig: input.tsconfig,
-					banner: input.banner && cleanBannerOrFooter(input.banner),
-					footer: input.footer && cleanBannerOrFooter(input.footer),
-					inject: input.inject,
+					...forwardEsbuildOptions(input),
 				});
 
 				await processResult(result);
