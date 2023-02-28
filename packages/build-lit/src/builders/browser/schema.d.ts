@@ -19,7 +19,7 @@ export interface Schema {
 
 	inject?: string[];
 
-	target?: string[];
+	target?: string | string[];
 
 	minify?: boolean;
 

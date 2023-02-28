@@ -65,9 +65,14 @@
 			"description": "Import the file F into all input files and automatically replace matching globals with imports"
 		},
 		"target": {
-			"type": "array",
-			"items": {"type": "string"},
-			"additionalItems": false,
+			"oneOf": [
+				{"type": "string"},
+				{
+					"type": "array",
+					"items": {"type": "string"},
+					"additionalItems": false
+				}
+			],
 			"description": "Environment target(s) (e.g. es2017, chrome58, firefox57, safari11, edge16, node10, ie9, opera45, default esnext)"
 		},
 		"minify": {
