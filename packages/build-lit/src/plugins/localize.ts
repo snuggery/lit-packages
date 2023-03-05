@@ -1,7 +1,4 @@
 import type {BuilderContext} from '@angular-devkit/architect';
-import type {Config} from '@lit/localize-tools/lib/config.js';
-import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
-import type {TransformOutputConfig} from '@lit/localize-tools/lib/types/modes.js';
 import type {Loader} from 'esbuild';
 import {extname} from 'node:path';
 import type {Program, SourceFile} from 'typescript';
@@ -12,6 +9,10 @@ import {
 	getFormatDiagnosticsHost,
 	getTypescript,
 } from '../helpers/typescript.js';
+
+import type {Config} from '#@lit/localize-tools/lib/types/config.js';
+import type {Locale} from '#@lit/localize-tools/lib/types/locale.js';
+import type {TransformOutputConfig} from '#@lit/localize-tools/lib/types/modes.js';
 
 /* cspell:disable */
 const loaders: Record<string, Loader> = {
@@ -38,7 +39,7 @@ export async function localizePluginFactory(
 	},
 ): Promise<ReadonlyMap<Locale, import('esbuild').Plugin>> {
 	const {TransformLitLocalizer} = await import(
-		'@lit/localize-tools/lib/modes/transform.js'
+		'#@lit/localize-tools/lib/modes/transform.js'
 	);
 	const ts = await getTypescript();
 	const formatDiagnosticHost = await getFormatDiagnosticsHost(context);

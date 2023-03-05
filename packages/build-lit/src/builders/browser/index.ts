@@ -1,4 +1,3 @@
-import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveProjectPath, resolveWorkspacePath} from '@snuggery/architect';
 import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
 import type {Plugin} from 'esbuild';
@@ -14,6 +13,8 @@ import {localizePluginFactory} from '../../plugins/localize.js';
 import {sassPlugin} from '../../plugins/sass.js';
 
 import type {Schema} from './schema.js';
+
+import type {Locale} from '#@lit/localize-tools/lib/types/locale.js';
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {

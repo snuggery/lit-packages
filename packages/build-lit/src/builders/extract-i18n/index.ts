@@ -26,7 +26,7 @@ export default createBuilder<Schema>(
 		);
 
 		const {TransformLitLocalizer} = await import(
-			'@lit/localize-tools/lib/modes/transform.js'
+			'#@lit/localize-tools/lib/modes/transform.js'
 		);
 
 		const localizer = new TransformLitLocalizer(localizeConfiguration);

@@ -1,6 +1,5 @@
 /* cspell:word servedir */
 
-import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveTargetString, targetFromTargetString} from '@snuggery/architect';
 import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
 import type {JsonObject} from '@snuggery/core';
@@ -22,6 +21,8 @@ import {sassPlugin} from '../../plugins/sass.js';
 import type {Schema as BrowserSchema} from '../browser/schema.js';
 
 import type {Schema} from './schema.js';
+
+import type {Locale} from '#@lit/localize-tools/lib/types/locale.js';
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {

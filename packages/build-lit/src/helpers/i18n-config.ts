@@ -1,9 +1,3 @@
-import type {
-	Config,
-	TransformOutputConfig,
-} from '@lit/localize-tools/lib/config.js';
-import type {FormatConfig} from '@lit/localize-tools/lib/types/formatters.js';
-import type {Locale} from '@lit/localize-tools/lib/types/locale.js';
 import {resolveWorkspacePath} from '@snuggery/architect';
 import {
 	type BuilderContext,
@@ -12,6 +6,11 @@ import {
 import {isJsonArray, isJsonObject} from '@snuggery/core';
 
 import type {Schema} from '../builders/browser/schema.js';
+
+import type {Config} from '#@lit/localize-tools/lib/types/config.js';
+import type {FormatConfig} from '#@lit/localize-tools/lib/types/formatters.js';
+import type {Locale} from '#@lit/localize-tools/lib/types/locale.js';
+import type {TransformOutputConfig} from '#@lit/localize-tools/lib/types/modes.js';
 
 interface I18nConfiguration {
 	sourceLocale: Locale;
@@ -27,7 +26,7 @@ async function readI18nConfiguration(context: BuilderContext) {
 	}
 
 	const {i18n} = await context.getProjectMetadata(context.target.project);
-	const {isLocale} = await import('@lit/localize-tools/lib/locales.js');
+	const {isLocale} = await import('#@lit/localize-tools/lib/locales.js');
 
 	if (i18n == null) {
 		throw new BuildFailureError("Project's is missing i18n configuration");

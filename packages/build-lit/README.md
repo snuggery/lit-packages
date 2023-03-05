@@ -122,5 +122,7 @@ Licensed under the MIT license, see `LICENSE.md`.
 
 This package contains a modified copy of [`karma-esbuild`](https://github.com/marvinhagemeister/karma-esbuild), licensed under the MIT license, see `third_party/karma-esbuild/README.md`.
 
+This package contains a modified and trimmed copy of [`@lit/localize-tools`](https://github.com/lit/lit), licensed under the MIT license, see `third_party/@lit__localize-tools/LICENSE`.
+
 [esbuild]: https://esbuild.github.io/
 [karma]: https://karma-runner.github.io/6.4/index.html
