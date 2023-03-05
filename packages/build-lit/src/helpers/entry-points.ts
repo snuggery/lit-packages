@@ -1,9 +1,14 @@
 import type {BuilderContext} from '@angular-devkit/architect';
 import {resolveWorkspacePath} from '@snuggery/architect';
 import type {BuildResult} from 'esbuild';
-import {JSDOM} from 'jsdom';
 import {copyFile, readFile, writeFile} from 'node:fs/promises';
 import {dirname, join, relative, resolve} from 'node:path/posix';
+import {
+	serialize,
+	parse,
+	parseFragment,
+	type DefaultTreeAdapterMap,
+} from 'parse5';
 
 import {findCommonPathPrefix} from './longest-common-path-prefix.js';
 
@@ -15,6 +20,12 @@ function areStringEntries(
 
 function isNotNull<T>(value: T): value is NonNullable<T> {
 	return value != null;
+}
+
+function isElement(
+	node: DefaultTreeAdapterMap['childNode'],
+): node is DefaultTreeAdapterMap['element'] {
+	return !node.nodeName.startsWith('#');
 }
 
 export async function extractEntryPoints(
@@ -123,41 +134,76 @@ export async function extractEntryPoints(
 	}
 
 	for (const htmlEntryPoint of htmlEntryPoints) {
-		const dom = new JSDOM(
-			await readFile(resolveWorkspacePath(context, htmlEntryPoint.in)),
+		const rawSource = await readFile(
+			resolveWorkspacePath(context, htmlEntryPoint.in),
+			'utf-8',
 		);
-		const {document} = dom.window;
+		const dom = /<!doctype/i.test(rawSource)
+			? parse(rawSource)
+			: parseFragment(rawSource);
 
-		for (const el of document.querySelectorAll('script[src]')) {
-			el.setAttribute('type', 'module');
-			process(el, 'src');
-		}
-
-		for (const el of document.querySelectorAll('img[src]')) {
-			process(el, 'src');
-		}
-
-		for (const el of document.querySelectorAll('link[href]')) {
-			process(el, 'href');
-		}
-
-		if (baseHref) {
-			const base = document.querySelector('base');
-			if (base != null) {
-				// ensure base href starts and ends with /
-				base.href = resolve('/', baseHref, dirname(htmlEntryPoint.out)) + '/';
+		const queue = [...dom.childNodes];
+		let currentNode;
+		while ((currentNode = queue.shift())) {
+			if (!isElement(currentNode)) {
+				continue;
 			}
-		}
 
-		if (locale && document.documentElement.hasAttribute('lang')) {
-			document.documentElement.setAttribute('lang', locale);
-		}
+			queue.push(...currentNode.childNodes);
 
-		if (watch) {
-			const script = document.createElement('script');
-			script.type = 'module';
-			script.src = join(deployUrl, '__esbuild_reload__.js');
-			document.body.appendChild(script);
+			switch (currentNode.tagName) {
+				case 'script':
+					process(getAttribute(currentNode, 'src'));
+					setAttribute(currentNode, 'type', 'module');
+					break;
+				case 'img':
+					process(getAttribute(currentNode, 'src'));
+					break;
+				case 'link':
+					process(getAttribute(currentNode, 'href'));
+					break;
+				case 'base':
+					if (baseHref) {
+						// ensure base href starts and ends with /
+						setAttribute(
+							currentNode,
+							'href',
+							resolve('/', baseHref, dirname(htmlEntryPoint.out)) + '/',
+						);
+					}
+					break;
+				case 'html':
+					{
+						const lang = getAttribute(currentNode, 'lang');
+						if (locale && lang) {
+							lang.value = locale;
+						}
+
+						if (watch) {
+							const parentNode =
+								currentNode.childNodes.find(
+									(node): node is DefaultTreeAdapterMap['element'] =>
+										node.nodeName === 'body',
+								) ?? currentNode;
+
+							parentNode.childNodes.push({
+								nodeName: 'script',
+								tagName: 'script',
+								attrs: [
+									{name: 'type', value: 'module'},
+									{
+										name: 'src',
+										value: join(deployUrl, '__esbuild_reload__.js'),
+									},
+								],
+								childNodes: [],
+								parentNode: parentNode,
+								namespaceURI: parentNode.namespaceURI,
+							});
+						}
+					}
+					break;
+			}
 		}
 
 		resultHandlers.push(() =>
@@ -168,28 +214,32 @@ export async function extractEntryPoints(
 						? htmlEntryPoint.out
 						: `${htmlEntryPoint.out}.html`,
 				),
-				dom.serialize(),
+				serialize(dom),
 			),
 		);
 
 		// eslint-disable-next-line no-inner-declarations
-		function process(element: Element, attribute: string) {
-			const value = element.getAttribute(attribute)!;
+		function process(
+			attribute: DefaultTreeAdapterMap['element']['attrs'][number] | undefined,
+		) {
+			if (attribute == null) {
+				return;
+			}
 
 			try {
-				new URL(value);
+				new URL(attribute.value);
 				// -> the attribute is a fully qualified URL, no need to process
 				return;
 			} catch {
 				// ignore
 			}
 
-			if (value.startsWith('/')) {
+			if (attribute.value.startsWith('/')) {
 				// absolute URL, ignore as well
 				return;
 			}
 
-			const newEntryIn = join(dirname(htmlEntryPoint.in), value);
+			const newEntryIn = join(dirname(htmlEntryPoint.in), attribute.value);
 			if (!knownEntryPoints.has(newEntryIn)) {
 				const newEntryOut = relative(base, newEntryIn).replace(/\.[^.]+$/, '');
 				knownEntryPoints.set(newEntryIn, newEntryOut);
@@ -203,10 +253,7 @@ export async function extractEntryPoints(
 					throw new Error(`Expected output to be generated for ${newEntryIn}`);
 				}
 
-				element.setAttribute(
-					attribute,
-					relative(dirname(htmlEntryPoint.out), entryOut),
-				);
+				attribute.value = relative(dirname(htmlEntryPoint.out), entryOut);
 			});
 		}
 	}
@@ -246,4 +293,21 @@ export async function extractEntryPoints(
 			await Promise.all(resultHandlers.map(handler => handler()));
 		},
 	};
+}
+
+function getAttribute(element: DefaultTreeAdapterMap['element'], name: string) {
+	return element.attrs.find(attr => attr.name === name);
+}
+
+function setAttribute(
+	element: DefaultTreeAdapterMap['element'],
+	name: string,
+	value: string,
+) {
+	const attribute = getAttribute(element, name);
+	if (attribute != null) {
+		attribute.value = value;
+	} else {
+		element.attrs.push({name, value});
+	}
 }
