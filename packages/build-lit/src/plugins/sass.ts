@@ -134,17 +134,15 @@ export function sassPlugin(): import('esbuild').Plugin {
 						};
 					}
 
-					if (build.initialOptions.minify) {
-						css = (
-							await build.esbuild.transform(css, {
-								banner: build.initialOptions.banner?.css,
-								footer: build.initialOptions.footer?.css,
-								loader: 'css',
-								target: build.initialOptions.target,
-								minify: true,
-							})
-						).code;
-					}
+					css = (
+						await build.esbuild.transform(css, {
+							banner: build.initialOptions.banner?.css,
+							footer: build.initialOptions.footer?.css,
+							loader: 'css',
+							target: build.initialOptions.target,
+							minify: build.initialOptions.minify,
+						})
+					).code;
 
 					return {
 						loader: 'js',

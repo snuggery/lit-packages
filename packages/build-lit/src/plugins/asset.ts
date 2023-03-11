@@ -7,9 +7,7 @@ export function assetPlugin(): import('esbuild').Plugin {
 		name: '@ngx-lit/build-lit:asset',
 		setup(build) {
 			build.onResolve(
-				{
-					filter: assetRe,
-				},
+				{filter: assetRe},
 				async ({importer, kind, path, pluginData, ...rest}) => {
 					if (pluginData?.litAsset) {
 						return;
