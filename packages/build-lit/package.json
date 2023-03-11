@@ -4,6 +4,22 @@
 	"type": "module",
 	"schematics": "./collection.json",
 	"builders": "./builders.json",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bgotink/ngx-lit",
+		"directory": "packages/build-lit"
+	},
+	"keywords": [
+		"nx",
+		"nx-plugin",
+		"monorepo",
+		"cli",
+		"lit",
+		"lit-element",
+		"lit-html",
+		"LitElement",
+		"angular-cli"
+	],
 	"imports": {
 		"#@lit/localize-tools/*": "./third_party/@lit__localize-tools/*",
 		"#karma-esbuild": "./third_party/karma-esbuild/index.js"
