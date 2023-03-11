@@ -82,6 +82,7 @@ export default createBuilder<Schema>(
 		}
 
 		config.preprocessors = {
+			...config.preprocessors,
 			'**/*.{js,ts,jsx,tsx,mjs,mts,cjs,cts}': ['esbuild-source'],
 		};
 
