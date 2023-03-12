@@ -18,7 +18,6 @@
 		}
 	},
 	"i18n": {
-		"sourceLocale": "en-US",
 		"targetLocales": ["nl", "en"],
 		"interchange": {
 			"format": "xliff",

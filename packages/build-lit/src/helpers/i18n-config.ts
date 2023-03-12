@@ -20,7 +20,9 @@ interface I18nConfiguration {
 	interchange: FormatConfig;
 }
 
-async function readI18nConfiguration(context: BuilderContext) {
+async function readI18nConfiguration(
+	context: BuilderContext,
+): Promise<I18nConfiguration> {
 	if (!context.target?.target) {
 		throw new BuildFailureError('Using i18n requires a project');
 	}
@@ -39,7 +41,10 @@ async function readI18nConfiguration(context: BuilderContext) {
 
 	const {sourceLocale, targetLocales, interchange} = i18n;
 
-	if (typeof sourceLocale !== 'string' || !isLocale(sourceLocale)) {
+	if (
+		sourceLocale != null &&
+		(typeof sourceLocale !== 'string' || !isLocale(sourceLocale))
+	) {
 		throw new BuildFailureError('Expected sourceLocale to be a locale string');
 	}
 
@@ -53,10 +58,10 @@ async function readI18nConfiguration(context: BuilderContext) {
 	}
 
 	return {
-		sourceLocale,
+		sourceLocale: sourceLocale ?? ('en-US' as Locale),
 		targetLocales: targetLocales as unknown[] as Locale[],
 		interchange: interchange as unknown as FormatConfig,
-	} as I18nConfiguration;
+	};
 }
 
 export async function readLocalizeToolsConfig(

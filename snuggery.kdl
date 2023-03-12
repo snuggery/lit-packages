@@ -68,7 +68,6 @@ project "demo" root="demo" projectType="application" {
 	}
 
 	i18n {
-		sourceLocale "en-US"
 		targetLocales "nl" "en"
 		interchange format="xliff" {
 			xliffDir "demo/locale"
