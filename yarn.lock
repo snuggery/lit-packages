@@ -2557,7 +2557,7 @@ __metadata:
     "@angular/compiler-cli": 15.0.4
     "@angular/core": 15.0.4
     "@angular/platform-browser": 15.0.4
-    "@snuggery/core": ^0.5.0
+    "@snuggery/core": ^0.5.2
     "@snuggery/schematics": ^0.6.2
     "@types/node": 18.11.18
     rxjs: 6.6.7
@@ -2583,7 +2583,8 @@ __metadata:
     "@angular-devkit/core": ^15.0.4
     "@lit/localize": ^0.11.0
     "@snuggery/architect": ^0.7.1
-    "@snuggery/core": ^0.5.0
+    "@snuggery/core": ^0.5.2
+    "@snuggery/snuggery": ^0.9.3
     "@types/karma": ^6.3.3
     "@types/node": 18.11.18
     "@xmldom/xmldom": ^0.8.2
@@ -2609,6 +2610,8 @@ __metadata:
       optional: true
     sass:
       optional: true
+  bin:
+    build-lit: ./bin.js
   languageName: unknown
   linkType: soft
 
@@ -2833,9 +2836,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/core@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "@snuggery/core@npm:0.5.0"
+"@snuggery/core@npm:^0.5.0, @snuggery/core@npm:^0.5.1, @snuggery/core@npm:^0.5.2":
+  version: 0.5.2
+  resolution: "@snuggery/core@npm:0.5.2"
   dependencies:
     "@angular-devkit/core": ^15.0.0-rc.0
     "@bgotink/kdl": ^0.1.5
@@ -2847,7 +2850,7 @@ __metadata:
   peerDependenciesMeta:
     typanion:
       optional: true
-  checksum: b04efccacde0b260237d0f239db7fbc8375d83cda10854823a73ebbdf5db3e1fd697b18375ed437cd559ce6cccef0a2791abcb9063a530589bcc7a9ff7aca9d7
+  checksum: b514d25357150c5a7c9eafef198b51a85d7917b587c52af4110b78b54c75e4e8091150b28d3ca3b8b32067f906cbbf58721fc077316b585b05a369a4452ecad8
   languageName: node
   linkType: hard
 
@@ -2887,16 +2890,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/snuggery@npm:0.9.2, @snuggery/snuggery@npm:^0.9.0":
-  version: 0.9.2
-  resolution: "@snuggery/snuggery@npm:0.9.2"
+"@snuggery/snuggery@npm:0.9.3, @snuggery/snuggery@npm:^0.9.0, @snuggery/snuggery@npm:^0.9.3":
+  version: 0.9.3
+  resolution: "@snuggery/snuggery@npm:0.9.3"
   dependencies:
     "@angular-devkit/architect": ">= 0.1500.0-0 < 0.1600.0"
     "@angular-devkit/core": ^15.0.0-rc.0
     "@angular-devkit/schematics": ^15.0.0-rc.0
     "@arcanis/slice-ansi": 1.0.2
-    "@snuggery/architect": ^0.7.0
-    "@snuggery/core": ^0.5.0
+    "@snuggery/architect": ^0.7.1
+    "@snuggery/core": ^0.5.1
     ajv: 8.11.0
     ajv-formats: 2.1.1
     clipanion: 3.2.0-rc.10
@@ -2910,7 +2913,7 @@ __metadata:
     which-pm-runs: 1.0.0
   bin:
     sn: bin.js
-  checksum: bb1bace7bd2c0da352562aeabc20e38e977ce626cbbbc1ceb949cb3b4199e77bc0c0a25b9787d4457c45d2ca6922d9305316c0e4a427077f8c5e909f27b1f3d1
+  checksum: 2c22c437d73aafb2120a61ef8bc57a73acc4570858dbb2d52847a1cafbd22df790862753ec66bebc1af7be1fcac2f50146115a06af48f4c0b9bd653ac2339045
   languageName: node
   linkType: hard
 
@@ -8363,7 +8366,7 @@ __metadata:
     "@ngx-playwright/test": 0.3.1
     "@snuggery/angular": 0.3.2
     "@snuggery/node": 0.5.2
-    "@snuggery/snuggery": 0.9.2
+    "@snuggery/snuggery": 0.9.3
     "@snuggery/yarn": 0.4.2
     "@types/jasmine": ^4.3.1
     "@typescript-eslint/eslint-plugin": 5.47.1

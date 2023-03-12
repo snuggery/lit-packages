@@ -1,5 +1,5 @@
 export interface Schema {
-	browserTarget: string;
+	browserTarget?: string;
 
 	host?: string;
 

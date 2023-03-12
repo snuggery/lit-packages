@@ -29,7 +29,7 @@ async function readI18nConfiguration(context: BuilderContext) {
 	const {isLocale} = await import('#@lit/localize-tools/lib/locales.js');
 
 	if (i18n == null) {
-		throw new BuildFailureError("Project's is missing i18n configuration");
+		throw new BuildFailureError('Project is missing i18n configuration');
 	}
 	if (!isJsonObject(i18n)) {
 		throw new BuildFailureError(

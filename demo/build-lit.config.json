@@ -1,0 +1,28 @@
+{
+	"build": {
+		"options": {
+			"tsconfig": "tsconfig.json",
+			"baseHref": "/lorem/ipsum",
+			"entryPoints": ["src/index.html", "src/lib.ts"]
+		},
+		"configurations": {
+			"translated": {
+				"localize": ["en", "nl"]
+			}
+		}
+	},
+	"test": {
+		"options": {
+			"karmaConfig": "karma.conf.cjs",
+			"tsconfig": "tsconfig.spec.json"
+		}
+	},
+	"i18n": {
+		"sourceLocale": "en-US",
+		"targetLocales": ["nl", "en"],
+		"interchange": {
+			"format": "xliff",
+			"xliffDir": "locale"
+		}
+	}
+}

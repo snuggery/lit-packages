@@ -1,15 +1,65 @@
 # `@ngx-lit/build-lit`
 
-Build lit-based web applications using the Angular CLI or Nx.
+Build lit-based web applications
 
-## Executors / Builders
+## Commands
+
+The `build-lit` command exposed by this package currently supports four subcommands:
+
+- `build-lit build` builds a browser application using [`esbuild`][esbuild]
+- `build-lit serve` serves a browser application for local development, including support for hot reload and more
+- `build-lit extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
+- `build-lit test` runs tests via [`karma`][karma]
+
+These commands accept options, add `--help` to see them listed.
+Options can also be configured in a file called `build-lit.config.json`, `build-lit.config.yaml`, or `build-lit.config.kdl`.
+Bags of options can be configured as a whole via `configurations`, which can be enabled via the `--configuration` flag.
+
+Here's an example configuration file:
+
+```json
+{
+	"build": {
+		"options": {
+			"tsconfig": "tsconfig.json",
+			"baseHref": "/lorem/ipsum",
+			"entryPoints": ["src/index.html", "src/lib.ts"]
+		},
+
+		"configurations": {
+			"translated": {
+				"localize": ["en", "nl"]
+			}
+		}
+	},
+	"test": {
+		"options": {
+			"karmaConfig": "karma.conf.cjs",
+			"tsconfig": "tsconfig.spec.json"
+		}
+	},
+	"i18n": {
+		"sourceLocale": "en-US",
+		"targetLocales": ["nl", "en"],
+		"interchange": {
+			"format": "xliff",
+			"xliffDir": "locale"
+		}
+	}
+}
+```
+
+## Using `nx` or `@angular/cli`
+
+The `build-lit` CLI is powered by the same system used by `nx` or `ng`, called "builders" or "executors" respectively.
+If you're already using either CLI, you can configure the following builders to keep using that same CLI you're already used to:
 
 - `@ngx-lit/build-lit:browser` builds a browser application using [`esbuild`][esbuild]
 - `@ngx-lit/build-lit:dev-server` serves a browser application for local development, including support for hot reload and more
 - `@ngx-lit/build-lit:extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
 - `@ngx-lit/build-lit:karma` runs tests via [`karma`][karma]
 
-### `@ngx-lit/build-lit:browser`
+### `build-lit build` / `@ngx-lit/build-lit:browser`
 
 Build a browser application using esbuild. Some esbuild settings can be configured in your workspace configuration, such as the target or a header/footer to include a license.
 
@@ -38,7 +88,6 @@ If the asset is imported from HTML or from styles, the URL in the HTML file or s
 Applications can be translated into multiple locales. This requires configuration in your workspace inside an `i18n` block, e.g.
 
 ```jsonc
-// This is a project in your angular.json, workspace.json, or project.json
 {
   "i18n": {
     // The locale source code is written in, defaults to en-US
@@ -61,7 +110,7 @@ Pass a `localize` option into the build with as value one or more locales as def
 
 Custom conditions can be added via the `conditions` option. The `development` or `production` condition is added automatically based on the value of `minify`.
 
-### `@ngx-lit/build-lit:dev-server`
+### `build-lit serve` / `@ngx-lit/build-lit:dev-server`
 
 Serve an application using esbuild.
 
@@ -86,7 +135,7 @@ You can configure the `host` and `port` to serve the application on.
 
 You can configure whether to watch for changes. This includes live reloading when changes are discovered. The `watch` option defaults to `true`.
 
-### `@ngx-lit/build-lit:extract-i18n`
+### `build-lit extract-i18n` / `@ngx-lit/build-lit:extract-i18n`
 
 Create XLF or XMB files for translation.
 
@@ -98,7 +147,7 @@ Build options are configured via a `browserTarget` property, just like in `@ngx-
 
 The only options required for the `extract-i18n` builder are the `i18n` section as described in the "Internationalization" section.
 
-### `@ngx-lit/build-lit:karma`
+### `build-lit test` / `@ngx-lit/build-lit:karma`
 
 Run tests via karma
 

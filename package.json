@@ -27,7 +27,7 @@
 		"@ngx-playwright/test": "0.3.1",
 		"@snuggery/angular": "0.3.2",
 		"@snuggery/node": "0.5.2",
-		"@snuggery/snuggery": "0.9.2",
+		"@snuggery/snuggery": "0.9.3",
 		"@snuggery/yarn": "0.4.2",
 		"@types/jasmine": "^4.3.1",
 		"@typescript-eslint/eslint-plugin": "5.47.1",

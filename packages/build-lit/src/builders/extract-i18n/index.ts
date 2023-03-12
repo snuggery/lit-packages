@@ -14,7 +14,7 @@ export default createBuilder<Schema>(
 		>(
 			await context.getTargetOptions(
 				targetFromTargetString(
-					resolveTargetString(context, input.browserTarget),
+					resolveTargetString(context, input.browserTarget ?? 'build'),
 				),
 			),
 			'@ngx-lit/build-lit:browser',

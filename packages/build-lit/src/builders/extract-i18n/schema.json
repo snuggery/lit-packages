@@ -4,9 +4,9 @@
 	"properties": {
 		"browserTarget": {
 			"type": "string",
-			"description": "A browser builder target for which to look for translations, in the format of `target` or `[project]:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`."
+			"description": "A browser builder target for which to look for translations, in the format of `target` or `[project]:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
+			"default": "build"
 		}
 	},
-	"required": ["browserTarget"],
 	"additionalProperties": false
 }
