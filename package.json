@@ -1,10 +1,7 @@
 {
-	"name": "ngx-lit",
 	"private": true,
 	"workspaces": [
 		"demo",
-		"integration",
-		"integration/lib",
 		"packages/*"
 	],
 	"license": "MIT",
@@ -16,16 +13,12 @@
 	},
 	"packageManager": "yarn@3.3.1",
 	"devDependencies": {
-		"@angular-devkit/build-angular": "15.0.4",
 		"@angular-eslint/builder": "15.1.0",
 		"@angular/cdk": "15.0.3",
 		"@angular/common": "15.0.4",
-		"@angular/compiler": "15.0.4",
-		"@angular/compiler-cli": "15.0.4",
 		"@angular/core": "15.0.4",
-		"@angular/platform-browser": "15.0.4",
 		"@ngx-playwright/test": "0.3.1",
-		"@snuggery/angular": "0.3.2",
+		"@prettier/plugin-xml": "^2.2.0",
 		"@snuggery/node": "0.5.2",
 		"@snuggery/snuggery": "0.9.3",
 		"@snuggery/yarn": "0.4.2",

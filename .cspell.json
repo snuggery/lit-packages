@@ -23,10 +23,7 @@
 		"demo/locale/**",
 		"yarn.lock",
 		".gitignore",
-		"integration/lib-dist/**",
-		"integration/test.sh",
-		"integration/messages.xlf",
-		"integration/src/locale/*.xlf",
+		"demo/test.sh",
 		"**/third_party/**"
 	]
 }

@@ -35,6 +35,7 @@ export async function extractEntryPoints(
 		outbase,
 		outdir,
 		watch = false,
+		liveReload = false,
 		baseHref,
 		deployUrl = '/',
 		minify = false,
@@ -47,6 +48,7 @@ export async function extractEntryPoints(
 		outbase?: string;
 		outdir: string;
 		watch?: boolean;
+		liveReload?: boolean;
 		baseHref?: string;
 		deployUrl?: string;
 		minify?: boolean;
@@ -62,7 +64,7 @@ export async function extractEntryPoints(
 
 	const resultHandlers: (() => Promise<void>)[] = [];
 
-	if (watch) {
+	if (watch && liveReload) {
 		resultHandlers.push(
 			(
 				outdir => () =>
@@ -179,7 +181,7 @@ export async function extractEntryPoints(
 							lang.value = locale;
 						}
 
-						if (watch) {
+						if (watch && liveReload) {
 							const parentNode =
 								currentNode.childNodes.find(
 									(node): node is DefaultTreeAdapterMap['element'] =>

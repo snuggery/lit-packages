@@ -1,5 +1,8 @@
 {
 	"type": "module",
+	"scripts": {
+		"test": "./test.sh"
+	},
 	"dependencies": {
 		"@lit/localize": "0.11.4",
 		"lit": "2.5.0"

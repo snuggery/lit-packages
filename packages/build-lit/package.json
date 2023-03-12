@@ -1,13 +1,13 @@
 {
-	"name": "@ngx-lit/build-lit",
-	"version": "0.0.0",
+	"name": "@bgotink/build-lit",
+	"version": "0.0.3",
 	"type": "module",
 	"schematics": "./collection.json",
 	"bin": "./bin.js",
 	"builders": "./builders.json",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bgotink/ngx-lit",
+		"url": "https://github.com/bgotink/lit-packages",
 		"directory": "packages/build-lit"
 	},
 	"keywords": [

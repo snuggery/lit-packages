@@ -16,7 +16,9 @@ export class MyAppElement extends LitElement {
 	render() {
 		/* cspell:ignore kenobi */
 		return html`
-			<h1>${msg(str`Help me, ${this.name ?? 'Obi-Wan Kenobi'}`)}</h1>
+			<h1 id="translated"
+				>${msg(str`Help me, ${this.name ?? 'Obi-Wan Kenobi'}`)}</h1
+			>
 			<img .src=${img} />
 		`;
 	}

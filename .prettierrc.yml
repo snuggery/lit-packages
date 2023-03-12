@@ -5,3 +5,5 @@ bracketSpacing: false
 arrowParens: avoid
 useTabs: true
 htmlWhitespaceSensitivity: strict
+plugins:
+  - '@prettier/plugin-xml'

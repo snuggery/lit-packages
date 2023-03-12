@@ -8,9 +8,9 @@ await run({
 
 	basename: ['build-lit.config'],
 	targets: new Map([
-		['build', '@ngx-lit/build-lit:browser'],
-		['extract-i18n', '@ngx-lit/build-lit:extract-i18n'],
-		['serve', '@ngx-lit/build-lit:dev-server'],
-		['test', '@ngx-lit/build-lit:karma'],
+		['build', '@bgotink/build-lit:browser'],
+		['extract-i18n', '@bgotink/build-lit:extract-i18n'],
+		['serve', '@bgotink/build-lit:dev-server'],
+		['test', '@bgotink/build-lit:karma'],
 	]),
 });

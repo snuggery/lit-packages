@@ -64,4 +64,4 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
-          yarn ./integration test
+          yarn ./demo test

@@ -5,6 +5,8 @@ export interface Schema {
 
 	port?: number;
 
+	liveReload?: boolean;
+
 	watch?: boolean;
 
 	localize?: string;

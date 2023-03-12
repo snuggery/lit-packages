@@ -56,8 +56,3 @@ overrides:
       '@typescript-eslint/no-unused-vars':
         - error
         - ignoreRestSiblings: true
-  - files:
-      - integration/lib/src/generated-components/**
-      - integration/src/generated-components/**
-    rules:
-      'import/order': off
