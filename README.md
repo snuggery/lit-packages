@@ -8,4 +8,4 @@ Repository with package(s) for working with [lit](https://lit.dev) components.
 
 There's currently one package in this repository:
 
-- `@bgotink/build-lit` to provide tools for building lit applications or libraries
+- `@snuggery/build-lit` to provide tools for building lit applications or libraries

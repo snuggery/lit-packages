@@ -17,7 +17,7 @@ export default createBuilder<Schema>(
 					resolveTargetString(context, input.browserTarget ?? 'build'),
 				),
 			),
-			'@bgotink/build-lit:browser',
+			'@snuggery/build-lit:browser',
 		);
 
 		const localizeConfiguration = await readLocalizeToolsConfig(

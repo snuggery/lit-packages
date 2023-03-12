@@ -1,13 +1,15 @@
 {
-	"name": "@bgotink/build-lit",
-	"version": "0.0.3",
+	"name": "@snuggery/build-lit",
+	"version": "0.0.0",
 	"type": "module",
 	"schematics": "./collection.json",
 	"bin": "./bin.js",
 	"builders": "./builders.json",
+	"description": "Build and test lit-based web applications",
+	"homepage": "https://github.com/snuggery/lit-packages/tree/main/packages/build-lit#readme",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/bgotink/lit-packages",
+		"url": "https://github.com/snuggery/lit-packages",
 		"directory": "packages/build-lit"
 	},
 	"keywords": [

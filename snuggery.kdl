@@ -7,14 +7,14 @@ cli packageManager="yarn"
 project "all" root="" {
 	target "build" builder="@snuggery/snuggery:glob" {
 		options {
-			include "@bgotink/*"
+			include "@snuggery/*"
 		}
 	}
 
 	target "deploy" builder="@snuggery/yarn:deploy" {
 		options {
 			useWorkspacePlugin true
-      include "@bgotink/*"
+      include "@snuggery/*"
 		}
 		configuration "next" {
 			distTag "next"
@@ -33,7 +33,7 @@ project "all" root="" {
 }
 
 project "demo" root="demo" projectType="application" {
-	target "build" builder="@bgotink/build-lit/dist:browser" {
+	target "build" builder="@snuggery/build-lit/dist:browser" {
 		options {
 			tsconfig "demo/tsconfig.json"
 			baseHref "/lorem/ipsum"
@@ -48,7 +48,7 @@ project "demo" root="demo" projectType="application" {
 		}
 	}
 
-	target "serve" builder="@bgotink/build-lit/dist:dev-server" {
+	target "serve" builder="@snuggery/build-lit/dist:dev-server" {
 		options {
 			browserTarget "build"
 		}
@@ -57,14 +57,14 @@ project "demo" root="demo" projectType="application" {
 		}
 	}
 
-	target "test" builder="@bgotink/build-lit/dist:karma" {
+	target "test" builder="@snuggery/build-lit/dist:karma" {
 		options {
 			karmaConfig "demo/karma.conf.cjs"
 			tsconfig "demo/tsconfig.spec.json"
 		}
 	}
 
-	target "extract-i18n" builder="@bgotink/build-lit/dist:extract-i18n" {
+	target "extract-i18n" builder="@snuggery/build-lit/dist:extract-i18n" {
 		options {
 			browserTarget "build"
 		}
@@ -106,7 +106,7 @@ project "demo" root="demo" projectType="application" {
 	}
 }
 
-project "@bgotink/build-lit" root="packages/build-lit" extends="package" {
+project "@snuggery/build-lit" root="packages/build-lit" extends="package" {
 	target "build" {
 		options {
 			assets {

@@ -23,7 +23,7 @@ export default createBuilder<Schema>(
 		} catch {
 			return {
 				success: false,
-				error: 'Please install karma to run @bgotink/build-lit:karma',
+				error: 'Please install karma to run @snuggery/build-lit:karma',
 			};
 		}
 

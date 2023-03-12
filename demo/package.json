@@ -8,7 +8,7 @@
 		"lit": "2.5.0"
 	},
 	"devDependencies": {
-		"@bgotink/build-lit": "workspace:*",
+		"@snuggery/build-lit": "workspace:*",
 		"karma": "^6.4.1",
 		"karma-chrome-launcher": "3.1.1",
 		"karma-jasmine": "^5.1.0"

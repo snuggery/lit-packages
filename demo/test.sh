@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 TEST_DIR="$(mktemp -d)"
 
 if ! [ -d ../packages/build-lit/dist ]; then
-	echo "Build '@bgotink/build-lit' first" >&2
+	echo "Build '@snuggery/build-lit' first" >&2
 	exit 1
 fi
 

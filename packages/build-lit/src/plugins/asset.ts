@@ -4,7 +4,7 @@ const assetRe = /\.(?:png|jpe?g|gif|ico|svg|avif|mp4|web[pm]|woff2?|json)$/;
 
 export function assetPlugin(): import('esbuild').Plugin {
 	return {
-		name: '@bgotink/build-lit:asset',
+		name: '@snuggery/build-lit:asset',
 		setup(build) {
 			build.onResolve(
 				{filter: assetRe},

@@ -42,7 +42,7 @@ export default createBuilder<Schema>(async function* (
 				resolveTargetString(context, input.browserTarget ?? 'build'),
 			),
 		),
-		'@bgotink/build-lit:browser',
+		'@snuggery/build-lit:browser',
 	);
 
 	let baseHref;

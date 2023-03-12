@@ -133,46 +133,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bgotink/build-lit@workspace:*, @bgotink/build-lit@workspace:packages/build-lit":
-  version: 0.0.0-use.local
-  resolution: "@bgotink/build-lit@workspace:packages/build-lit"
-  dependencies:
-    "@angular-devkit/architect": ">= 0.1500.4 < 0.1600.0"
-    "@angular-devkit/core": ^15.0.4
-    "@lit/localize": ^0.11.0
-    "@snuggery/architect": ^0.7.1
-    "@snuggery/core": ^0.5.2
-    "@snuggery/snuggery": ^0.9.3
-    "@types/karma": ^6.3.3
-    "@types/node": 18.11.18
-    "@xmldom/xmldom": ^0.8.2
-    chokidar: ^3.5.1
-    esbuild: ^0.17.4
-    esbuild-wasm: ^0.17.4
-    fast-glob: ^3.2.12
-    karma: ^6.4.1
-    parse5: ^7.1.2
-    resolve.exports: ^2.0.0
-    sass: ^1.58.1
-    source-map: 0.6.1
-    typescript: ~4.8.4
-  peerDependencies:
-    karma: ^6.4.1
-    sass: ^1.58.1
-    typescript: ~4.8.4 || ~4.9.5
-  dependenciesMeta:
-    esbuild:
-      optional: true
-  peerDependenciesMeta:
-    karma:
-      optional: true
-    sass:
-      optional: true
-  bin:
-    build-lit: ./bin.js
-  languageName: unknown
-  linkType: soft
-
 "@bgotink/kdl@npm:^0.1.5":
   version: 0.1.6
   resolution: "@bgotink/kdl@npm:0.1.6"
@@ -931,6 +891,46 @@ __metadata:
   checksum: 916af1989053bc5501a5c1506bfc5e0757f2a855b15ae442bbb5392ae6e01575f90ce9813f2f035a0ba7251f22a9db23bf08bc26b1c25d1985bc8bf03d55a27c
   languageName: node
   linkType: hard
+
+"@snuggery/build-lit@workspace:*, @snuggery/build-lit@workspace:packages/build-lit":
+  version: 0.0.0-use.local
+  resolution: "@snuggery/build-lit@workspace:packages/build-lit"
+  dependencies:
+    "@angular-devkit/architect": ">= 0.1500.4 < 0.1600.0"
+    "@angular-devkit/core": ^15.0.4
+    "@lit/localize": ^0.11.0
+    "@snuggery/architect": ^0.7.1
+    "@snuggery/core": ^0.5.2
+    "@snuggery/snuggery": ^0.9.3
+    "@types/karma": ^6.3.3
+    "@types/node": 18.11.18
+    "@xmldom/xmldom": ^0.8.2
+    chokidar: ^3.5.1
+    esbuild: ^0.17.4
+    esbuild-wasm: ^0.17.4
+    fast-glob: ^3.2.12
+    karma: ^6.4.1
+    parse5: ^7.1.2
+    resolve.exports: ^2.0.0
+    sass: ^1.58.1
+    source-map: 0.6.1
+    typescript: ~4.8.4
+  peerDependencies:
+    karma: ^6.4.1
+    sass: ^1.58.1
+    typescript: ~4.8.4 || ~4.9.5
+  dependenciesMeta:
+    esbuild:
+      optional: true
+  peerDependenciesMeta:
+    karma:
+      optional: true
+    sass:
+      optional: true
+  bin:
+    build-lit: ./bin.js
+  languageName: unknown
+  linkType: soft
 
 "@snuggery/core@npm:^0.5.0, @snuggery/core@npm:^0.5.1, @snuggery/core@npm:^0.5.2":
   version: 0.5.2
@@ -2079,8 +2079,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "demo-26c669@workspace:demo"
   dependencies:
-    "@bgotink/build-lit": "workspace:*"
     "@lit/localize": 0.11.4
+    "@snuggery/build-lit": "workspace:*"
     karma: ^6.4.1
     karma-chrome-launcher: 3.1.1
     karma-jasmine: ^5.1.0
@@ -4637,9 +4637,9 @@ __metadata:
     "@angular/cdk": 15.0.3
     "@angular/common": 15.0.4
     "@angular/core": 15.0.4
-    "@bgotink/build-lit": "workspace:*"
     "@ngx-playwright/test": 0.3.1
     "@prettier/plugin-xml": ^2.2.0
+    "@snuggery/build-lit": "workspace:*"
     "@snuggery/node": 0.5.2
     "@snuggery/snuggery": 0.9.3
     "@snuggery/yarn": 0.4.2

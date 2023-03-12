@@ -94,7 +94,7 @@ export async function localizePluginFactory(
 			([locale, transformerFactory]) => [
 				locale,
 				{
-					name: '@bgotink/build-lit:localize',
+					name: '@snuggery/build-lit:localize',
 					setup(build) {
 						build.onLoad({filter: /\.[cm]?[jt]sx?/}, async ({path}) => {
 							const programAndSourceFile = programs.get(path);

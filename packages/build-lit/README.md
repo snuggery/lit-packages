@@ -1,4 +1,4 @@
-# `@bgotink/build-lit`
+# `@snuggery/build-lit`
 
 Build lit-based web applications
 
@@ -54,12 +54,12 @@ Here's an example configuration file:
 The `build-lit` CLI is powered by the same system used by `nx` or `ng`, called "builders" or "executors" respectively.
 If you're already using either CLI, you can configure the following builders to keep using that same CLI you're already used to:
 
-- `@bgotink/build-lit:browser` builds a browser application using [`esbuild`][esbuild]
-- `@bgotink/build-lit:dev-server` serves a browser application for local development, including support for hot reload and more
-- `@bgotink/build-lit:extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
-- `@bgotink/build-lit:karma` runs tests via [`karma`][karma]
+- `@snuggery/build-lit:browser` builds a browser application using [`esbuild`][esbuild]
+- `@snuggery/build-lit:dev-server` serves a browser application for local development, including support for hot reload and more
+- `@snuggery/build-lit:extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
+- `@snuggery/build-lit:karma` runs tests via [`karma`][karma]
 
-### `build-lit build` / `@bgotink/build-lit:browser`
+### `build-lit build` / `@snuggery/build-lit:browser`
 
 Build a browser application using esbuild. Some esbuild settings can be configured in your workspace configuration, such as the target or a header/footer to include a license.
 
@@ -68,7 +68,7 @@ Build a browser application using esbuild. Some esbuild settings can be configur
 Styles can be written in `.css`, `.sass`, or `.scss` files.
 
 Styles imported from JavaScript or TypeScript are turned into JavaScript files with a default export that's a lit `CSSResult`, which can be passed into a `LitElement`'s `styles`. Sass files support importing files from dependencies, without leading `~`.
-To teach TypeScript about these files, add `@bgotink/build-lit/styles` to `compilerOptions.types` in your `tsconfig.json`.
+To teach TypeScript about these files, add `@snuggery/build-lit/styles` to `compilerOptions.types` in your `tsconfig.json`.
 
 #### Entry Points
 
@@ -110,13 +110,13 @@ Pass a `localize` option into the build with as value one or more locales as def
 
 Custom conditions can be added via the `conditions` option. The `development` or `production` condition is added automatically based on the value of `minify`.
 
-### `build-lit serve` / `@bgotink/build-lit:dev-server`
+### `build-lit serve` / `@snuggery/build-lit:dev-server`
 
 Serve an application using esbuild.
 
 #### Build Options
 
-The build options are configured in a configured `@bgotink/build-lit:browser` target. Pass the name of this target as `browserTarget`.
+The build options are configured in a configured `@snuggery/build-lit:browser` target. Pass the name of this target as `browserTarget`.
 
 You can pass a fully resolved target, such as `application:build` or with configuration(s) `application:build:local,dutch`.
 You can also pass a relative target, such as `build` or with configuration(s) `:build:local,dutch`.
@@ -135,19 +135,19 @@ You can configure the `host` and `port` to serve the application on.
 
 You can configure whether to watch for changes. This includes live reloading when changes are discovered. The `watch` option defaults to `true`.
 
-### `build-lit extract-i18n` / `@bgotink/build-lit:extract-i18n`
+### `build-lit extract-i18n` / `@snuggery/build-lit:extract-i18n`
 
 Create XLF or XMB files for translation.
 
 #### Build Options
 
-Build options are configured via a `browserTarget` property, just like in `@bgotink/build-lit:dev-server`.
+Build options are configured via a `browserTarget` property, just like in `@snuggery/build-lit:dev-server`.
 
 #### Translation Options
 
 The only options required for the `extract-i18n` builder are the `i18n` section as described in the "Internationalization" section.
 
-### `build-lit test` / `@bgotink/build-lit:karma`
+### `build-lit test` / `@snuggery/build-lit:karma`
 
 Run tests via karma
 

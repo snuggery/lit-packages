@@ -15,7 +15,7 @@ function getPackageName(url: string) {
 
 export function sassPlugin(): import('esbuild').Plugin {
 	return {
-		name: '@bgotink/build-lit:sass',
+		name: '@snuggery/build-lit:sass',
 		setup(build) {
 			let sassPromise: Promise<typeof import('sass')> | undefined = undefined;
 
