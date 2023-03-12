@@ -133,7 +133,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bgotink/build-lit@workspace:packages/build-lit":
+"@bgotink/build-lit@workspace:*, @bgotink/build-lit@workspace:packages/build-lit":
   version: 0.0.0-use.local
   resolution: "@bgotink/build-lit@workspace:packages/build-lit"
   dependencies:
@@ -2079,6 +2079,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "demo-26c669@workspace:demo"
   dependencies:
+    "@bgotink/build-lit": "workspace:*"
     "@lit/localize": 0.11.4
     karma: ^6.4.1
     karma-chrome-launcher: 3.1.1
@@ -4636,6 +4637,7 @@ __metadata:
     "@angular/cdk": 15.0.3
     "@angular/common": 15.0.4
     "@angular/core": 15.0.4
+    "@bgotink/build-lit": "workspace:*"
     "@ngx-playwright/test": 0.3.1
     "@prettier/plugin-xml": ^2.2.0
     "@snuggery/node": 0.5.2

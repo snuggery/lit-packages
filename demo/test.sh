@@ -6,13 +6,23 @@ set -e
 cd "$(dirname "$0")"
 TEST_DIR="$(mktemp -d)"
 
+if ! [ -d ../packages/build-lit/dist ]; then
+	echo "Build '@bgotink/build-lit' first" >&2
+	exit 1
+fi
+
 # Test extract-i18n
 
 echo "Testing extract-i18n..." >&2
 echo >&2
 
 sn extract-i18n
-yarn run -TB prettier --write locale/*.xlf
+run -TB prettier --write locale/*.xlf
+# --exit-code makes git diff fail if there are differences
+git diff --exit-code locale
+
+build-lit extract-i18n
+run -TB prettier --write locale/*.xlf
 # --exit-code makes git diff fail if there are differences
 git diff --exit-code locale
 
@@ -36,6 +46,15 @@ function expect_not_translation {
 		exit 1
 	fi
 }
+
+expect_translation en 'Help me, '
+expect_not_translation en 'Help mij, '
+
+expect_not_translation nl 'Help me, '
+expect_translation nl 'Help mij, '
+
+rm -rf "$TEST_DIR"
+build-lit build -c translated --outdir "$TEST_DIR"
 
 expect_translation en 'Help me, '
 expect_not_translation en 'Help mij, '
