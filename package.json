@@ -38,9 +38,5 @@
 		"rxjs": "7.8.0",
 		"typescript": "4.8.4",
 		"zone.js": "0.12.0"
-	},
-	"resolutions": {
-		"resolve.exports@^1.1.0": "patch:resolve.exports@npm%3A1.1.0#./.yarn/patches/resolve.exports-npm-1.1.0-81756e03ba.patch",
-		"resolve.exports@1.1.0": "patch:resolve.exports@npm%3A1.1.0#./.yarn/patches/resolve.exports-npm-1.1.0-81756e03ba.patch"
 	}
 }
