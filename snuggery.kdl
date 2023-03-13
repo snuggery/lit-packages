@@ -9,12 +9,18 @@ project "all" root="" {
 		options {
 			include "@snuggery/*"
 		}
+		configuration "pre-deploy" {
+			options {
+				packager "@snuggery/yarn"
+			}
+		}
 	}
 
 	target "deploy" builder="@snuggery/yarn:deploy" {
 		options {
 			useWorkspacePlugin true
       include "@snuggery/*"
+			buildTarget ":build:pre-deploy"
 		}
 		configuration "next" {
 			distTag "next"
@@ -101,7 +107,6 @@ project "demo" root="demo" projectType="application" {
 					}
 				}
 			}
-			packager "@snuggery/yarn"
 		}
 	}
 }
