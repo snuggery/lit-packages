@@ -3,6 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
+import { Message } from '../messages.js';
 import type { Locale } from '../types/locale.js';
 import type { Config } from '../types/config.js';
 import type { TransformOutputConfig } from '../types/modes.js';
@@ -34,4 +35,8 @@ export declare class TransformLitLocalizer extends LitLocalizer {
      */
     transformers(): Map<Locale, TypeScriptTransformerFactoryFactory>;
 }
+/**
+ * Return a TypeScript TransformerFactory for the lit-localize transformer.
+ */
+export declare function litLocalizeTransform(translations: Map<string, Message> | undefined, locale: string, program: ts.Program): ts.TransformerFactory<ts.SourceFile>;
 export {};

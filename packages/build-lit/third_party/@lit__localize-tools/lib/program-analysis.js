@@ -421,8 +421,13 @@ function replaceHtmlWithPlaceholders(html) {
  *   <b class="red">foo</b> --> {open: '<b class="red">, close: '</b>'}
  */
 function serializeOpenCloseTags(node) {
-    const withoutChildren = { ...node, childNodes: [] };
-    const fakeParent = { childNodes: [withoutChildren] };
+    const withoutChildren = {
+        ...node,
+        childNodes: [],
+    };
+    const fakeParent = {
+        childNodes: [withoutChildren],
+    };
     const serialized = parse5.serialize(fakeParent);
     const lastLt = serialized.lastIndexOf('<');
     const open = serialized.slice(0, lastLt);
@@ -437,7 +442,9 @@ function serializeOpenCloseTags(node) {
  *   {data: "foo"} --> "<!-- foo -->"
  */
 function serializeComment(comment) {
-    return parse5.serialize({ childNodes: [comment] });
+    return parse5.serialize({
+        childNodes: [comment],
+    });
 }
 /**
  * E.g. "foo", 'foo', or `foo`, but not `foo${bar}`.

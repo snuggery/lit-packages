@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-import { promises as fsPromises } from 'fs';
+import fsPromises from 'fs/promises';
 import * as pathLib from 'path';
 import { KnownError } from './error.js';
 import { escapeTextContentToEmbedInTemplateLiteral } from './typescript.js';

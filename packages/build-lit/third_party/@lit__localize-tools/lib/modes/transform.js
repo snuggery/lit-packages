@@ -102,7 +102,6 @@ class Transformer {
     constructor(context, translations, locale, program, sourceFile) {
         this.boundVisitNode = this.visitNode.bind(this);
         this.context = context;
-        this.factory = context.factory;
         this.translations = translations;
         this.locale = locale;
         this.typeChecker = program.getTypeChecker();
@@ -120,7 +119,7 @@ class Transformer {
         if (isLitTemplate(node)) {
             // If an html-tagged template literal embeds a msg call, we want to
             // collapse the result of that msg call into the parent template.
-            return tagLit(this.factory, makeTemplateLiteral(this.factory, this.recursivelyFlattenTemplate(node.template, true)));
+            return tagLit(this.context.factory, makeTemplateLiteral(this.context.factory, this.recursivelyFlattenTemplate(node.template, true)));
         }
         // import ... from '@lit/localize' -> (removed)
         if (ts.isImportDeclaration(node)) {
@@ -129,11 +128,12 @@ class Transformer {
                 return undefined;
             }
         }
+        const factory = this.context.factory;
         if (ts.isCallExpression(node)) {
             // configureTransformLocalization(...) -> {getLocale: () => "es-419"}
             if (this.typeHasProperty(node.expression, '_LIT_LOCALIZE_CONFIGURE_TRANSFORM_LOCALIZATION_')) {
-                return this.factory.createObjectLiteralExpression([
-                    this.factory.createPropertyAssignment(this.factory.createIdentifier('getLocale'), this.factory.createArrowFunction(undefined, undefined, [], undefined, this.factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken), this.factory.createStringLiteral(this.locale))),
+                return factory.createObjectLiteralExpression([
+                    factory.createPropertyAssignment(factory.createIdentifier('getLocale'), factory.createArrowFunction(undefined, undefined, [], undefined, factory.createToken(ts.SyntaxKind.EqualsGreaterThanToken), factory.createStringLiteral(this.locale))),
                 ], false);
             }
             // configureLocalization(...) -> Error
@@ -145,7 +145,7 @@ class Transformer {
             }
             // updateWhenLocaleChanges() -> undefined
             if (this.typeHasProperty(node.expression, '_LIT_LOCALIZE_CONTROLLER_FN_')) {
-                return this.factory.createIdentifier('undefined');
+                return factory.createIdentifier('undefined');
             }
         }
         // @localized -> removed
@@ -185,7 +185,7 @@ class Transformer {
                 const sourceFileSymbol = this.typeChecker.getSymbolAtLocation(sourceFile);
                 if (sourceFileSymbol &&
                     this.fileNameAppearsToBeLitLocalize(sourceFileSymbol)) {
-                    return this.factory.createStringLiteral('lit-localize-status');
+                    return factory.createStringLiteral('lit-localize-status');
                 }
             }
         }
@@ -284,7 +284,7 @@ class Transformer {
                         newParts.push(sourceExpression.expression);
                         newParts.push(span.literal.text);
                     }
-                    newTemplate = makeTemplateLiteral(this.factory, newParts);
+                    newTemplate = makeTemplateLiteral(this.context.factory, newParts);
                 }
             }
             // TODO(aomarks) Emit a warning that a translation was missing.
@@ -301,8 +301,10 @@ class Transformer {
         //
         // Given: html`Hello <b>${"World"}</b>`
         // Generate: html`Hello <b>World</b>`
-        newTemplate = makeTemplateLiteral(this.factory, this.recursivelyFlattenTemplate(newTemplate, tag === 'html'));
-        return tag === 'html' ? tagLit(this.factory, newTemplate) : newTemplate;
+        newTemplate = makeTemplateLiteral(this.context.factory, this.recursivelyFlattenTemplate(newTemplate, tag === 'html'));
+        return tag === 'html'
+            ? tagLit(this.context.factory, newTemplate)
+            : newTemplate;
     }
     /**
      * For every expression in the given template, assume that it is a simple
@@ -326,7 +328,7 @@ class Transformer {
             if (value === undefined) {
                 throw new KnownError('No value provided');
             }
-            return this.factory.createTemplateSpan(value, span.literal);
+            return this.context.factory.createTemplateSpan(value, span.literal);
         }, this.context);
     }
     /**
@@ -350,6 +352,9 @@ class Transformer {
         }
         const fragments = [template.head.text];
         const subsume = (expression) => {
+            if (expression === undefined) {
+                return false;
+            }
             if (ts.isStringLiteral(expression)) {
                 fragments.push(expression.text);
             }
@@ -373,7 +378,11 @@ class Transformer {
             if ((i === 0
                 ? template.head.text
                 : template.templateSpans[i - 1].literal.text).endsWith('=')) {
-                fragments.push(ts.visitNode(span.expression, this.boundVisitNode));
+                const expr = ts.visitNode(span.expression, this.boundVisitNode);
+                if (expr === undefined || !ts.isExpression(expr)) {
+                    throw new Error(`Internal error: expected expression, but got ${expr ? ts.SyntaxKind[expr.kind] : 'undefined'}`);
+                }
+                fragments.push(expr);
                 fragments.push(span.literal.text);
                 continue;
             }
@@ -382,6 +391,9 @@ class Transformer {
             if (!subsume(expression)) {
                 // No, but it may still need transformation.
                 expression = ts.visitNode(expression, this.boundVisitNode);
+                if (expression === undefined || !ts.isExpression(expression)) {
+                    throw new Error(`Internal error: expected expression, but got ${expression ? ts.SyntaxKind[expression.kind] : 'undefined'}`);
+                }
                 // Maybe we can subsume it after transformation (e.g a `msg` call which
                 // is now transformed to a template)?
                 if (!subsume(expression)) {
