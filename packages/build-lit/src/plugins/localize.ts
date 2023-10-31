@@ -1,4 +1,4 @@
-import type {BuilderContext} from '@angular-devkit/architect';
+import type {BuilderContext} from '@snuggery/architect';
 import type {Loader} from 'esbuild';
 import {extname} from 'node:path';
 import type {Program, SourceFile} from 'typescript';

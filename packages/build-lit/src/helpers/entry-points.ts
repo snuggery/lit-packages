@@ -1,5 +1,4 @@
-import type {BuilderContext} from '@angular-devkit/architect';
-import {resolveWorkspacePath} from '@snuggery/architect';
+import {type BuilderContext, resolveWorkspacePath} from '@snuggery/architect';
 import type {BuildResult} from 'esbuild';
 import {copyFile, readFile, writeFile} from 'node:fs/promises';
 import {dirname, join, relative, resolve} from 'node:path/posix';

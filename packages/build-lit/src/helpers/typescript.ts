@@ -1,5 +1,8 @@
-import type {BuilderContext} from '@angular-devkit/architect';
-import {BuildFailureError, resolveWorkspacePath} from '@snuggery/architect';
+import {
+	type BuilderContext,
+	BuildFailureError,
+	resolveWorkspacePath,
+} from '@snuggery/architect';
 import {dirname} from 'node:path';
 import type {
 	ParsedCommandLine,

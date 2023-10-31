@@ -52,8 +52,6 @@
 		}
 	},
 	"dependencies": {
-		"@angular-devkit/architect": ">= 0.1602.8 < 0.1700.0",
-		"@angular-devkit/core": "^16.2.8",
 		"@lit/localize": "^0.11.0",
 		"@snuggery/architect": "^0.8.0",
 		"@snuggery/core": "^0.6.1",
