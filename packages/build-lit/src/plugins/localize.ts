@@ -1,4 +1,4 @@
-import type {BuilderContext} from '@snuggery/architect';
+import {type BuilderContext, BuildFailureError} from '@snuggery/architect';
 import type {Loader} from 'esbuild';
 import {extname} from 'node:path';
 import type {Program, SourceFile} from 'typescript';
@@ -38,6 +38,14 @@ export async function localizePluginFactory(
 		output: TransformOutputConfig;
 	},
 ): Promise<ReadonlyMap<Locale, import('esbuild').Plugin>> {
+	try {
+		await import('@lit/localize');
+	} catch {
+		throw new BuildFailureError(
+			'Package @lit/localize must be installed to use localization',
+		);
+	}
+
 	const {TransformLitLocalizer} = await import(
 		'#@lit/localize-tools/lib/modes/transform.js'
 	);

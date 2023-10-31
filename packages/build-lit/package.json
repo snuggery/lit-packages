@@ -39,11 +39,15 @@
 		}
 	},
 	"peerDependencies": {
+		"@lit/localize": "^0.12.0",
 		"karma": "^6.4.1",
 		"sass": "^1.58.1",
 		"typescript": "~5.2.2"
 	},
 	"peerDependenciesMeta": {
+		"@lit/localize": {
+			"optional": true
+		},
 		"karma": {
 			"optional": true
 		},
@@ -52,7 +56,6 @@
 		}
 	},
 	"dependencies": {
-		"@lit/localize": "^0.11.0",
 		"@snuggery/architect": "^0.8.0",
 		"@snuggery/core": "^0.6.1",
 		"@snuggery/snuggery": "^0.10.0",
@@ -68,6 +71,7 @@
 		"esbuild": "^0.17.4"
 	},
 	"devDependencies": {
+		"@lit/localize": "^0.12.0",
 		"@types/karma": "^6.3.3",
 		"@types/node": "18.11.18",
 		"karma": "^6.4.1",
