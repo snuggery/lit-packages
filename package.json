@@ -11,7 +11,7 @@
 		"lint": "sn lint",
 		"test": "sn test"
 	},
-	"packageManager": "yarn@3.3.1",
+	"packageManager": "yarn@4.0.1",
 	"devDependencies": {
 		"@angular-eslint/builder": "15.1.0",
 		"@angular/cdk": "15.0.3",
