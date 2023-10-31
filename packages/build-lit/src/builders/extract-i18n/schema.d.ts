@@ -1,3 +1,3 @@
 export interface Schema {
-	browserTarget?: string;
+	applicationTarget?: string;
 }

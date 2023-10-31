@@ -8,7 +8,7 @@ await run({
 
 	basename: ['build-lit.config'],
 	targets: new Map([
-		['build', '@snuggery/build-lit:browser'],
+		['build', '@snuggery/build-lit:application'],
 		['extract-i18n', '@snuggery/build-lit:extract-i18n'],
 		['serve', '@snuggery/build-lit:dev-server'],
 		['test', '@snuggery/build-lit:karma'],

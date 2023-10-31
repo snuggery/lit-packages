@@ -1,19 +1,19 @@
 {
 	"builders": {
-		"browser": {
-			"implementation": "./dist/builders/browser/index.js",
-			"schema": "./src/builders/browser/schema.json",
-			"description": "Build a lit browser app using esbuild"
+		"application": {
+			"implementation": "./dist/builders/application/index.js",
+			"schema": "./src/builders/application/schema.json",
+			"description": "Build a lit app using esbuild"
 		},
 		"dev-server": {
 			"implementation": "./dist/builders/dev-server/index.js",
 			"schema": "./src/builders/dev-server/schema.json",
-			"description": "Serve a lit browser app using esbuild"
+			"description": "Serve a lit app using esbuild"
 		},
 		"extract-i18n": {
 			"implementation": "./dist/builders/extract-i18n/index.js",
 			"schema": "./src/builders/extract-i18n/schema.json",
-			"description": "Extract i18n messages from a lit browser app"
+			"description": "Extract i18n messages from a lit app"
 		},
 		"karma": {
 			"implementation": "./dist/builders/karma/index.js",

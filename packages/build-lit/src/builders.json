@@ -1,24 +1,25 @@
 {
+	"$schema": "../../../node_modules/@angular-devkit/architect/src/builders-schema.json",
 	"builders": {
-		"browser": {
-			"implementation": "./builders/browser/index.js",
-			"schema": "./builders/browser/schema.json",
-			"description": "Build a lit browser app using esbuild"
+		"application": {
+			"implementation": "./builders/application/index.js",
+			"schema": "./builders/application/schema.json",
+			"description": "Build a lit app using esbuild"
 		},
 		"dev-server": {
 			"implementation": "./builders/dev-server/index.js",
 			"schema": "./builders/dev-server/schema.json",
-			"description": "Serve a lit browser app using esbuild"
+			"description": "Serve a lit app using esbuild"
 		},
 		"extract-i18n": {
 			"implementation": "./builders/extract-i18n/index.js",
 			"schema": "./builders/extract-i18n/schema.json",
-			"description": "Extract i18n messages from a lit browser app"
+			"description": "Extract i18n messages from a lit app"
 		},
 		"karma": {
 			"implementation": "./builders/karma/index.js",
 			"schema": "./builders/karma/schema.json",
-			"description": "Test a lit browser app using karma and esbuild"
+			"description": "Test a lit project using karma and esbuild"
 		}
 	}
 }

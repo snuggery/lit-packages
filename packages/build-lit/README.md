@@ -6,8 +6,8 @@ Build lit-based web applications
 
 The `build-lit` command exposed by this package currently supports four subcommands:
 
-- `build-lit build` builds a browser application using [`esbuild`][esbuild]
-- `build-lit serve` serves a browser application for local development, including support for hot reload and more
+- `build-lit build` builds a application using [`esbuild`][esbuild]
+- `build-lit serve` serves a application for local development, including support for hot reload and more
 - `build-lit extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
 - `build-lit test` runs tests via [`karma`][karma]
 
@@ -54,14 +54,14 @@ Here's an example configuration file:
 The `build-lit` CLI is powered by the same system used by `nx` or `ng`, called "builders" or "executors" respectively.
 If you're already using either CLI, you can configure the following builders to keep using that same CLI you're already used to:
 
-- `@snuggery/build-lit:browser` builds a browser application using [`esbuild`][esbuild]
-- `@snuggery/build-lit:dev-server` serves a browser application for local development, including support for hot reload and more
+- `@snuggery/build-lit:application` builds a lit application using [`esbuild`][esbuild]
+- `@snuggery/build-lit:dev-server` serves a lit application for local development, including support for hot reload and more
 - `@snuggery/build-lit:extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
 - `@snuggery/build-lit:karma` runs tests via [`karma`][karma]
 
-### `build-lit build` / `@snuggery/build-lit:browser`
+### `build-lit build` / `@snuggery/build-lit:application`
 
-Build a browser application using esbuild. Some esbuild settings can be configured in your workspace configuration, such as the target or a header/footer to include a license.
+Build a (browser) application using esbuild. Some esbuild settings can be configured in your workspace configuration, such as the target or a header/footer to include a license.
 
 #### Styles
 
@@ -116,7 +116,7 @@ Serve an application using esbuild.
 
 #### Build Options
 
-The build options are configured in a configured `@snuggery/build-lit:browser` target. Pass the name of this target as `browserTarget`.
+The build options are configured in a configured `@snuggery/build-lit:application` target. Pass the name of this target as `applicationTarget`.
 
 You can pass a fully resolved target, such as `application:build` or with configuration(s) `application:build:local,dutch`.
 You can also pass a relative target, such as `build` or with configuration(s) `:build:local,dutch`.
@@ -127,7 +127,7 @@ The `localize` build option is ignored.
 
 #### Localization
 
-Serving (currently) only supports a single language. You can pass a single locale as `localize` option. This has to be configured in the `dev-server` target, not in the `browser` target.
+Serving (currently) only supports a single language. You can pass a single locale as `localize` option. This has to be configured in the `dev-server` target, not in the `application` target.
 
 #### Serve Options
 
@@ -141,7 +141,7 @@ Create XLF or XMB files for translation.
 
 #### Build Options
 
-Build options are configured via a `browserTarget` property, just like in `@snuggery/build-lit:dev-server`.
+Build options are configured via a `applicationTarget` property, just like in `@snuggery/build-lit:dev-server`.
 
 #### Translation Options
 
@@ -153,7 +153,7 @@ Run tests via karma
 
 #### Build Options
 
-You can configure certain `esbuild` options, like for the `browser` builder.
+You can configure certain `esbuild` options, like for the `application` builder.
 
 #### Files to Test
 

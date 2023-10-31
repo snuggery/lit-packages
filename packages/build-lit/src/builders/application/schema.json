@@ -86,7 +86,7 @@
 				},
 				{
 					"type": "object",
-					"additionalItems": {"type": "string"}
+					"additionalProperties": {"type": "string"}
 				}
 			],
 			"description": "Base URL for the application being built, can be an object passing a base URL per locale"

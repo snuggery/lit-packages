@@ -7,26 +7,26 @@ import {
 import type {JsonObject} from '@snuggery/core';
 
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
-import type {Schema as BrowserSchema} from '../browser/schema.js';
+import type {Schema as ApplicationSchema} from '../application/schema.js';
 
 import type {Schema} from './schema.js';
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
-		const browserInput = await context.validateOptions<
-			JsonObject & BrowserSchema
+		const applicationInput = await context.validateOptions<
+			JsonObject & ApplicationSchema
 		>(
 			await context.getTargetOptions(
 				targetFromTargetString(
-					resolveTargetString(context, input.browserTarget ?? 'build'),
+					resolveTargetString(context, input.applicationTarget ?? 'build'),
 				),
 			),
-			'@snuggery/build-lit:browser',
+			'@snuggery/build-lit:application',
 		);
 
 		const localizeConfiguration = await readLocalizeToolsConfig(
 			context,
-			browserInput,
+			applicationInput,
 		);
 
 		const {TransformLitLocalizer} = await import(

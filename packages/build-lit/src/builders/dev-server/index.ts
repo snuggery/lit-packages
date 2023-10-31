@@ -22,7 +22,7 @@ import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {localizePluginFactory} from '../../plugins/localize.js';
 import {sassPlugin} from '../../plugins/sass.js';
-import type {Schema as BrowserSchema} from '../browser/schema.js';
+import type {Schema as ApplicationSchema} from '../application/schema.js';
 
 import type {Schema} from './schema.js';
 
@@ -38,25 +38,25 @@ export default createBuilder<Schema>(async function* (
 	const watch = input.watch !== false;
 	const liveReload = input.liveReload !== false;
 
-	const browserInput = await context.validateOptions<
-		JsonObject & BrowserSchema
+	const applicationInput = await context.validateOptions<
+		JsonObject & ApplicationSchema
 	>(
 		await context.getTargetOptions(
 			targetFromTargetString(
-				resolveTargetString(context, input.browserTarget ?? 'build'),
+				resolveTargetString(context, input.applicationTarget ?? 'build'),
 			),
 		),
-		'@snuggery/build-lit:browser',
+		'@snuggery/build-lit:application',
 	);
 
 	let baseHref;
-	if (browserInput.baseHref == null) {
+	if (applicationInput.baseHref == null) {
 		baseHref = undefined;
-	} else if (typeof browserInput.baseHref === 'string') {
+	} else if (typeof applicationInput.baseHref === 'string') {
 		baseHref =
-			input.localize && Array.isArray(browserInput.localize)
-				? posix.join(browserInput.baseHref, input.localize)
-				: browserInput.baseHref;
+			input.localize && Array.isArray(applicationInput.localize)
+				? posix.join(applicationInput.baseHref, input.localize)
+				: applicationInput.baseHref;
 	} else {
 		if (!input.localize) {
 			yield {
@@ -66,14 +66,14 @@ export default createBuilder<Schema>(async function* (
 			};
 			return;
 		}
-		baseHref = browserInput.baseHref[input.localize];
+		baseHref = applicationInput.baseHref[input.localize];
 	}
 
 	const extraPlugins: Plugin[] = [];
 	if (input.localize) {
 		const localizeConfiguration = await readLocalizeToolsConfig(
 			context,
-			browserInput,
+			applicationInput,
 		);
 
 		const plugins = await localizePluginFactory(context, localizeConfiguration);
@@ -93,7 +93,7 @@ export default createBuilder<Schema>(async function* (
 	const {entryPoints, outdir, processResult} = await extractEntryPoints(
 		context,
 		{
-			...browserInput,
+			...applicationInput,
 			outdir: tmpdir,
 			baseHref,
 			liveReload,
@@ -114,9 +114,9 @@ export default createBuilder<Schema>(async function* (
 			plugins: [assetPlugin(), sassPlugin(), ...extraPlugins],
 
 			outdir,
-			outbase: browserInput.outbase,
+			outbase: applicationInput.outbase,
 
-			...forwardEsbuildOptions(browserInput),
+			...forwardEsbuildOptions(applicationInput),
 		});
 
 		await processResult(await esbuildContext.rebuild());
@@ -124,7 +124,7 @@ export default createBuilder<Schema>(async function* (
 		context.addTeardown(() => esbuildContext.dispose());
 
 		if (watch) {
-			if (browserInput.minify) {
+			if (applicationInput.minify) {
 				context.logger.warn(
 					'Watching is not supported when minification is enabled',
 				);
