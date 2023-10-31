@@ -73,7 +73,7 @@
 					"additionalItems": false
 				}
 			],
-			"description": "Environment target(s) (e.g. es2017, chrome58, firefox57, safari11, edge16, node10, ie9, opera45, default esnext)"
+			"description": "Environment target(s) (e.g. es2017, chrome58, firefox57, safari11, edge16, node10, ie9, opera45, esnext) (default: es2022)"
 		},
 		"minify": {
 			"type": "boolean",

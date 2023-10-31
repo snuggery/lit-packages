@@ -4,7 +4,7 @@ export function forwardEsbuildOptions({
 	minify,
 	conditions = [],
 	tsconfig,
-	target,
+	target = 'es2022',
 	banner,
 	footer,
 	inject,
