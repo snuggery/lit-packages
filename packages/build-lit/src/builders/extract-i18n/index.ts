@@ -1,5 +1,9 @@
-import {resolveTargetString, targetFromTargetString} from '@snuggery/architect';
-import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
+import {
+	type BuilderOutput,
+	createBuilder,
+	resolveTargetString,
+	targetFromTargetString,
+} from '@snuggery/architect';
 import type {JsonObject} from '@snuggery/core';
 
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';

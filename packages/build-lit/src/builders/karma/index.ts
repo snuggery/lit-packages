@@ -1,5 +1,8 @@
-import {resolveWorkspacePath} from '@snuggery/architect';
-import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
+import {
+	type BuilderOutput,
+	createBuilder,
+	resolveWorkspacePath,
+} from '@snuggery/architect';
 import type {BuildOptions} from 'esbuild';
 import type karma from 'karma';
 import {createRequire} from 'node:module';

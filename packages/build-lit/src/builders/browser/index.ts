@@ -1,5 +1,9 @@
-import {resolveProjectPath, resolveWorkspacePath} from '@snuggery/architect';
-import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
+import {
+	type BuilderOutput,
+	createBuilder,
+	resolveProjectPath,
+	resolveWorkspacePath,
+} from '@snuggery/architect';
 import type {Plugin} from 'esbuild';
 import {rm, writeFile} from 'node:fs/promises';
 import path, {posix} from 'node:path';

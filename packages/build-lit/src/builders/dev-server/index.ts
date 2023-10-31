@@ -1,7 +1,11 @@
 /* cspell:word servedir */
 
-import {resolveTargetString, targetFromTargetString} from '@snuggery/architect';
-import {BuilderOutput, createBuilder} from '@snuggery/architect/create-builder';
+import {
+	type BuilderOutput,
+	createBuilder,
+	resolveTargetString,
+	targetFromTargetString,
+} from '@snuggery/architect';
 import type {JsonObject} from '@snuggery/core';
 import type {Plugin} from 'esbuild';
 import {mkdtemp, rm} from 'fs/promises';

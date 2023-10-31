@@ -1,8 +1,8 @@
-import {resolveWorkspacePath} from '@snuggery/architect';
 import {
 	type BuilderContext,
 	BuildFailureError,
-} from '@snuggery/architect/create-builder';
+	resolveWorkspacePath,
+} from '@snuggery/architect';
 import {isJsonArray, isJsonObject} from '@snuggery/core';
 
 import type {Schema} from '../builders/browser/schema.js';
