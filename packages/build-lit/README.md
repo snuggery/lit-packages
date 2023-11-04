@@ -110,6 +110,13 @@ Pass a `localize` option into the build with as value one or more locales as def
 
 Custom conditions can be added via the `conditions` option. The `development` or `production` condition is added automatically based on the value of `minify`.
 
+#### Decorators
+
+The [`lit` decorators](https://lit.dev/docs/components/decorators/) (e.g. `@customElement('my-element')` and `@property()`) can be transformed into equivalent code that doesn't depend on typescript's or esbuild's decorator shims.
+To enable this, set `inlineLitDecorators` to `true` in the configuration of your build and/or test.
+
+> The current version of `esbuild` doesn't support the standard decorators yet, so if you're not using decorators and you don't have `enableExperimentalDecorators` in your typescript config, you have to enable this feature.
+
 ### `build-lit serve` / `@snuggery/build-lit:dev-server`
 
 Serve an application using esbuild.
@@ -171,7 +178,8 @@ Licensed under the MIT license, see `LICENSE.md`.
 
 This package contains a modified copy of [`karma-esbuild`](https://github.com/marvinhagemeister/karma-esbuild), licensed under the MIT license, see `third_party/karma-esbuild/README.md`.
 
-This package contains a modified and trimmed copy of [`@lit/localize-tools`](https://github.com/lit/lit), licensed under the MIT license, see `third_party/@lit__localize-tools/LICENSE`.
+This package contains a modified and trimmed copy of [`@lit/localize-tools`][lit] and [`@lit/ts-transformers`][lit], both licensed under the MIT license, see `third_party/@lit__localize-tools/LICENSE` and `third_party/@lit__ts-transformers/LICENSE`.
 
 [esbuild]: https://esbuild.github.io/
 [karma]: https://karma-runner.github.io/6.4/index.html
+[lit]: https://github.com/lit/lit

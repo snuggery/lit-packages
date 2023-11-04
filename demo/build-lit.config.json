@@ -3,7 +3,8 @@
 		"options": {
 			"tsconfig": "tsconfig.json",
 			"baseHref": "/lorem/ipsum",
-			"entryPoints": ["src/index.html", "src/lib.ts"]
+			"entryPoints": ["src/index.html", "src/lib.ts"],
+			"inlineLitDecorators": true
 		},
 		"configurations": {
 			"translated": {
@@ -14,7 +15,8 @@
 	"test": {
 		"options": {
 			"karmaConfig": "karma.conf.cjs",
-			"tsconfig": "tsconfig.spec.json"
+			"tsconfig": "tsconfig.spec.json",
+			"inlineLitDecorators": true
 		}
 	},
 	"i18n": {

@@ -47,6 +47,7 @@ project "demo" root="demo" projectType="application" {
 				- "demo/src/index.html"
 				- "demo/src/lib.ts"
 			}
+			inlineLitDecorators true
 		}
 
 		configuration "translated" {
@@ -67,6 +68,7 @@ project "demo" root="demo" projectType="application" {
 		options {
 			karmaConfig "demo/karma.conf.cjs"
 			tsconfig "demo/tsconfig.spec.json"
+			inlineLitDecorators true
 		}
 	}
 

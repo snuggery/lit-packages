@@ -56,6 +56,10 @@
 			"additionalItems": false,
 			"description": "Custom conditions to include during resolution"
 		},
+		"inlineLitDecorators": {
+			"type": "boolean",
+			"description": "Replace lit's decorators with other, equivalent but smaller, syntax. This flag requires typescript and the tsconfig option to be set"
+		},
 		"watch": {
 			"type": "boolean",
 			"description": "Whether to watch and re-run tests on changes",

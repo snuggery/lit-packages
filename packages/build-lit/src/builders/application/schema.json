@@ -117,6 +117,10 @@
 		"metafile": {
 			"type": "boolean",
 			"description": "Write metadata about the build to a JSON file (see also: https://esbuild.github.io/analyze/)"
+		},
+		"inlineLitDecorators": {
+			"type": "boolean",
+			"description": "Replace lit's decorators with other, equivalent but smaller, syntax. This flag requires typescript and the tsconfig option to be set"
 		}
 	},
 	"required": ["entryPoints"],

@@ -12,7 +12,14 @@ import type {
 
 // eslint-disable-next-line import/no-mutable-exports
 export let getTypescript: () => Promise<typeof import('typescript')> = () => {
-	const typescript = import('typescript').then(m => m.default);
+	const typescript = import('typescript').then(
+		m => m.default,
+		() => {
+			throw new Error(
+				`Couldn't find typescript, did you enable a feature that requires typescript without installing it?`,
+			);
+		},
+	);
 	getTypescript = () => typescript;
 
 	return typescript;
@@ -38,6 +45,7 @@ export async function createProgram(
 		inputFiles?: string[];
 		tsconfig?: string;
 		tsConfig?: never;
+		oldProgram?: Program;
 	},
 ): Promise<Program> {
 	if (options.inputFiles?.length) {
@@ -80,6 +88,7 @@ export async function getFiles(
 
 export async function createProgramFromCommandLine(
 	commandLine: ParsedCommandLine,
+	oldProgram?: Program,
 ): Promise<Program> {
 	const ts = await getTypescript();
 
@@ -88,13 +97,14 @@ export async function createProgramFromCommandLine(
 		rootNames: commandLine.fileNames,
 		configFileParsingDiagnostics: commandLine.errors,
 		projectReferences: commandLine.projectReferences,
+		oldProgram,
 	});
 }
 
 async function createProgramFromFiles(
 	context: BuilderContext,
 	inputFiles: string[],
-	opts: {tsconfig?: string; tsConfig?: never},
+	opts: {tsconfig?: string; tsConfig?: never; oldProgram?: Program},
 ): Promise<Program> {
 	const ts = await getTypescript();
 
@@ -113,15 +123,17 @@ async function createProgramFromFiles(
 		);
 	}
 
-	return await createProgramFromCommandLine(parsedCommandLine);
+	return await createProgramFromCommandLine(parsedCommandLine, opts.oldProgram);
 }
 
 async function createProgramFromConfig(
 	context: BuilderContext,
 	tsconfig: string,
+	oldProgram?: Program,
 ): Promise<Program> {
 	return await createProgramFromCommandLine(
 		await parseCommandLine(context, tsconfig),
+		oldProgram,
 	);
 }
 

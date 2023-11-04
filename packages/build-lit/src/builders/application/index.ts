@@ -1,10 +1,11 @@
+/* cspell:ignore tffs */
+
 import {
 	type BuilderOutput,
 	createBuilder,
 	resolveProjectPath,
 	resolveWorkspacePath,
 } from '@snuggery/architect';
-import type {Plugin} from 'esbuild';
 import {rm, writeFile} from 'node:fs/promises';
 import path, {posix} from 'node:path';
 
@@ -13,8 +14,13 @@ import {extractEntryPoints} from '../../helpers/entry-points.js';
 import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
-import {localizePluginFactory} from '../../plugins/localize.js';
 import {sassPlugin} from '../../plugins/sass.js';
+import {
+	type TransformerFactoryFactory,
+	typescriptPluginFactory,
+} from '../../plugins/typescript.js';
+import {createDecoratorTransformerFactory} from '../../plugins/typescript/decorators.js';
+import {createLocalizeTransformerFactories} from '../../plugins/typescript/localize.js';
 
 import type {Schema} from './schema.js';
 
@@ -32,11 +38,22 @@ export default createBuilder<Schema>(
 		});
 
 		let configurations: {
-			extraPlugins: Plugin[];
+			transformerFactoryFactories: TransformerFactoryFactory[];
+			inputFiles?: string[];
+			tsConfig?: string;
 			baseHref: string | undefined;
 			outdir: string;
 			locale?: string;
 		}[];
+
+		const globalTransformerFactoryFactories: TransformerFactoryFactory[] = [];
+
+		if (input.inlineLitDecorators) {
+			globalTransformerFactoryFactories.push(
+				await createDecoratorTransformerFactory(input),
+			);
+		}
+
 		if (input.localize == null) {
 			if (input.baseHref != null && typeof input.baseHref !== 'string') {
 				return {
@@ -45,21 +62,26 @@ export default createBuilder<Schema>(
 						'The baseHref cannot be passed as object if no locales are passed via localize',
 				};
 			}
-			configurations = [{extraPlugins: [], baseHref: input.baseHref, outdir}];
+			configurations = [
+				{
+					transformerFactoryFactories: [...globalTransformerFactoryFactories],
+					baseHref: input.baseHref,
+					outdir,
+				},
+			];
 		} else {
 			const localizeConfiguration = await readLocalizeToolsConfig(
 				context,
 				input,
 			);
 
-			const plugins = await localizePluginFactory(
-				context,
+			const localizeTffs = await createLocalizeTransformerFactories(
 				localizeConfiguration,
 			);
 
 			if (typeof input.localize === 'string') {
-				const plugin = plugins.get(input.localize as Locale);
-				if (plugin == null) {
+				const localizeTff = localizeTffs.get(input.localize as Locale);
+				if (localizeTff == null) {
 					return {
 						success: false,
 						error: `Locale '${input.localize}' is not configured in i18n`,
@@ -68,7 +90,10 @@ export default createBuilder<Schema>(
 
 				configurations = [
 					{
-						extraPlugins: [plugin],
+						transformerFactoryFactories: [
+							...globalTransformerFactoryFactories,
+							localizeTff,
+						],
 						outdir,
 						baseHref:
 							typeof input.baseHref === 'string'
@@ -82,8 +107,8 @@ export default createBuilder<Schema>(
 				for (const locale of Array.isArray(input.localize)
 					? input.localize
 					: [input.localize]) {
-					const plugin = plugins.get(locale as Locale);
-					if (plugin == null) {
+					const localizeTff = localizeTffs.get(locale as Locale);
+					if (localizeTff == null) {
 						return {
 							success: false,
 							error: `Locale '${locale}' is not configured in i18n`,
@@ -93,7 +118,10 @@ export default createBuilder<Schema>(
 					configurations.push(
 						input.baseHref != null
 							? {
-									extraPlugins: [plugin],
+									transformerFactoryFactories: [
+										...globalTransformerFactoryFactories,
+										localizeTff,
+									],
 									locale,
 									outdir,
 									baseHref:
@@ -102,7 +130,10 @@ export default createBuilder<Schema>(
 											: input.baseHref?.[locale],
 							  }
 							: {
-									extraPlugins: [plugin],
+									transformerFactoryFactories: [
+										...globalTransformerFactoryFactories,
+										localizeTff,
+									],
 									locale,
 									outdir: path.join(outdir, locale),
 									baseHref: undefined,
@@ -112,7 +143,19 @@ export default createBuilder<Schema>(
 			}
 		}
 
-		for (const {extraPlugins, ...c} of configurations) {
+		for (const {transformerFactoryFactories, ...c} of configurations) {
+			const plugins = [assetPlugin(), sassPlugin()];
+
+			if (transformerFactoryFactories.length > 0) {
+				plugins.push(
+					await typescriptPluginFactory(
+						context,
+						{tsConfig: input.tsconfig!},
+						transformerFactoryFactories,
+					),
+				);
+			}
+
 			const {entryPoints, outdir, processResult} = await extractEntryPoints(
 				context,
 				{
@@ -131,7 +174,7 @@ export default createBuilder<Schema>(
 					bundle: true,
 					metafile: true,
 
-					plugins: [assetPlugin(), sassPlugin(), ...extraPlugins],
+					plugins,
 
 					outdir,
 					outbase: input.outbase,

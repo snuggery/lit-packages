@@ -32,4 +32,6 @@ export interface Schema {
 	metafile?: boolean;
 
 	conditions?: string[];
+
+	inlineLitDecorators?: boolean;
 }

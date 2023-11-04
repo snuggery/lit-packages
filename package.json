@@ -38,5 +38,8 @@
 		"rxjs": "7.8.0",
 		"typescript": "5.2.2",
 		"zone.js": "0.12.0"
+	},
+	"dependencies": {
+		"@lit/ts-transformers": "^2.0.0"
 	}
 }

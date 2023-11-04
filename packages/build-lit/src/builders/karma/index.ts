@@ -13,6 +13,8 @@ import {Deferred} from '../../helpers/promise.js';
 import {getFiles} from '../../helpers/typescript.js';
 import {assetPlugin} from '../../plugins/asset.js';
 import {sassPlugin} from '../../plugins/sass.js';
+import {typescriptPluginFactory} from '../../plugins/typescript.js';
+import {createDecoratorTransformerFactory} from '../../plugins/typescript/decorators.js';
 
 import type {Schema} from './schema.js';
 
@@ -30,6 +32,21 @@ export default createBuilder<Schema>(
 			};
 		}
 
+		const plugins = [assetPlugin(), sassPlugin()];
+
+		if (input.inlineLitDecorators) {
+			plugins.push(
+				await typescriptPluginFactory(
+					context,
+					{
+						inputFiles: input.inputFiles,
+						tsConfig: input.tsconfig,
+					},
+					[await createDecoratorTransformerFactory(input)],
+				),
+			);
+		}
+
 		const config: karma.Config & karma.ConfigOptions =
 			await karma.config.parseConfig(
 				resolveWorkspacePath(context, input.karmaConfig),
@@ -39,7 +56,7 @@ export default createBuilder<Schema>(
 
 						bundle: true,
 
-						plugins: [assetPlugin(), sassPlugin()],
+						plugins,
 
 						format: 'esm',
 

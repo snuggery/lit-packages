@@ -21,5 +21,7 @@ export interface Schema {
 
 	conditions?: string[];
 
+	inlineLitDecorators?: boolean;
+
 	watch?: boolean;
 }

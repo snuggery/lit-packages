@@ -1,4 +1,5 @@
 /* cspell:word servedir */
+/* cspell:ignore tffs */
 
 import {
 	type BuilderOutput,
@@ -7,7 +8,6 @@ import {
 	targetFromTargetString,
 } from '@snuggery/architect';
 import type {JsonObject} from '@snuggery/core';
-import type {Plugin} from 'esbuild';
 import {mkdtemp, rm} from 'fs/promises';
 import path, {posix} from 'node:path';
 import os from 'os';
@@ -20,8 +20,13 @@ import {extractEntryPoints} from '../../helpers/entry-points.js';
 import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
-import {localizePluginFactory} from '../../plugins/localize.js';
 import {sassPlugin} from '../../plugins/sass.js';
+import {
+	typescriptPluginFactory,
+	type TransformerFactoryFactory,
+} from '../../plugins/typescript.js';
+import {createDecoratorTransformerFactory} from '../../plugins/typescript/decorators.js';
+import {createLocalizeTransformerFactories} from '../../plugins/typescript/localize.js';
 import type {Schema as ApplicationSchema} from '../application/schema.js';
 
 import type {Schema} from './schema.js';
@@ -69,17 +74,26 @@ export default createBuilder<Schema>(async function* (
 		baseHref = applicationInput.baseHref[input.localize];
 	}
 
-	const extraPlugins: Plugin[] = [];
+	const transformerFactoryFactories: TransformerFactoryFactory[] = [];
+
+	if (applicationInput.inlineLitDecorators) {
+		transformerFactoryFactories.push(
+			await createDecoratorTransformerFactory(applicationInput),
+		);
+	}
+
 	if (input.localize) {
 		const localizeConfiguration = await readLocalizeToolsConfig(
 			context,
 			applicationInput,
 		);
 
-		const plugins = await localizePluginFactory(context, localizeConfiguration);
+		const localizeTffs = await createLocalizeTransformerFactories(
+			localizeConfiguration,
+		);
 
-		const plugin = plugins.get(input.localize as Locale);
-		if (plugin == null) {
+		const localizeTff = localizeTffs.get(input.localize as Locale);
+		if (localizeTff == null) {
 			yield {
 				success: false,
 				error: `Locale '${input.localize}' is not configured in i18n`,
@@ -87,7 +101,7 @@ export default createBuilder<Schema>(async function* (
 			return;
 		}
 
-		extraPlugins.push(plugin);
+		transformerFactoryFactories.push(localizeTff);
 	}
 
 	const {entryPoints, outdir, processResult} = await extractEntryPoints(
@@ -101,6 +115,18 @@ export default createBuilder<Schema>(async function* (
 		},
 	);
 
+	const plugins = [assetPlugin(), sassPlugin()];
+
+	if (transformerFactoryFactories.length > 0) {
+		plugins.push(
+			await typescriptPluginFactory(
+				context,
+				{tsConfig: applicationInput.tsconfig!},
+				transformerFactoryFactories,
+			),
+		);
+	}
+
 	try {
 		const esbuildContext = await createEsbuildContext({
 			absWorkingDir: context.workspaceRoot,
@@ -111,7 +137,7 @@ export default createBuilder<Schema>(async function* (
 			bundle: true,
 			metafile: true,
 
-			plugins: [assetPlugin(), sassPlugin(), ...extraPlugins],
+			plugins,
 
 			outdir,
 			outbase: applicationInput.outbase,

@@ -25,6 +25,7 @@
 	],
 	"imports": {
 		"#@lit/localize-tools/*": "./third_party/@lit__localize-tools/*",
+		"#@lit/ts-transformers": "./third_party/@lit__ts-transformers/index.js",
 		"#karma-esbuild": "./third_party/karma-esbuild/index.js"
 	},
 	"exports": {
@@ -53,6 +54,9 @@
 		},
 		"sass": {
 			"optional": true
+		},
+		"typescript": {
+			"optional": true
 		}
 	},
 	"dependencies": {
@@ -65,7 +69,8 @@
 		"fast-glob": "^3.2.12",
 		"parse5": "^7.1.2",
 		"resolve.exports": "^2.0.0",
-		"source-map": "0.6.1"
+		"source-map": "0.6.1",
+		"ts-clone-node": "^3.0.0"
 	},
 	"optionalDependencies": {
 		"esbuild": "^0.19.5"

@@ -811,6 +811,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lit/ts-transformers@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@lit/ts-transformers@npm:2.0.0"
+  dependencies:
+    ts-clone-node: "npm:^3.0.0"
+    typescript: "npm:~5.2.0"
+  checksum: 23f75c6bddbd345e9a3b3f668ee60e78257a39e4f241f9e9fd6f81c029a1058af37ffd436561b973fe718ddc645fb0c96f99a2c90724cdcab3730412f756b62e
+  languageName: node
+  linkType: hard
+
 "@ngx-playwright/harness@npm:0.10.1":
   version: 0.10.1
   resolution: "@ngx-playwright/harness@npm:0.10.1"
@@ -1858,6 +1868,17 @@ __metadata:
     has-own-prop: "npm:^2.0.0"
     repeat-string: "npm:^1.6.1"
   checksum: e8a0d3a6d75d92551f9a7e6fefa31f3d831dc33117b0b9432f061f45a571c85c16143e4110693d450f6eca20841db43f5429ac0d801673bcf03e9973ab1c31af
+  languageName: node
+  linkType: hard
+
+"compatfactory@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "compatfactory@npm:3.0.0"
+  dependencies:
+    helpertypes: "npm:^0.0.19"
+  peerDependencies:
+    typescript: ">=3.x || >= 4.x || >= 5.x"
+  checksum: 85c833f6b4f7669c7b768104ba8e1f9e42702fb2445c3000b96bcf7f4f31f60f8b73c6aeb3a28327d5e741c773e3e940f5a7492de2233f38aa9eeedc94488d8d
   languageName: node
   linkType: hard
 
@@ -3143,6 +3164,13 @@ __metadata:
   dependencies:
     function-bind: "npm:^1.1.1"
   checksum: e1da0d2bd109f116b632f27782cf23182b42f14972ca9540e4c5aa7e52647407a0a4a76937334fddcb56befe94a3494825ec22b19b51f5e5507c3153fd1a5e1b
+  languageName: node
+  linkType: hard
+
+"helpertypes@npm:^0.0.19":
+  version: 0.0.19
+  resolution: "helpertypes@npm:0.0.19"
+  checksum: 2d4035f97d8dfa135c5e12f5828354df9d2345e83e3a7e7af4ed1c08fca6415980711d7dd9592cb0f730b9cff0e80a845dc5c3d53b91fe29347d549fba298674
   languageName: node
   linkType: hard
 
@@ -4747,6 +4775,7 @@ __metadata:
     "@angular/cdk": "npm:15.0.3"
     "@angular/common": "npm:15.0.4"
     "@angular/core": "npm:15.0.4"
+    "@lit/ts-transformers": "npm:^2.0.0"
     "@ngx-playwright/test": "npm:0.4.2"
     "@prettier/plugin-xml": "npm:^2.2.0"
     "@snuggery/build-lit": "workspace:*"
@@ -5221,6 +5250,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-clone-node@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "ts-clone-node@npm:3.0.0"
+  dependencies:
+    compatfactory: "npm:^3.0.0"
+  peerDependencies:
+    typescript: ^3.x || ^4.x || ^5.x
+  checksum: ee73f77ff05f77bd48f423b6102902cc38ccde5a5ed1b0ec348c660c6bea9c4f4c0fd4f32254575b53348596b958027d34c5f32428d463035093246c16305c8b
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths@npm:^3.14.1":
   version: 3.14.1
   resolution: "tsconfig-paths@npm:3.14.1"
@@ -5289,7 +5329,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.2.2, typescript@npm:~5.2.2":
+"typescript@npm:5.2.2, typescript@npm:~5.2.0, typescript@npm:~5.2.2":
   version: 5.2.2
   resolution: "typescript@npm:5.2.2"
   bin:
@@ -5299,7 +5339,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.2.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A~5.2.2#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A5.2.2#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A~5.2.0#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A~5.2.2#optional!builtin<compat/typescript>":
   version: 5.2.2
   resolution: "typescript@patch:typescript@npm%3A5.2.2#optional!builtin<compat/typescript>::version=5.2.2&hash=f3b441"
   bin:
