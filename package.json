@@ -20,7 +20,7 @@
 		"@ngx-playwright/test": "0.4.2",
 		"@prettier/plugin-xml": "^2.2.0",
 		"@snuggery/build-lit": "workspace:*",
-		"@snuggery/node": "0.6.3",
+		"@snuggery/node": "0.7.0",
 		"@snuggery/snuggery": "0.10.0",
 		"@snuggery/yarn": "0.5.0",
 		"@types/jasmine": "^4.3.1",

@@ -8,7 +8,7 @@ export async function createDecoratorTransformerFactory({
 	inputFiles,
 }: {
 	inputFiles?: string[];
-	tsconfig?: string;
+	tsconfig?: string | null;
 }): Promise<(program: Program) => TransformerFactory<SourceFile>> {
 	if (!inputFiles?.length && tsconfig == null) {
 		throw new BuildFailureError(

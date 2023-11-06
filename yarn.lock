@@ -947,6 +947,7 @@ __metadata:
     "@lit/localize": "npm:^0.12.0"
     "@snuggery/architect": "npm:^0.8.0"
     "@snuggery/core": "npm:^0.6.1"
+    "@snuggery/node": "npm:^0.7.0"
     "@snuggery/snuggery": "npm:^0.10.0"
     "@types/karma": "npm:^6.3.3"
     "@types/node": "npm:18.11.18"
@@ -960,6 +961,7 @@ __metadata:
     resolve.exports: "npm:^2.0.0"
     sass: "npm:^1.58.1"
     source-map: "npm:0.6.1"
+    ts-clone-node: "npm:^3.0.0"
     typescript: "npm:~5.2.2"
   peerDependencies:
     "@lit/localize": ^0.12.0
@@ -975,6 +977,8 @@ __metadata:
     karma:
       optional: true
     sass:
+      optional: true
+    typescript:
       optional: true
   bin:
     build-lit: ./bin.js
@@ -995,17 +999,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/node@npm:0.6.3":
-  version: 0.6.3
-  resolution: "@snuggery/node@npm:0.6.3"
+"@snuggery/node@npm:0.7.0, @snuggery/node@npm:^0.7.0":
+  version: 0.7.0
+  resolution: "@snuggery/node@npm:0.7.0"
   dependencies:
-    "@angular-devkit/schematics": "npm:^16.0.0-rc.0"
     "@snuggery/architect": "npm:^0.8.0"
-    "@snuggery/core": "npm:^0.6.1"
-    "@snuggery/snuggery": "npm:^0.10.0"
-    rxjs: "npm:^7.8.0"
     typanion: "npm:^3.12.1"
-    uvu: "npm:^0.5.6"
   peerDependencies:
     typescript: ">= 4.0.0 < 5.3.0"
     uvu: ^0.5.6
@@ -1014,7 +1013,7 @@ __metadata:
       optional: true
     uvu:
       optional: true
-  checksum: 9a4a3dda44eda5a6167775886b306de3ea97ed63441c3745196fa3cbb2f442b6b292859d01d3f2cf8445251ee9f2739e7f7f1b1542f83b938bd942eb2fc64d3d
+  checksum: ab90661998aadb051ce057275dababb0f8de71508cbcad395243b275c7f19f7ff21d9c5e96aa023f5f1342057db5aa62ae1abb74ad9799ddf0d8ed61d8f5ada5
   languageName: node
   linkType: hard
 
@@ -2172,13 +2171,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dequal@npm:^2.0.0":
-  version: 2.0.3
-  resolution: "dequal@npm:2.0.3"
-  checksum: f98860cdf58b64991ae10205137c0e97d384c3a4edc7f807603887b7c4b850af1224a33d88012009f150861cbee4fa2d322c4cc04b9313bee312e47f6ecaa888
-  languageName: node
-  linkType: hard
-
 "destroy@npm:1.2.0":
   version: 1.2.0
   resolution: "destroy@npm:1.2.0"
@@ -2190,13 +2182,6 @@ __metadata:
   version: 0.0.1
   resolution: "di@npm:0.0.1"
   checksum: fbca4cc93e8c493d50f82df3a9ecaa5d8b2935674aabddeb8f68db3ab03c942c201f9c3d920de094407392ee6f488eac16b96f500c0ea6b408634864b7b939d1
-  languageName: node
-  linkType: hard
-
-"diff@npm:^5.0.0":
-  version: 5.1.0
-  resolution: "diff@npm:5.1.0"
-  checksum: 77a0d9beb9ed54796154ac2511872288432124ac90a1cabb1878783c9b4d81f1847f3b746a0630b1e836181461d2c76e1e6b95559bef86ed16294d114862e364
   languageName: node
   linkType: hard
 
@@ -3773,7 +3758,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"kleur@npm:^4.0.3, kleur@npm:^4.1.5":
+"kleur@npm:^4.1.5":
   version: 4.1.5
   resolution: "kleur@npm:4.1.5"
   checksum: e9de6cb49657b6fa70ba2d1448fd3d691a5c4370d8f7bbf1c2f64c24d461270f2117e1b0afe8cb3114f13bbd8e51de158c2a224953960331904e636a5e4c0f2a
@@ -4133,7 +4118,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mri@npm:^1.1.0, mri@npm:^1.1.6":
+"mri@npm:^1.1.6":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
   checksum: a3d32379c2554cf7351db6237ddc18dc9e54e4214953f3da105b97dc3babe0deb3ffe99cf409b38ea47cc29f9430561ba6b53b24ab8f9ce97a4b50409e4a50e7
@@ -4779,7 +4764,7 @@ __metadata:
     "@ngx-playwright/test": "npm:0.4.2"
     "@prettier/plugin-xml": "npm:^2.2.0"
     "@snuggery/build-lit": "workspace:*"
-    "@snuggery/node": "npm:0.6.3"
+    "@snuggery/node": "npm:0.7.0"
     "@snuggery/snuggery": "npm:0.10.0"
     "@snuggery/yarn": "npm:0.5.0"
     "@types/jasmine": "npm:^4.3.1"
@@ -4824,15 +4809,6 @@ __metadata:
   dependencies:
     tslib: "npm:^2.1.0"
   checksum: 3c49c1ecd66170b175c9cacf5cef67f8914dcbc7cd0162855538d365c83fea631167cacb644b3ce533b2ea0e9a4d0b12175186985f89d75abe73dbd8f7f06f68
-  languageName: node
-  linkType: hard
-
-"sade@npm:^1.7.3":
-  version: 1.8.1
-  resolution: "sade@npm:1.8.1"
-  dependencies:
-    mri: "npm:^1.1.0"
-  checksum: da8a3a5d667ad5ce3bf6d4f054bbb9f711103e5df21003c5a5c1a8a77ce12b640ed4017dd423b13c2307ea7e645adee7c2ae3afe8051b9db16a6f6d3da3f90b1
   languageName: node
   linkType: hard
 
@@ -5429,20 +5405,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
-  languageName: node
-  linkType: hard
-
-"uvu@npm:^0.5.6":
-  version: 0.5.6
-  resolution: "uvu@npm:0.5.6"
-  dependencies:
-    dequal: "npm:^2.0.0"
-    diff: "npm:^5.0.0"
-    kleur: "npm:^4.0.3"
-    sade: "npm:^1.7.3"
-  bin:
-    uvu: bin.js
-  checksum: ad32eb5f7d94bdeb71f80d073003f0138e24f61ed68cecc8e15d2f30838f44c9670577bb1775c8fac894bf93d1bc1583d470a9195e49bfa6efa14cc6f4942bff
   languageName: node
   linkType: hard
 

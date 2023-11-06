@@ -10,7 +10,7 @@ import {rm, writeFile} from 'node:fs/promises';
 import path, {posix} from 'node:path';
 
 import {build, isBuildFailure} from '../../esbuild.js';
-import {extractEntryPoints} from '../../helpers/entry-points.js';
+import {extractApplicationEntryPoints} from '../../helpers/application-entry-points.js';
 import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
 import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
 import {assetPlugin} from '../../plugins/asset.js';
@@ -156,13 +156,11 @@ export default createBuilder<Schema>(
 				);
 			}
 
-			const {entryPoints, outdir, processResult} = await extractEntryPoints(
-				context,
-				{
+			const {entryPoints, outdir, processResult} =
+				await extractApplicationEntryPoints(context, {
 					...input,
 					...c,
-				},
-			);
+				});
 
 			try {
 				const result = await build({

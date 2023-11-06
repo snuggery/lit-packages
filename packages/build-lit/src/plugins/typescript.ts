@@ -1,5 +1,10 @@
-import type {BuilderContext} from '@snuggery/architect';
+import {
+	resolveWorkspacePath,
+	type BuilderContext,
+	resolveProjectPath,
+} from '@snuggery/architect';
 import type {Loader} from 'esbuild';
+import {stat} from 'node:fs/promises';
 import {extname} from 'node:path';
 import type {Program, SourceFile, TransformerFactory} from 'typescript';
 
@@ -154,4 +159,29 @@ export async function typescriptPluginFactory(
 			});
 		},
 	};
+}
+
+export async function findTsConfig(
+	context: BuilderContext,
+	tsconfig?: string | null,
+) {
+	if (tsconfig === null) {
+		return null;
+	}
+	if (tsconfig) {
+		return resolveWorkspacePath(context, tsconfig);
+	}
+
+	for (const filename of ['tsconfig.json', 'jsconfig.json']) {
+		const path = await resolveProjectPath(context, filename);
+		try {
+			if ((await stat(path)).isFile()) {
+				return path;
+			}
+		} catch {
+			// ignore
+		}
+	}
+
+	return null;
 }

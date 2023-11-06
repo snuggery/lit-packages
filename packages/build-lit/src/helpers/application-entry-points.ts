@@ -27,7 +27,7 @@ function isElement(
 	return !node.nodeName.startsWith('#');
 }
 
-export async function extractEntryPoints(
+export async function extractApplicationEntryPoints(
 	context: BuilderContext,
 	{
 		entryPoints,

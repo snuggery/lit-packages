@@ -5,6 +5,11 @@
 			"schema": "./src/builders/application/schema.json",
 			"description": "Build a lit app using esbuild"
 		},
+		"library": {
+			"implementation": "./dist/builders/library/index.js",
+			"schema": "./src/builders/library/schema.json",
+			"description": "Build a lit library using esbuild"
+		},
 		"dev-server": {
 			"implementation": "./dist/builders/dev-server/index.js",
 			"schema": "./src/builders/dev-server/schema.json",

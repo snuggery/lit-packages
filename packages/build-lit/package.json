@@ -62,6 +62,7 @@
 	"dependencies": {
 		"@snuggery/architect": "^0.8.0",
 		"@snuggery/core": "^0.6.1",
+		"@snuggery/node": "^0.7.0",
 		"@snuggery/snuggery": "^0.10.0",
 		"@xmldom/xmldom": "^0.8.2",
 		"chokidar": "^3.5.1",
