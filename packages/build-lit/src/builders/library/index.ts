@@ -9,7 +9,7 @@ import {
 } from '@snuggery/architect';
 import {isJsonObject, type JsonObject} from '@snuggery/core';
 import {readFile, rm, writeFile} from 'node:fs/promises';
-import path, {posix} from 'node:path';
+import path from 'node:path';
 
 import {build, isBuildFailure} from '../../esbuild.js';
 import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
@@ -84,8 +84,8 @@ export default createBuilder<Schema>(
 			await tsc(
 				context,
 				{
-					tsconfig: relativeWorkspacePath(context, tsconfig),
 					compile: true,
+					tsconfig: relativeWorkspacePath(context, tsconfig),
 				},
 				outdir,
 			);
@@ -142,7 +142,7 @@ export default createBuilder<Schema>(
 		delete manifest.private;
 		const allExports = manifest.exports as JsonObject;
 
-		for (const {exportKey, outputBasename, inputFilename} of entryPoints) {
+		for (const {exportKey, outputBasename} of entryPoints) {
 			const exports = isJsonObject(allExports[exportKey])
 				? {...(allExports[exportKey] as JsonObject)}
 				: {};
@@ -155,10 +155,7 @@ export default createBuilder<Schema>(
 			allExports[exportKey] = {
 				...(tsconfig
 					? {
-							types: `${inputFilename.slice(
-								0,
-								-posix.extname(inputFilename).length,
-							)}.d.ts`,
+							types: `${outputBasename}.d.ts`,
 					  }
 					: {}),
 				import: {

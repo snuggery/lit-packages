@@ -1,5 +1,4 @@
 import type {JsonObject} from '@snuggery/core';
-import {posix} from 'node:path';
 
 interface ExportObject {
 	[pathOrCondition: string]: ExportValue;
@@ -16,62 +15,56 @@ export interface LibraryEntryPoint {
 export function extractLibraryEntryPoints(
 	packageJson: JsonObject,
 ): LibraryEntryPoint[] {
-	if (packageJson.exports == null) {
+	const exports = packageJson.exports as ExportValue | undefined;
+
+	if (exports == null) {
 		const inputFilename =
 			typeof packageJson.main === 'string'
 				? ensureRelative(packageJson.main)
 				: './index.js';
 
-		packageJson.exports = {
-			'.': inputFilename,
-		};
+		packageJson.exports = {'.': inputFilename};
 
 		delete packageJson.main;
 
-		return [
-			{
-				exportKey: '.',
-				outputBasename: './index',
-				inputFilename,
-			},
-		];
+		return [{exportKey: '.', outputBasename: './index', inputFilename}];
 	}
 
-	if (typeof packageJson.exports === 'string') {
-		const inputFilename = packageJson.exports;
+	if (typeof exports === 'string' || Array.isArray(exports)) {
 		packageJson.exports = {
-			'.': inputFilename,
+			'.': exports,
 		};
 
-		return [
-			{
-				exportKey: '.',
-				outputBasename: './index',
-				inputFilename,
-			},
-		];
+		const inputFilename = getInputFilename(exports);
+		if (inputFilename == null) {
+			return [];
+		}
+
+		return [{exportKey: '.', outputBasename: './index', inputFilename}];
 	}
 
-	let exportKeys = Object.keys(packageJson.exports);
+	let exportKeys = Object.keys(exports);
 	if (exportKeys.length === 0) {
 		return [];
 	}
 
 	if (!exportKeys[0]?.startsWith('./')) {
-		packageJson.exports = {'.': packageJson.exports};
+		packageJson.exports = {'.': exports};
 		exportKeys = ['.'];
 	}
 
 	return exportKeys
 		.map(key => [key, getInputFilename(exports[key]!)] as const)
-		.filter((v): v is readonly [string, string] => v[1] != null)
+		.filter(
+			(v): v is readonly [string, string] =>
+				v[1] != null &&
+				/\.[cm]?[jt]sx?$/.test(v[1]) &&
+				!/\.d\.[cm]?ts$/.test(v[1]),
+		)
 		.map(([exportKey, inputFilename]) => ({
 			exportKey,
 			inputFilename,
-			outputBasename: inputFilename.slice(
-				0,
-				-posix.extname(inputFilename).length,
-			),
+			outputBasename: exportKey === '.' ? './index' : exportKey,
 		}));
 }
 
