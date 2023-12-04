@@ -160,13 +160,12 @@ async function parseCommandLine(context: BuilderContext, tsconfig: string) {
 }
 
 async function glob(context: BuilderContext, patterns: string[]) {
-	const {default: glob} = await import('fast-glob');
+	const {glob} = await import('glob');
 
 	return await glob(patterns, {
 		cwd: context.workspaceRoot,
 		absolute: true,
 
-		onlyFiles: true,
-		braceExpansion: true,
+		nodir: true,
 	});
 }

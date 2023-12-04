@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 import * as xmldom from '@xmldom/xmldom';
-import fastGlob from 'fast-glob';
+import { globSync } from 'glob';
 import fs, { promises as fsPromises } from 'fs';
 import * as pathlib from 'path';
 import { KnownError } from '../error.js';
@@ -32,9 +32,10 @@ class XlbFormatter {
      * pattern.
      */
     readTranslations() {
-        const files = fastGlob.sync(this.xlbConfig.translationsGlob, {
+        const files = globSync(this.xlbConfig.translationsGlob, {
             cwd: this.config.baseDir,
             absolute: true,
+            nodir: true,
         });
         const bundles = [];
         for (const file of files) {

@@ -955,7 +955,7 @@ __metadata:
     chokidar: "npm:^3.5.1"
     esbuild: "npm:^0.19.5"
     esbuild-wasm: "npm:^0.19.5"
-    fast-glob: "npm:^3.2.12"
+    glob: "npm:^10.3.10"
     karma: "npm:^6.4.1"
     parse5: "npm:^7.1.2"
     resolve.exports: "npm:^2.0.0"
@@ -2752,7 +2752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.12, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.2.9":
   version: 3.2.12
   resolution: "fast-glob@npm:3.2.12"
   dependencies:
@@ -3022,6 +3022,21 @@ __metadata:
   bin:
     glob: dist/cjs/src/bin.js
   checksum: a640527535f46e71e407384cc580c42d1443c1ba1180befbb21406cdf6613718f655f39af129ab54d805a1f4787a61b459a2e1f3cd60f0a9c79563c936decba0
+  languageName: node
+  linkType: hard
+
+"glob@npm:^10.3.10":
+  version: 10.3.10
+  resolution: "glob@npm:10.3.10"
+  dependencies:
+    foreground-child: "npm:^3.1.0"
+    jackspeak: "npm:^2.3.5"
+    minimatch: "npm:^9.0.1"
+    minipass: "npm:^5.0.0 || ^6.0.2 || ^7.0.0"
+    path-scurry: "npm:^1.10.1"
+  bin:
+    glob: dist/esm/bin.mjs
+  checksum: 13d8a1feb7eac7945f8c8480e11cd4a44b24d26503d99a8d8ac8d5aefbf3e9802a2b6087318a829fad04cb4e829f25c5f4f1110c68966c498720dd261c7e344d
   languageName: node
   linkType: hard
 
@@ -3572,7 +3587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jackspeak@npm:^2.0.3":
+"jackspeak@npm:^2.0.3, jackspeak@npm:^2.3.5":
   version: 2.3.6
   resolution: "jackspeak@npm:2.3.6"
   dependencies:
@@ -3989,7 +4004,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^9.0.0":
+"minimatch@npm:^9.0.0, minimatch@npm:^9.0.1":
   version: 9.0.3
   resolution: "minimatch@npm:9.0.3"
   dependencies:
@@ -4458,7 +4473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"path-scurry@npm:^1.7.0":
+"path-scurry@npm:^1.10.1, path-scurry@npm:^1.7.0":
   version: 1.10.1
   resolution: "path-scurry@npm:1.10.1"
   dependencies:

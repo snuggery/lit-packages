@@ -8,7 +8,7 @@ import { sortProgramMessages, validateLocalizedPlaceholders, } from './messages.
 import { readTsConfig } from './typescript.js';
 import { extractMessagesFromProgram } from './program-analysis.js';
 import { makeFormatter } from './formatters/index.js';
-import fastGlob from 'fast-glob';
+import { globSync } from 'glob';
 import { KnownError } from './error.js';
 /**
  * Abstract base class for programmatic access to @lit/localize. Use one of the
@@ -51,9 +51,10 @@ export class LitLocalizer {
                 };
             }
             if (this.config.inputFiles) {
-                this._filesAndCompilerOptions.fileNames = fastGlob.sync(this.config.inputFiles, {
+                this._filesAndCompilerOptions.fileNames = globSync(this.config.inputFiles, {
                     cwd: this.config.baseDir,
                     absolute: true,
+                    nodir: true,
                 });
             }
         }
