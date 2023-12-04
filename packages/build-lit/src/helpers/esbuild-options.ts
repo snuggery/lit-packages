@@ -38,6 +38,10 @@ export function forwardEsbuildOptions({
 					entryNames: '[dir]/[name]-[hash]',
 					assetNames: '[dir]/[name]-[hash]',
 					chunkNames: 'chunks/[name]-[hash]',
+
+					define: {
+						SNUGGERY_DEV_MODE: 'false',
+					},
 			  }
 			: {
 					minify: false,
@@ -45,6 +49,10 @@ export function forwardEsbuildOptions({
 					entryNames: '[dir]/[name]',
 					assetNames: '[dir]/[name]',
 					chunkNames: 'chunks/[name]',
+
+					define: {
+						SNUGGERY_DEV_MODE: 'true',
+					},
 			  }),
 
 		tsconfig,

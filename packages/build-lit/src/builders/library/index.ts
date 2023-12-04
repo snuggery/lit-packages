@@ -77,7 +77,7 @@ export default createBuilder<Schema>(
 			);
 		}
 
-		const entryPoints = extractLibraryEntryPoints(manifest);
+		const entryPoints = await extractLibraryEntryPoints(manifestPath, manifest);
 
 		if (tsconfig) {
 			const {tsc} = await import('@snuggery/node');
@@ -103,22 +103,18 @@ export default createBuilder<Schema>(
 					format: 'esm',
 
 					bundle: true,
+					splitting: true,
 					metafile: input.metafile,
 
 					plugins,
 
 					outdir,
 
-					...forwardEsbuildOptions({...input, tsconfig: tsconfig ?? undefined}),
-
-					...(optimize
-						? {
-								minify: true,
-								define: {
-									SNUGGERY_DEV_MODE: 'false',
-								},
-						  }
-						: {}),
+					...forwardEsbuildOptions({
+						...input,
+						minify: optimize,
+						tsconfig: tsconfig ?? undefined,
+					}),
 				});
 
 				if (input.metafile) {
@@ -142,7 +138,13 @@ export default createBuilder<Schema>(
 		delete manifest.private;
 		const allExports = manifest.exports as JsonObject;
 
+		const handledKeys = new Set<string>();
 		for (const {exportKey, outputBasename} of entryPoints) {
+			if (handledKeys.has(exportKey)) {
+				continue;
+			}
+			handledKeys.add(exportKey);
+
 			const exports = isJsonObject(allExports[exportKey])
 				? {...(allExports[exportKey] as JsonObject)}
 				: {};
@@ -150,22 +152,32 @@ export default createBuilder<Schema>(
 			delete exports.default;
 			delete exports.snuggery;
 			delete exports.import;
+			delete exports.require;
+			delete exports.node;
+			delete exports.browser;
 			delete exports.types;
+
+			let basenameToUse = outputBasename;
+			if (exportKey.includes('*')) {
+				basenameToUse = exportKey.endsWith('.js')
+					? exportKey.slice(0, -'.js'.length)
+					: exportKey;
+			}
 
 			allExports[exportKey] = {
 				...(tsconfig
 					? {
-							types: `${outputBasename}.d.ts`,
+							types: `${basenameToUse}.d.ts`,
 					  }
 					: {}),
-				import: {
-					production: `${outputBasename}.min.js`,
-					default: `${outputBasename}.js`,
-				},
 
 				...exports,
 
-				default: `${outputBasename}.js`,
+				import: {
+					production: `${basenameToUse}.min.js`,
+					default: `${basenameToUse}.js`,
+				},
+				default: `${basenameToUse}.js`,
 			};
 		}
 

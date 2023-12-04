@@ -1,3 +1,4 @@
+import {listExports} from '@bgotink/list-exports';
 import type {JsonObject} from '@snuggery/core';
 
 interface ExportObject {
@@ -12,9 +13,10 @@ export interface LibraryEntryPoint {
 	inputFilename: string;
 }
 
-export function extractLibraryEntryPoints(
+export async function extractLibraryEntryPoints(
+	packageJsonPath: string,
 	packageJson: JsonObject,
-): LibraryEntryPoint[] {
+): Promise<LibraryEntryPoint[]> {
 	const exports = packageJson.exports as ExportValue | undefined;
 
 	if (exports == null) {
@@ -30,63 +32,21 @@ export function extractLibraryEntryPoints(
 		return [{exportKey: '.', outputBasename: './index', inputFilename}];
 	}
 
-	if (typeof exports === 'string' || Array.isArray(exports)) {
-		packageJson.exports = {
-			'.': exports,
-		};
+	const exportedPaths = await listExports(packageJsonPath, {
+		packageJson,
+		environment: 'browser',
+		extraConditions: ['snuggery'],
+	});
 
-		const inputFilename = getInputFilename(exports);
-		if (inputFilename == null) {
-			return [];
-		}
-
-		return [{exportKey: '.', outputBasename: './index', inputFilename}];
-	}
-
-	let exportKeys = Object.keys(exports);
-	if (exportKeys.length === 0) {
-		return [];
-	}
-
-	if (!exportKeys[0]?.startsWith('./')) {
-		packageJson.exports = {'.': exports};
-		exportKeys = ['.'];
-	}
-
-	return exportKeys
-		.map(key => [key, getInputFilename(exports[key]!)] as const)
+	return exportedPaths
 		.filter(
-			(v): v is readonly [string, string] =>
-				v[1] != null &&
-				/\.[cm]?[jt]sx?$/.test(v[1]) &&
-				!/\.d\.[cm]?ts$/.test(v[1]),
+			({path}) => /\.[cm]?[jt]sx?$/.test(path) && !/\.d\.[cm]?ts$/.test(path),
 		)
-		.map(([exportKey, inputFilename]) => ({
-			exportKey,
-			inputFilename,
-			outputBasename: exportKey === '.' ? './index' : exportKey,
+		.map(({registeredExport, name, path}) => ({
+			exportKey: registeredExport,
+			inputFilename: path,
+			outputBasename: name === '.' ? './index' : name.replace(/\.m?js$/, ''),
 		}));
-}
-
-function getInputFilename(exports: ExportValue): string | null {
-	if (exports == null || typeof exports === 'string') {
-		return exports;
-	}
-
-	if (Array.isArray(exports)) {
-		for (const value of exports) {
-			const result = getInputFilename(value);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		return null;
-	}
-
-	return getInputFilename(
-		exports.snuggery ?? exports.import ?? exports.default ?? null,
-	);
 }
 
 function ensureRelative(value: string) {
