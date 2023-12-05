@@ -115,6 +115,9 @@ export default createBuilder<Schema>(
 						minify: optimize,
 						tsconfig: tsconfig ?? undefined,
 					}),
+
+					// Unlike for applications, library entries shouldn't be cache-busted
+					entryNames: '[dir]/[name]',
 				});
 
 				if (input.metafile) {
