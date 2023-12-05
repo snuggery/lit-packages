@@ -67,7 +67,10 @@ export function sassPlugin(): import('esbuild').Plugin {
 						case '.scss':
 							{
 								if (sassPromise == null) {
-									sassPromise = import('sass').then(m => m.default ?? m);
+									sassPromise = import('sass').then(m =>
+										// @ts-expect-error Either if or else is impossible according to typescript
+										'compile' in m ? m : m.default,
+									);
 								}
 
 								const {compile} = await sassPromise;
