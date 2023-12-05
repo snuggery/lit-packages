@@ -6,6 +6,7 @@ import {
 	createBuilder,
 	resolveTargetString,
 	targetFromTargetString,
+	BuildFailureError,
 } from '@snuggery/architect';
 import type {JsonObject} from '@snuggery/core';
 import {mkdtemp, rm} from 'fs/promises';
@@ -64,12 +65,9 @@ export default createBuilder<Schema>(async function* (
 				: applicationInput.baseHref;
 	} else {
 		if (!input.localize) {
-			yield {
-				success: false,
-				error:
-					'The baseHref cannot be passed as object if no locale is passed via localize',
-			};
-			return;
+			throw new BuildFailureError(
+				'The baseHref cannot be passed as object if no locale is passed via localize',
+			);
 		}
 		baseHref = applicationInput.baseHref[input.localize];
 	}
@@ -94,11 +92,9 @@ export default createBuilder<Schema>(async function* (
 
 		const localizeTff = localizeTffs.get(input.localize as Locale);
 		if (localizeTff == null) {
-			yield {
-				success: false,
-				error: `Locale '${input.localize}' is not configured in i18n`,
-			};
-			return;
+			throw new BuildFailureError(
+				`Locale '${input.localize}' is not configured in i18n`,
+			);
 		}
 
 		transformerFactoryFactories.push(localizeTff);
@@ -178,8 +174,10 @@ export default createBuilder<Schema>(async function* (
 			baseUrl: hostedUrl,
 		};
 
-		return await new Promise<never>(() => {
-			// never resolve or reject
+		context.addTeardown(() => esbuildContext.dispose());
+
+		return await new Promise<void>(resolve => {
+			context.addTeardown(resolve);
 		});
 	} catch (e) {
 		if (isBuildFailure(e)) {
