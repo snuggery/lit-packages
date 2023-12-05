@@ -26,6 +26,8 @@ import {createDecoratorTransformerFactory} from '../../plugins/typescript/decora
 
 import type {Schema} from './schema.js';
 
+const emoji = ['✨', '🚢', '🎉', '💯', '✅', '🏁', '🌈', '🦄'];
+
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
 		const outdir =
@@ -77,9 +79,12 @@ export default createBuilder<Schema>(
 			);
 		}
 
+		context.logger.info(`Building ${manifest.name}...`);
+
 		const entryPoints = await extractLibraryEntryPoints(manifestPath, manifest);
 
 		if (tsconfig) {
+			context.logger.debug('Running typescript...');
 			const {tsc} = await import('@snuggery/node');
 			await tsc(
 				context,
@@ -92,6 +97,9 @@ export default createBuilder<Schema>(
 		}
 
 		for (const optimize of [false, true]) {
+			context.logger.debug(
+				`Building ${optimize ? 'optimized' : 'development'} output...`,
+			);
 			try {
 				const result = await build({
 					absWorkingDir: context.workspaceRoot,
@@ -190,8 +198,13 @@ export default createBuilder<Schema>(
 		);
 
 		if (input.assets?.length) {
+			context.logger.debug('Copying assets...');
 			await copyAssets(context, outdir, input.assets);
 		}
+
+		context.logger.info(
+			`Done! ${emoji[Math.floor(Math.random() * emoji.length)]}`,
+		);
 
 		return {success: true};
 	},
