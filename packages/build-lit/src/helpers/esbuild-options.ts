@@ -48,7 +48,7 @@ export function forwardEsbuildOptions({
 					conditions: Array.from(new Set([...conditions, 'development'])),
 					entryNames: '[dir]/[name]',
 					assetNames: '[dir]/[name]',
-					chunkNames: 'chunks/[name]',
+					chunkNames: 'chunks/[name]-[hash]',
 
 					define: {
 						SNUGGERY_DEV_MODE: 'true',
