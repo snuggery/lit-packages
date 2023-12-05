@@ -60,7 +60,7 @@
 		}
 	},
 	"dependencies": {
-		"@bgotink/list-exports": "^0.1.1",
+		"@bgotink/list-exports": "^0.1.2",
 		"@snuggery/architect": "^0.8.0",
 		"@snuggery/core": "^0.6.1",
 		"@snuggery/node": "^0.7.0",

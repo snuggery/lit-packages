@@ -141,12 +141,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bgotink/list-exports@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@bgotink/list-exports@npm:0.1.1"
+"@bgotink/list-exports@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@bgotink/list-exports@npm:0.1.2"
   dependencies:
     glob: "npm:^10.3.10"
-  checksum: f0d31abeee18f567f0e04b7f0492c1a9d331462e1121189efa66bb1c1b235fdeaf14b223e5f53797026c780a8c263eeb2ed8d575003567c1cc0bdfddc3503215
+  checksum: 5cc9368faa6ec970b630738d9639cee7d76a2fc98fb9663b6175ef20ac0684ccfd27e03558d30720dc9f4e20c2216926dc74b7f5b8e03e2540d53df8f6bb6ca7
   languageName: node
   linkType: hard
 
@@ -953,7 +953,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@snuggery/build-lit@workspace:packages/build-lit"
   dependencies:
-    "@bgotink/list-exports": "npm:^0.1.1"
+    "@bgotink/list-exports": "npm:^0.1.2"
     "@lit/localize": "npm:^0.12.0"
     "@snuggery/architect": "npm:^0.8.0"
     "@snuggery/core": "npm:^0.6.1"
