@@ -5,32 +5,32 @@ import {
 	createBuilder,
 	resolveProjectPath,
 	resolveWorkspacePath,
-} from '@snuggery/architect';
-import {rm, writeFile} from 'node:fs/promises';
-import path, {posix} from 'node:path';
+} from "@snuggery/architect";
+import {rm, writeFile} from "node:fs/promises";
+import path, {posix} from "node:path";
 
-import {build, isBuildFailure} from '../../esbuild.js';
-import {extractApplicationEntryPoints} from '../../helpers/application-entry-points.js';
-import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
-import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
-import {assetPlugin} from '../../plugins/asset.js';
-import {sassPlugin} from '../../plugins/sass.js';
+import {build, isBuildFailure} from "../../esbuild.js";
+import {extractApplicationEntryPoints} from "../../helpers/application-entry-points.js";
+import {forwardEsbuildOptions} from "../../helpers/esbuild-options.js";
+import {readLocalizeToolsConfig} from "../../helpers/i18n-config.js";
+import {assetPlugin} from "../../plugins/asset.js";
+import {sassPlugin} from "../../plugins/sass.js";
 import {
 	type TransformerFactoryFactory,
 	typescriptPluginFactory,
-} from '../../plugins/typescript.js';
-import {createDecoratorTransformerFactory} from '../../plugins/typescript/decorators.js';
-import {createLocalizeTransformerFactories} from '../../plugins/typescript/localize.js';
+} from "../../plugins/typescript.js";
+import {createDecoratorTransformerFactory} from "../../plugins/typescript/decorators.js";
+import {createLocalizeTransformerFactories} from "../../plugins/typescript/localize.js";
 
-import type {Schema} from './schema.js';
+import type {Schema} from "./schema.js";
 
-import type {Locale} from '#@lit/localize-tools/lib/types/locale.js';
+import type {Locale} from "#@lit/localize-tools/lib/types/locale.js";
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
 		const outdir =
 			resolveWorkspacePath(context, input.outdir) ??
-			(await resolveProjectPath(context, 'dist'));
+			(await resolveProjectPath(context, "dist"));
 
 		await rm(outdir, {
 			recursive: true,
@@ -55,11 +55,11 @@ export default createBuilder<Schema>(
 		}
 
 		if (input.localize == null) {
-			if (input.baseHref != null && typeof input.baseHref !== 'string') {
+			if (input.baseHref != null && typeof input.baseHref !== "string") {
 				return {
 					success: false,
 					error:
-						'The baseHref cannot be passed as object if no locales are passed via localize',
+						"The baseHref cannot be passed as object if no locales are passed via localize",
 				};
 			}
 			configurations = [
@@ -79,7 +79,7 @@ export default createBuilder<Schema>(
 				localizeConfiguration,
 			);
 
-			if (typeof input.localize === 'string') {
+			if (typeof input.localize === "string") {
 				const localizeTff = localizeTffs.get(input.localize as Locale);
 				if (localizeTff == null) {
 					return {
@@ -96,17 +96,17 @@ export default createBuilder<Schema>(
 						],
 						outdir,
 						baseHref:
-							typeof input.baseHref === 'string'
-								? input.baseHref
-								: input.baseHref?.[input.localize],
+							typeof input.baseHref === "string" ?
+								input.baseHref
+							:	input.baseHref?.[input.localize],
 						locale: input.localize,
 					},
 				];
 			} else {
 				configurations = [];
-				for (const locale of Array.isArray(input.localize)
-					? input.localize
-					: [input.localize]) {
+				for (const locale of Array.isArray(input.localize) ?
+					input.localize
+				:	[input.localize]) {
 					const localizeTff = localizeTffs.get(locale as Locale);
 					if (localizeTff == null) {
 						return {
@@ -116,28 +116,28 @@ export default createBuilder<Schema>(
 					}
 
 					configurations.push(
-						input.baseHref != null
-							? {
-									transformerFactoryFactories: [
-										...globalTransformerFactoryFactories,
-										localizeTff,
-									],
-									locale,
-									outdir,
-									baseHref:
-										typeof input.baseHref === 'string'
-											? posix.join(input.baseHref, locale)
-											: input.baseHref?.[locale],
-							  }
-							: {
-									transformerFactoryFactories: [
-										...globalTransformerFactoryFactories,
-										localizeTff,
-									],
-									locale,
-									outdir: path.join(outdir, locale),
-									baseHref: undefined,
-							  },
+						input.baseHref != null ?
+							{
+								transformerFactoryFactories: [
+									...globalTransformerFactoryFactories,
+									localizeTff,
+								],
+								locale,
+								outdir,
+								baseHref:
+									typeof input.baseHref === "string" ?
+										posix.join(input.baseHref, locale)
+									:	input.baseHref?.[locale],
+							}
+						:	{
+								transformerFactoryFactories: [
+									...globalTransformerFactoryFactories,
+									localizeTff,
+								],
+								locale,
+								outdir: path.join(outdir, locale),
+								baseHref: undefined,
+							},
 					);
 				}
 			}
@@ -167,7 +167,7 @@ export default createBuilder<Schema>(
 					absWorkingDir: context.workspaceRoot,
 
 					entryPoints,
-					format: 'esm',
+					format: "esm",
 
 					bundle: true,
 					metafile: true,
@@ -184,7 +184,7 @@ export default createBuilder<Schema>(
 
 				if (input.metafile) {
 					await writeFile(
-						path.join(outdir, 'meta.json'),
+						path.join(outdir, "meta.json"),
 						JSON.stringify(result.metafile),
 					);
 				}

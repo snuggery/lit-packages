@@ -2,21 +2,21 @@ import {
 	type BuilderOutput,
 	createBuilder,
 	resolveWorkspacePath,
-} from '@snuggery/architect';
-import type {BuildOptions} from 'esbuild';
-import type karma from 'karma';
-import {createRequire} from 'node:module';
-import path from 'node:path';
+} from "@snuggery/architect";
+import type {BuildOptions} from "esbuild";
+import type karma from "karma";
+import {createRequire} from "node:module";
+import path from "node:path";
 
-import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
-import {Deferred} from '../../helpers/promise.js';
-import {getFiles} from '../../helpers/typescript.js';
-import {assetPlugin} from '../../plugins/asset.js';
-import {sassPlugin} from '../../plugins/sass.js';
-import {typescriptPluginFactory} from '../../plugins/typescript.js';
-import {createDecoratorTransformerFactory} from '../../plugins/typescript/decorators.js';
+import {forwardEsbuildOptions} from "../../helpers/esbuild-options.js";
+import {Deferred} from "../../helpers/promise.js";
+import {getFiles} from "../../helpers/typescript.js";
+import {assetPlugin} from "../../plugins/asset.js";
+import {sassPlugin} from "../../plugins/sass.js";
+import {typescriptPluginFactory} from "../../plugins/typescript.js";
+import {createDecoratorTransformerFactory} from "../../plugins/typescript/decorators.js";
 
-import type {Schema} from './schema.js';
+import type {Schema} from "./schema.js";
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
@@ -24,11 +24,11 @@ export default createBuilder<Schema>(
 
 		let karma;
 		try {
-			karma = await import('karma').then(m => m.default);
+			karma = await import("karma").then((m) => m.default);
 		} catch {
 			return {
 				success: false,
-				error: 'Please install karma to run @snuggery/build-lit:karma',
+				error: "Please install karma to run @snuggery/build-lit:karma",
 			};
 		}
 
@@ -58,7 +58,7 @@ export default createBuilder<Schema>(
 
 						plugins,
 
-						format: 'esm',
+						format: "esm",
 
 						...forwardEsbuildOptions(input),
 
@@ -72,14 +72,14 @@ export default createBuilder<Schema>(
 			);
 
 		(config.files ??= []).push(
-			...(await getFiles(context, input)).map(pattern => ({
+			...(await getFiles(context, input)).map((pattern) => ({
 				pattern,
-				type: 'module' as const,
+				type: "module" as const,
 			})),
 		);
 
-		(config.plugins ??= []).push(require.resolve('#karma-esbuild'), {
-			'preprocessor:esbuild-source': ['factory', createPreprocessor],
+		(config.plugins ??= []).push(require.resolve("#karma-esbuild"), {
+			"preprocessor:esbuild-source": ["factory", createPreprocessor],
 		});
 
 		type Preprocessor = (
@@ -87,7 +87,7 @@ export default createBuilder<Schema>(
 			file: {originalPath: string},
 			next: (error: unknown, content?: string) => void,
 		) => unknown;
-		createPreprocessor.$inject = ['preprocessor:esbuild'];
+		createPreprocessor.$inject = ["preprocessor:esbuild"];
 		function createPreprocessor(
 			esbuildPreprocessor: Preprocessor,
 		): Preprocessor {
@@ -103,13 +103,13 @@ export default createBuilder<Schema>(
 
 		config.preprocessors = {
 			...config.preprocessors,
-			'**/*.{js,ts,jsx,tsx,mjs,mts,cjs,cts}': ['esbuild-source'],
+			"**/*.{js,ts,jsx,tsx,mjs,mts,cjs,cts}": ["esbuild-source"],
 		};
 
 		const deferred = new Deferred<BuilderOutput>();
 
 		try {
-			const server = new karma.Server(config, exitCode => {
+			const server = new karma.Server(config, (exitCode) => {
 				deferred.resolve({success: exitCode === 0});
 			});
 

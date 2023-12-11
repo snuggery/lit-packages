@@ -4,10 +4,10 @@ on:
       - main
   pull_request:
 
-name: 'Validation'
+name: "Validation"
 jobs:
   code-style:
-    name: 'Code Style'
+    name: "Code Style"
     runs-on: ubuntu-latest
 
     steps:
@@ -61,7 +61,7 @@ jobs:
       #   run: |
       #     yarn sn test
 
-      - name: 'Run tests'
+      - name: "Run tests"
         shell: bash
         run: |
           yarn ./demo test

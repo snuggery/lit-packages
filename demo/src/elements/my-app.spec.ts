@@ -1,20 +1,20 @@
-import './my-app.js';
-import type {MyAppElement} from './my-app.js';
+import "./my-app.js";
+import type {MyAppElement} from "./my-app.js";
 
-describe('my-app', () => {
-	it('should work', async () => {
-		const el = document.createElement('my-app') as MyAppElement;
+describe("my-app", () => {
+	it("should work", async () => {
+		const el = document.createElement("my-app") as MyAppElement;
 		document.body.appendChild(el);
 
 		await el.updateComplete;
 
-		expect(el.shadowRoot!.innerHTML).toContain('Help me, Obi');
+		expect(el.shadowRoot!.innerHTML).toContain("Help me, Obi");
 
-		el.name = 'Lit';
+		el.name = "Lit";
 
 		await el.updateComplete;
 
-		expect(el.shadowRoot!.innerHTML).toContain('Help me, Lit');
+		expect(el.shadowRoot!.innerHTML).toContain("Help me, Lit");
 
 		el.remove();
 	});

@@ -1,4 +1,4 @@
-import type {AssetSpec} from '@snuggery/architect';
+import type {AssetSpec} from "@snuggery/architect";
 
 export interface Schema {
 	assets?: AssetSpec[];

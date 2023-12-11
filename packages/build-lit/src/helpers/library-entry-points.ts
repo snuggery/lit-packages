@@ -1,5 +1,5 @@
-import {listExports} from '@bgotink/list-exports';
-import type {JsonObject} from '@snuggery/core';
+import {listExports} from "@bgotink/list-exports";
+import type {JsonObject} from "@snuggery/core";
 
 interface ExportObject {
 	[pathOrCondition: string]: ExportValue;
@@ -21,21 +21,21 @@ export async function extractLibraryEntryPoints(
 
 	if (exports == null) {
 		const inputFilename =
-			typeof packageJson.main === 'string'
-				? ensureRelative(packageJson.main)
-				: './index.js';
+			typeof packageJson.main === "string" ?
+				ensureRelative(packageJson.main)
+			:	"./index.js";
 
-		packageJson.exports = {'.': inputFilename};
+		packageJson.exports = {".": inputFilename};
 
 		delete packageJson.main;
 
-		return [{exportKey: '.', outputBasename: './index', inputFilename}];
+		return [{exportKey: ".", outputBasename: "./index", inputFilename}];
 	}
 
 	const exportedPaths = await listExports(packageJsonPath, {
 		packageJson,
-		environment: 'browser',
-		extraConditions: ['snuggery'],
+		environment: "browser",
+		extraConditions: ["snuggery"],
 	});
 
 	return exportedPaths
@@ -45,10 +45,10 @@ export async function extractLibraryEntryPoints(
 		.map(({registeredExport, name, path}) => ({
 			exportKey: registeredExport,
 			inputFilename: path,
-			outputBasename: name === '.' ? './index' : name.replace(/\.m?js$/, ''),
+			outputBasename: name === "." ? "./index" : name.replace(/\.m?js$/, ""),
 		}));
 }
 
 function ensureRelative(value: string) {
-	return value.startsWith('./') ? value : `./${value}`;
+	return value.startsWith("./") ? value : `./${value}`;
 }

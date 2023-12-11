@@ -2,34 +2,34 @@ import {
 	resolveWorkspacePath,
 	type BuilderContext,
 	resolveProjectPath,
-} from '@snuggery/architect';
-import type {Loader} from 'esbuild';
-import {stat} from 'node:fs/promises';
-import {extname} from 'node:path';
-import type {Program, SourceFile, TransformerFactory} from 'typescript';
+} from "@snuggery/architect";
+import type {Loader} from "esbuild";
+import {stat} from "node:fs/promises";
+import {extname} from "node:path";
+import type {Program, SourceFile, TransformerFactory} from "typescript";
 
 import {
 	createProgram,
 	createProgramFromCommandLine,
 	getFormatDiagnosticsHost,
 	getTypescript,
-} from '../helpers/typescript.js';
+} from "../helpers/typescript.js";
 
 /* cspell:disable */
 const loaders: Record<string, Loader> = {
-	'.cjs': 'js',
-	'.js': 'js',
-	'.mjs': 'js',
-	'.cjsx': 'jsx',
-	'.jsx': 'jsx',
-	'.mjsx': 'jsx',
+	".cjs": "js",
+	".js": "js",
+	".mjs": "js",
+	".cjsx": "jsx",
+	".jsx": "jsx",
+	".mjsx": "jsx",
 
-	'.cts': 'ts',
-	'.ts': 'ts',
-	'.mts': 'ts',
-	'.ctsx': 'tsx',
-	'.tsx': 'tsx',
-	'.mtsx': 'tsx',
+	".cts": "ts",
+	".ts": "ts",
+	".mts": "ts",
+	".ctsx": "tsx",
+	".tsx": "tsx",
+	".mtsx": "tsx",
 };
 /* cspell:enable */
 
@@ -44,7 +44,7 @@ export async function typescriptPluginFactory(
 		tsConfig?: string;
 	},
 	transformerFactories: TransformerFactoryFactory[],
-): Promise<import('esbuild').Plugin> {
+): Promise<import("esbuild").Plugin> {
 	const ts = await getTypescript();
 	const formatDiagnosticHost = await getFormatDiagnosticsHost(context);
 
@@ -53,7 +53,7 @@ export async function typescriptPluginFactory(
 	const printer = ts.createPrinter();
 
 	return {
-		name: '@snuggery/build-lit:typescript',
+		name: "@snuggery/build-lit:typescript",
 		setup(build) {
 			build.onStart(async () => {
 				const newPrograms = new Map<string | null, Program>();
@@ -125,19 +125,20 @@ export async function typescriptPluginFactory(
 
 				const result = ts.transform(
 					sourceFile,
-					transformerFactories.map(factory => factory(program)),
+					transformerFactories.map((factory) => factory(program)),
 					program.getCompilerOptions(),
 				);
 
 				const errors = result.diagnostics?.filter(
-					diagnostic => diagnostic.category === ts.DiagnosticCategory.Error,
+					(diagnostic) => diagnostic.category === ts.DiagnosticCategory.Error,
 				);
 
 				return {
 					loader: loaders[extname(path)],
 					contents: printer.printFile(result.transformed[0]!),
-					errors: errors?.length
-						? errors.map(diagnostic => {
+					errors:
+						errors?.length ?
+							errors.map((diagnostic) => {
 								const location = diagnostic.file.getLineAndCharacterOfPosition(
 									diagnostic.start,
 								);
@@ -153,8 +154,8 @@ export async function typescriptPluginFactory(
 										length: diagnostic.length,
 									},
 								};
-						  })
-						: undefined,
+							})
+						:	undefined,
 				};
 			});
 		},
@@ -172,7 +173,7 @@ export async function findTsConfig(
 		return resolveWorkspacePath(context, tsconfig);
 	}
 
-	for (const filename of ['tsconfig.json', 'jsconfig.json']) {
+	for (const filename of ["tsconfig.json", "jsconfig.json"]) {
 		const path = await resolveProjectPath(context, filename);
 		try {
 			if ((await stat(path)).isFile()) {

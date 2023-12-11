@@ -2,15 +2,15 @@ import {
 	type BuilderContext,
 	BuildFailureError,
 	resolveWorkspacePath,
-} from '@snuggery/architect';
-import {isJsonArray, isJsonObject} from '@snuggery/core';
+} from "@snuggery/architect";
+import {isJsonArray, isJsonObject} from "@snuggery/core";
 
-import type {Schema} from '../builders/application/schema.js';
+import type {Schema} from "../builders/application/schema.js";
 
-import type {Config} from '#@lit/localize-tools/lib/types/config.js';
-import type {FormatConfig} from '#@lit/localize-tools/lib/types/formatters.js';
-import type {Locale} from '#@lit/localize-tools/lib/types/locale.js';
-import type {TransformOutputConfig} from '#@lit/localize-tools/lib/types/modes.js';
+import type {Config} from "#@lit/localize-tools/lib/types/config.js";
+import type {FormatConfig} from "#@lit/localize-tools/lib/types/formatters.js";
+import type {Locale} from "#@lit/localize-tools/lib/types/locale.js";
+import type {TransformOutputConfig} from "#@lit/localize-tools/lib/types/modes.js";
 
 interface I18nConfiguration {
 	sourceLocale: Locale;
@@ -24,14 +24,14 @@ async function readI18nConfiguration(
 	context: BuilderContext,
 ): Promise<I18nConfiguration> {
 	if (!context.target?.target) {
-		throw new BuildFailureError('Using i18n requires a project');
+		throw new BuildFailureError("Using i18n requires a project");
 	}
 
 	const {i18n} = await context.getProjectMetadata(context.target.project);
-	const {isLocale} = await import('#@lit/localize-tools/lib/locales.js');
+	const {isLocale} = await import("#@lit/localize-tools/lib/locales.js");
 
 	if (i18n == null) {
-		throw new BuildFailureError('Project is missing i18n configuration');
+		throw new BuildFailureError("Project is missing i18n configuration");
 	}
 	if (!isJsonObject(i18n)) {
 		throw new BuildFailureError(
@@ -43,22 +43,22 @@ async function readI18nConfiguration(
 
 	if (
 		sourceLocale != null &&
-		(typeof sourceLocale !== 'string' || !isLocale(sourceLocale))
+		(typeof sourceLocale !== "string" || !isLocale(sourceLocale))
 	) {
-		throw new BuildFailureError('Expected sourceLocale to be a locale string');
+		throw new BuildFailureError("Expected sourceLocale to be a locale string");
 	}
 
 	if (
 		!isJsonArray(targetLocales) ||
-		targetLocales.some(l => typeof l !== 'string' || !isLocale(l))
+		targetLocales.some((l) => typeof l !== "string" || !isLocale(l))
 	) {
 		throw new BuildFailureError(
-			'Expected targetLocales to be an array of locale strings',
+			"Expected targetLocales to be an array of locale strings",
 		);
 	}
 
 	return {
-		sourceLocale: sourceLocale ?? ('en-US' as Locale),
+		sourceLocale: sourceLocale ?? ("en-US" as Locale),
 		targetLocales: targetLocales as unknown[] as Locale[],
 		interchange: interchange as unknown as FormatConfig,
 	};
@@ -70,7 +70,7 @@ export async function readLocalizeToolsConfig(
 ) {
 	if (input.tsconfig == null) {
 		throw new BuildFailureError(
-			'The tsconfig setting is required when using localize',
+			"The tsconfig setting is required when using localize",
 		);
 	}
 
@@ -78,12 +78,12 @@ export async function readLocalizeToolsConfig(
 
 	const config: Config & {output: TransformOutputConfig; tsConfig: string} = {
 		baseDir: context.workspaceRoot,
-		resolve: path => resolveWorkspacePath(context, path),
+		resolve: (path) => resolveWorkspacePath(context, path),
 		sourceLocale: i18n.sourceLocale,
 		targetLocales: i18n.targetLocales,
 		tsConfig: resolveWorkspacePath(context, input.tsconfig),
 		interchange: i18n.interchange,
-		output: {mode: 'transform'},
+		output: {mode: "transform"},
 	};
 
 	return config;

@@ -1,1 +1,1 @@
-document.title = 'testing non-html entrypoint';
+document.title = "testing non-html entrypoint";

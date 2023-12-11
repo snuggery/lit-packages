@@ -1,11 +1,11 @@
-import type {BuildFailure} from 'esbuild';
+import type {BuildFailure} from "esbuild";
 
 let esbuild;
 
 try {
-	esbuild = await import('esbuild');
+	esbuild = await import("esbuild");
 } catch {
-	esbuild = await import('esbuild-wasm');
+	esbuild = await import("esbuild-wasm");
 }
 
 export const build = esbuild.build;

@@ -7,33 +7,33 @@ import {
 	relativeWorkspacePath,
 	copyAssets,
 	runPackager,
-} from '@snuggery/architect';
-import {isJsonObject, type JsonObject} from '@snuggery/core';
-import {readFile, rm, writeFile} from 'node:fs/promises';
-import path from 'node:path';
+} from "@snuggery/architect";
+import {isJsonObject, type JsonObject} from "@snuggery/core";
+import {readFile, rm, writeFile} from "node:fs/promises";
+import path from "node:path";
 
-import {build, isBuildFailure} from '../../esbuild.js';
-import {forwardEsbuildOptions} from '../../helpers/esbuild-options.js';
-import {extractLibraryEntryPoints} from '../../helpers/library-entry-points.js';
-import {assetPlugin} from '../../plugins/asset.js';
-import {externalPlugin} from '../../plugins/external.js';
-import {sassPlugin} from '../../plugins/sass.js';
+import {build, isBuildFailure} from "../../esbuild.js";
+import {forwardEsbuildOptions} from "../../helpers/esbuild-options.js";
+import {extractLibraryEntryPoints} from "../../helpers/library-entry-points.js";
+import {assetPlugin} from "../../plugins/asset.js";
+import {externalPlugin} from "../../plugins/external.js";
+import {sassPlugin} from "../../plugins/sass.js";
 import {
 	type TransformerFactoryFactory,
 	typescriptPluginFactory,
 	findTsConfig,
-} from '../../plugins/typescript.js';
-import {createDecoratorTransformerFactory} from '../../plugins/typescript/decorators.js';
+} from "../../plugins/typescript.js";
+import {createDecoratorTransformerFactory} from "../../plugins/typescript/decorators.js";
 
-import type {Schema} from './schema.js';
+import type {Schema} from "./schema.js";
 
-const emoji = ['✨', '🚢', '🎉', '💯', '✅', '🏁', '🌈', '🦄'];
+const emoji = ["✨", "🚢", "🎉", "💯", "✅", "🏁", "🌈", "🦄"];
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
 		const outdir =
 			resolveWorkspacePath(context, input.outdir) ??
-			(await resolveProjectPath(context, 'dist'));
+			(await resolveProjectPath(context, "dist"));
 
 		if (input.clean) {
 			await rm(outdir, {
@@ -66,12 +66,12 @@ export default createBuilder<Schema>(
 
 		const manifestPath =
 			resolveWorkspacePath(context, input.manifest) ??
-			(await resolveProjectPath(context, 'package.json'));
+			(await resolveProjectPath(context, "package.json"));
 		const manifestFolder = path.dirname(manifestPath);
 
 		let manifest: JsonObject;
 		try {
-			manifest = JSON.parse(await readFile(manifestPath, 'utf-8'));
+			manifest = JSON.parse(await readFile(manifestPath, "utf-8"));
 		} catch (e) {
 			throw new BuildFailureError(
 				`Failed to read ${relativeWorkspacePath(context, manifestPath)}: ${
@@ -85,8 +85,8 @@ export default createBuilder<Schema>(
 		const entryPoints = await extractLibraryEntryPoints(manifestPath, manifest);
 
 		if (tsconfig) {
-			context.logger.debug('Running typescript...');
-			const {tsc} = await import('@snuggery/build-node');
+			context.logger.debug("Running typescript...");
+			const {tsc} = await import("@snuggery/build-node");
 			await tsc(context, {
 				compile: true,
 				tsconfig: relativeWorkspacePath(context, tsconfig),
@@ -124,7 +124,7 @@ export default createBuilder<Schema>(
 
 		for (const optimize of [false, true]) {
 			context.logger.debug(
-				`Building ${optimize ? 'optimized' : 'development'} output...`,
+				`Building ${optimize ? "optimized" : "development"} output...`,
 			);
 			try {
 				const result = await build({
@@ -134,7 +134,7 @@ export default createBuilder<Schema>(
 						in: path.join(manifestFolder, inputFilename),
 						out: optimize ? `${outputBasename}.min` : outputBasename,
 					})),
-					format: 'esm',
+					format: "esm",
 
 					bundle: true,
 					splitting: true,
@@ -151,12 +151,12 @@ export default createBuilder<Schema>(
 					}),
 
 					// Unlike for applications, library entries shouldn't be cache-busted
-					entryNames: '[dir]/[name]',
+					entryNames: "[dir]/[name]",
 				});
 
 				if (input.metafile) {
 					await writeFile(
-						path.join(outdir, 'meta.json'),
+						path.join(outdir, "meta.json"),
 						JSON.stringify(result.metafile),
 					);
 				}
@@ -182,9 +182,10 @@ export default createBuilder<Schema>(
 			}
 			handledKeys.add(exportKey);
 
-			const exports = isJsonObject(allExports[exportKey])
-				? {...(allExports[exportKey] as JsonObject)}
-				: {};
+			const exports =
+				isJsonObject(allExports[exportKey]) ?
+					{...(allExports[exportKey] as JsonObject)}
+				:	{};
 
 			delete exports.default;
 			delete exports.snuggery;
@@ -195,18 +196,19 @@ export default createBuilder<Schema>(
 			delete exports.types;
 
 			let basenameToUse = outputBasename;
-			if (exportKey.includes('*')) {
-				basenameToUse = exportKey.endsWith('.js')
-					? exportKey.slice(0, -'.js'.length)
-					: exportKey;
+			if (exportKey.includes("*")) {
+				basenameToUse =
+					exportKey.endsWith(".js") ?
+						exportKey.slice(0, -".js".length)
+					:	exportKey;
 			}
 
 			allExports[exportKey] = {
-				...(tsconfig
-					? {
-							types: `${basenameToUse}.d.ts`,
-					  }
-					: {}),
+				...(tsconfig ?
+					{
+						types: `${basenameToUse}.d.ts`,
+					}
+				:	{}),
 
 				...exports,
 
@@ -219,12 +221,12 @@ export default createBuilder<Schema>(
 		}
 
 		await writeFile(
-			path.join(outdir, 'package.json'),
-			JSON.stringify(manifest, null, 2) + '\n',
+			path.join(outdir, "package.json"),
+			JSON.stringify(manifest, null, 2) + "\n",
 		);
 
 		if (input.assets?.length) {
-			context.logger.debug('Copying assets...');
+			context.logger.debug("Copying assets...");
 			await copyAssets(context, outdir, input.assets);
 		}
 

@@ -1,16 +1,16 @@
-import {run} from '@snuggery/snuggery/mini';
-import {createRequire} from 'node:module';
+import {run} from "@snuggery/snuggery/mini";
+import {createRequire} from "node:module";
 
 await run({
-	binaryLabel: 'build-lit',
-	binaryName: 'build-lit',
-	binaryVersion: createRequire(import.meta.url)('./package.json').version,
+	binaryLabel: "build-lit",
+	binaryName: "build-lit",
+	binaryVersion: createRequire(import.meta.url)("./package.json").version,
 
-	basename: ['build-lit.config'],
+	basename: ["build-lit.config"],
 	targets: new Map([
-		['build', '@snuggery/build-lit:application'],
-		['extract-i18n', '@snuggery/build-lit:extract-i18n'],
-		['serve', '@snuggery/build-lit:dev-server'],
-		['test', '@snuggery/build-lit:karma'],
+		["build", "@snuggery/build-lit:application"],
+		["extract-i18n", "@snuggery/build-lit:extract-i18n"],
+		["serve", "@snuggery/build-lit:dev-server"],
+		["test", "@snuggery/build-lit:karma"],
 	]),
 });

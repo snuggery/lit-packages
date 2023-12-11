@@ -1,1 +1,1 @@
-import './dist/bin.js';
+import "./dist/bin.js";

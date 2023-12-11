@@ -5,7 +5,7 @@ export class Deferred<T> extends Promise<T> {
 	public readonly reject: (error: unknown) => void;
 
 	public constructor() {
-		let resolve: this['resolve'], reject: this['reject'];
+		let resolve: this["resolve"], reject: this["reject"];
 
 		super((res, rej) => {
 			resolve = res;

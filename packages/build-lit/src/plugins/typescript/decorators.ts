@@ -1,7 +1,7 @@
-import {BuildFailureError} from '@snuggery/architect';
-import type {Program, SourceFile, TransformerFactory} from 'typescript';
+import {BuildFailureError} from "@snuggery/architect";
+import type {Program, SourceFile, TransformerFactory} from "typescript";
 
-import {getTypescript} from '../../helpers/typescript.js';
+import {getTypescript} from "../../helpers/typescript.js";
 
 export async function createDecoratorTransformerFactory({
 	tsconfig,
@@ -19,7 +19,7 @@ export async function createDecoratorTransformerFactory({
 	await getTypescript();
 
 	const {idiomaticDecoratorsTransformer} = await import(
-		'#@lit/ts-transformers'
+		"#@lit/ts-transformers"
 	);
 
 	return idiomaticDecoratorsTransformer;

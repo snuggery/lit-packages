@@ -1,6 +1,6 @@
 export function findCommonPathPrefix(paths: readonly string[]): string {
 	if (paths.length === 0) {
-		return '';
+		return "";
 	}
 
 	let longestCommonPath = paths[0]!;
@@ -16,8 +16,8 @@ export function findCommonPathPrefix(paths: readonly string[]): string {
 		}
 	}
 
-	const lastSlash = longestCommonPath.lastIndexOf('/');
-	return lastSlash === -1
-		? longestCommonPath
-		: longestCommonPath.slice(0, lastSlash);
+	const lastSlash = longestCommonPath.lastIndexOf("/");
+	return lastSlash === -1 ? longestCommonPath : (
+			longestCommonPath.slice(0, lastSlash)
+		);
 }

@@ -1,20 +1,20 @@
-import {type BuilderContext, resolveWorkspacePath} from '@snuggery/architect';
-import type {BuildResult} from 'esbuild';
-import {copyFile, readFile, writeFile} from 'node:fs/promises';
-import {dirname, join, relative, resolve} from 'node:path/posix';
+import {type BuilderContext, resolveWorkspacePath} from "@snuggery/architect";
+import type {BuildResult} from "esbuild";
+import {copyFile, readFile, writeFile} from "node:fs/promises";
+import {dirname, join, relative, resolve} from "node:path/posix";
 import {
 	serialize,
 	parse,
 	parseFragment,
 	type DefaultTreeAdapterMap,
-} from 'parse5';
+} from "parse5";
 
-import {findCommonPathPrefix} from './longest-common-path-prefix.js';
+import {findCommonPathPrefix} from "./longest-common-path-prefix.js";
 
 function areStringEntries(
 	entryPoints: string[] | {in: string; out: string}[],
 ): entryPoints is string[] {
-	return typeof entryPoints[0] === 'string';
+	return typeof entryPoints[0] === "string";
 }
 
 function isNotNull<T>(value: T): value is NonNullable<T> {
@@ -22,9 +22,9 @@ function isNotNull<T>(value: T): value is NonNullable<T> {
 }
 
 function isElement(
-	node: DefaultTreeAdapterMap['childNode'],
-): node is DefaultTreeAdapterMap['element'] {
-	return !node.nodeName.startsWith('#');
+	node: DefaultTreeAdapterMap["childNode"],
+): node is DefaultTreeAdapterMap["element"] {
+	return !node.nodeName.startsWith("#");
 }
 
 export async function extractApplicationEntryPoints(
@@ -36,7 +36,7 @@ export async function extractApplicationEntryPoints(
 		watch = false,
 		liveReload = false,
 		baseHref,
-		deployUrl = '/',
+		deployUrl = "/",
 		minify = false,
 		locale,
 	}: {
@@ -66,9 +66,9 @@ export async function extractApplicationEntryPoints(
 	if (watch && liveReload) {
 		resultHandlers.push(
 			(
-				outdir => () =>
+				(outdir) => () =>
 					writeFile(
-						join(outdir, '__esbuild_reload__.js'),
+						join(outdir, "__esbuild_reload__.js"),
 						`new EventSource('/esbuild').addEventListener('change', () => location.reload());\n`,
 					)
 			)(outdir),
@@ -76,8 +76,8 @@ export async function extractApplicationEntryPoints(
 	}
 
 	if (baseHref != null) {
-		baseHref = resolve('/', baseHref);
-		deployUrl = resolve('/', deployUrl);
+		baseHref = resolve("/", baseHref);
+		deployUrl = resolve("/", deployUrl);
 
 		if (baseHref !== deployUrl) {
 			const outSubDir = relative(deployUrl, baseHref);
@@ -88,14 +88,14 @@ export async function extractApplicationEntryPoints(
 
 	const base =
 		outbase ??
-		(areStringEntries(entryPoints)
-			? findCommonPathPrefix(entryPoints)
-			: findCommonPathPrefix(entryPoints.map(e => e.out)));
+		(areStringEntries(entryPoints) ?
+			findCommonPathPrefix(entryPoints)
+		:	findCommonPathPrefix(entryPoints.map((e) => e.out)));
 
 	if (areStringEntries(entryPoints)) {
-		entryPoints = entryPoints.map(file => ({
+		entryPoints = entryPoints.map((file) => ({
 			in: file,
-			out: relative(base, file).replace(/\.[^.]+$/, ''),
+			out: relative(base, file).replace(/\.[^.]+$/, ""),
 		}));
 	}
 
@@ -111,13 +111,13 @@ export async function extractApplicationEntryPoints(
 	}
 
 	const knownEntryPoints = new Map(
-		actualEntryPoints.map(entryPoint => [entryPoint.in, entryPoint.out]),
+		actualEntryPoints.map((entryPoint) => [entryPoint.in, entryPoint.out]),
 	);
 	const outputHandlers: ((outputs: Map<string, string>) => void)[] = [];
 
 	if (minify) {
 		for (const entryPoint of actualEntryPoints) {
-			outputHandlers.push(async output => {
+			outputHandlers.push(async (output) => {
 				const writtenOutput = output.get(entryPoint.in);
 				if (writtenOutput == null) {
 					throw new Error(
@@ -125,7 +125,7 @@ export async function extractApplicationEntryPoints(
 					);
 				}
 
-				const expectedOutput = writtenOutput.replace(/-[^.]+(\.[^.]+)+$/, '$1');
+				const expectedOutput = writtenOutput.replace(/-[^.]+(\.[^.]+)+$/, "$1");
 				await copyFile(
 					join(outdir, writtenOutput),
 					join(outdir, expectedOutput),
@@ -137,11 +137,12 @@ export async function extractApplicationEntryPoints(
 	for (const htmlEntryPoint of htmlEntryPoints) {
 		const rawSource = await readFile(
 			resolveWorkspacePath(context, htmlEntryPoint.in),
-			'utf-8',
+			"utf-8",
 		);
-		const dom = /<!doctype/i.test(rawSource)
-			? parse(rawSource)
-			: parseFragment(rawSource);
+		const dom =
+			/<!doctype/i.test(rawSource) ?
+				parse(rawSource)
+			:	parseFragment(rawSource);
 
 		const queue = [...dom.childNodes];
 		let currentNode;
@@ -153,29 +154,29 @@ export async function extractApplicationEntryPoints(
 			queue.push(...currentNode.childNodes);
 
 			switch (currentNode.tagName) {
-				case 'script':
-					process(getAttribute(currentNode, 'src'));
-					setAttribute(currentNode, 'type', 'module');
+				case "script":
+					process(getAttribute(currentNode, "src"));
+					setAttribute(currentNode, "type", "module");
 					break;
-				case 'img':
-					process(getAttribute(currentNode, 'src'));
+				case "img":
+					process(getAttribute(currentNode, "src"));
 					break;
-				case 'link':
-					process(getAttribute(currentNode, 'href'));
+				case "link":
+					process(getAttribute(currentNode, "href"));
 					break;
-				case 'base':
+				case "base":
 					if (baseHref) {
 						// ensure base href starts and ends with /
 						setAttribute(
 							currentNode,
-							'href',
-							resolve('/', baseHref, dirname(htmlEntryPoint.out)) + '/',
+							"href",
+							resolve("/", baseHref, dirname(htmlEntryPoint.out)) + "/",
 						);
 					}
 					break;
-				case 'html':
+				case "html":
 					{
-						const lang = getAttribute(currentNode, 'lang');
+						const lang = getAttribute(currentNode, "lang");
 						if (locale && lang) {
 							lang.value = locale;
 						}
@@ -183,18 +184,18 @@ export async function extractApplicationEntryPoints(
 						if (watch && liveReload) {
 							const parentNode =
 								currentNode.childNodes.find(
-									(node): node is DefaultTreeAdapterMap['element'] =>
-										node.nodeName === 'body',
+									(node): node is DefaultTreeAdapterMap["element"] =>
+										node.nodeName === "body",
 								) ?? currentNode;
 
 							parentNode.childNodes.push({
-								nodeName: 'script',
-								tagName: 'script',
+								nodeName: "script",
+								tagName: "script",
 								attrs: [
-									{name: 'type', value: 'module'},
+									{name: "type", value: "module"},
 									{
-										name: 'src',
-										value: join(deployUrl, '__esbuild_reload__.js'),
+										name: "src",
+										value: join(deployUrl, "__esbuild_reload__.js"),
 									},
 								],
 								childNodes: [],
@@ -211,9 +212,9 @@ export async function extractApplicationEntryPoints(
 			writeFile(
 				join(
 					outdir,
-					/\.html?$/.test(htmlEntryPoint.out)
-						? htmlEntryPoint.out
-						: `${htmlEntryPoint.out}.html`,
+					/\.html?$/.test(htmlEntryPoint.out) ?
+						htmlEntryPoint.out
+					:	`${htmlEntryPoint.out}.html`,
 				),
 				serialize(dom),
 			),
@@ -221,7 +222,7 @@ export async function extractApplicationEntryPoints(
 
 		// eslint-disable-next-line no-inner-declarations
 		function process(
-			attribute: DefaultTreeAdapterMap['element']['attrs'][number] | undefined,
+			attribute: DefaultTreeAdapterMap["element"]["attrs"][number] | undefined,
 		) {
 			if (attribute == null) {
 				return;
@@ -235,20 +236,20 @@ export async function extractApplicationEntryPoints(
 				// ignore
 			}
 
-			if (attribute.value.startsWith('/')) {
+			if (attribute.value.startsWith("/")) {
 				// absolute URL, ignore as well
 				return;
 			}
 
 			const newEntryIn = join(dirname(htmlEntryPoint.in), attribute.value);
 			if (!knownEntryPoints.has(newEntryIn)) {
-				const newEntryOut = relative(base, newEntryIn).replace(/\.[^.]+$/, '');
+				const newEntryOut = relative(base, newEntryIn).replace(/\.[^.]+$/, "");
 				knownEntryPoints.set(newEntryIn, newEntryOut);
 
 				actualEntryPoints.push({in: newEntryIn, out: newEntryOut});
 			}
 
-			outputHandlers.push(outputs => {
+			outputHandlers.push((outputs) => {
 				const entryOut = outputs.get(newEntryIn);
 				if (entryOut == null) {
 					throw new Error(`Expected output to be generated for ${newEntryIn}`);
@@ -263,7 +264,7 @@ export async function extractApplicationEntryPoints(
 		entryPoints: actualEntryPoints,
 		outdir,
 		async processResult(
-			result: BuildResult & {metafile: NonNullable<BuildResult['metafile']>},
+			result: BuildResult & {metafile: NonNullable<BuildResult["metafile"]>},
 		) {
 			const outputs = new Map(
 				Object.entries(result.metafile.outputs)
@@ -291,17 +292,17 @@ export async function extractApplicationEntryPoints(
 				outputHandler(outputs);
 			}
 
-			await Promise.all(resultHandlers.map(handler => handler()));
+			await Promise.all(resultHandlers.map((handler) => handler()));
 		},
 	};
 }
 
-function getAttribute(element: DefaultTreeAdapterMap['element'], name: string) {
-	return element.attrs.find(attr => attr.name === name);
+function getAttribute(element: DefaultTreeAdapterMap["element"], name: string) {
+	return element.attrs.find((attr) => attr.name === name);
 }
 
 function setAttribute(
-	element: DefaultTreeAdapterMap['element'],
+	element: DefaultTreeAdapterMap["element"],
 	name: string,
 	value: string,
 ) {

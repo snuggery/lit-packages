@@ -1,23 +1,23 @@
-import {readFile} from 'node:fs/promises';
-import {createRequire} from 'node:module';
-import {dirname, extname, join} from 'node:path';
-import {fileURLToPath, pathToFileURL} from 'node:url';
-import {exports} from 'resolve.exports';
+import {readFile} from "node:fs/promises";
+import {createRequire} from "node:module";
+import {dirname, extname, join} from "node:path";
+import {fileURLToPath, pathToFileURL} from "node:url";
+import {exports} from "resolve.exports";
 
 function getPackageName(url: string) {
-	let idx = url.indexOf('/');
-	if (idx !== -1 && url.startsWith('@')) {
-		idx = url.indexOf('/', idx + 1);
+	let idx = url.indexOf("/");
+	if (idx !== -1 && url.startsWith("@")) {
+		idx = url.indexOf("/", idx + 1);
 	}
 
 	return idx === -1 ? url : url.slice(0, idx);
 }
 
-export function sassPlugin(): import('esbuild').Plugin {
+export function sassPlugin(): import("esbuild").Plugin {
 	return {
-		name: '@snuggery/build-lit:sass',
+		name: "@snuggery/build-lit:sass",
 		setup(build) {
-			let sassPromise: Promise<typeof import('sass')> | undefined = undefined;
+			let sassPromise: Promise<typeof import("sass")> | undefined = undefined;
 
 			build.onResolve(
 				{
@@ -31,9 +31,9 @@ export function sassPlugin(): import('esbuild').Plugin {
 					pluginData = {
 						...pluginData,
 						litSass:
-							kind !== 'entry-point' && /\.[cm]?[tj]sx?$/.test(importer)
-								? 'lit'
-								: 'css',
+							kind !== "entry-point" && /\.[cm]?[tj]sx?$/.test(importer) ?
+								"lit"
+							:	"css",
 					};
 
 					return {
@@ -54,7 +54,7 @@ export function sassPlugin(): import('esbuild').Plugin {
 					if (!pluginData?.litSass) {
 						return null;
 					}
-					const litSass: 'css' | 'lit' = pluginData.litSass;
+					const litSass: "css" | "lit" = pluginData.litSass;
 					pluginData = {...pluginData};
 					delete pluginData.litSass;
 
@@ -63,13 +63,13 @@ export function sassPlugin(): import('esbuild').Plugin {
 					let css: string, watchFiles: string[];
 
 					switch (extname(path)) {
-						case '.sass':
-						case '.scss':
+						case ".sass":
+						case ".scss":
 							{
 								if (sassPromise == null) {
-									sassPromise = import('sass').then(m =>
+									sassPromise = import("sass").then((m) =>
 										// @ts-expect-error Either if or else is impossible according to typescript
-										'compile' in m ? m : m.default,
+										"compile" in m ? m : m.default,
 									);
 								}
 
@@ -79,7 +79,7 @@ export function sassPlugin(): import('esbuild').Plugin {
 									importers: [
 										{
 											findFileUrl(url) {
-												if (url.startsWith('.')) {
+												if (url.startsWith(".")) {
 													return null;
 												}
 
@@ -94,7 +94,7 @@ export function sassPlugin(): import('esbuild').Plugin {
 													if (
 														!e ||
 														(e as NodeJS.ErrnoException).code ===
-															'MODULE_NOT_FOUND'
+															"MODULE_NOT_FOUND"
 													) {
 														return null;
 													}
@@ -103,13 +103,13 @@ export function sassPlugin(): import('esbuild').Plugin {
 												}
 
 												const packageJson = require(packageJsonPath);
-												const deepImport = '.' + url.slice(packageName.length);
+												const deepImport = "." + url.slice(packageName.length);
 												return pathToFileURL(
 													join(
 														dirname(packageJsonPath),
 														(exports(packageJson, deepImport, {
 															unsafe: true,
-															conditions: ['sass', 'css', 'style'],
+															conditions: ["sass", "css", "style"],
 														}) ?? [deepImport])[0]!,
 													),
 												);
@@ -120,18 +120,18 @@ export function sassPlugin(): import('esbuild').Plugin {
 
 								css = result.css;
 								watchFiles = result.loadedUrls
-									.filter(url => url.protocol === 'file:')
-									.map(url => fileURLToPath(url));
+									.filter((url) => url.protocol === "file:")
+									.map((url) => fileURLToPath(url));
 							}
 							break;
 						default:
 							watchFiles = [path];
-							css = await readFile(path, 'utf-8');
+							css = await readFile(path, "utf-8");
 					}
 
-					if (litSass === 'css') {
+					if (litSass === "css") {
 						return {
-							loader: 'css',
+							loader: "css",
 							contents: css,
 							watchFiles,
 						};
@@ -141,17 +141,17 @@ export function sassPlugin(): import('esbuild').Plugin {
 						await build.esbuild.transform(css, {
 							banner: build.initialOptions.banner?.css,
 							footer: build.initialOptions.footer?.css,
-							loader: 'css',
+							loader: "css",
 							target: build.initialOptions.target,
 							minify: build.initialOptions.minify,
 						})
 					).code;
 
 					return {
-						loader: 'js',
+						loader: "js",
 						contents: `import {css} from 'lit';\nexport default css\`${css
-							.replace(/`/g, '\\x60')
-							.replace(/\$\{/g, '\\${')}\`;\n`,
+							.replace(/`/g, "\\x60")
+							.replace(/\$\{/g, "\\${")}\`;\n`,
 						watchFiles,
 					};
 				},

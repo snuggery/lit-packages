@@ -1,9 +1,4 @@
-singleQuote: true
-trailingComma: all
 bracketSpacing: false
-# cspell:ignore parens
-arrowParens: avoid
-useTabs: true
 htmlWhitespaceSensitivity: strict
 plugins:
-  - '@prettier/plugin-xml'
+  - "@prettier/plugin-xml"

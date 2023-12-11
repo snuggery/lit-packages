@@ -1,11 +1,11 @@
-import {msg, str} from '@lit/localize';
-import {html, LitElement} from 'lit';
-import {property} from 'lit/decorators.js';
+import {msg, str} from "@lit/localize";
+import {html, LitElement} from "lit";
+import {property} from "lit/decorators.js";
 
 // @ts-expect-error not in the mood for setting up *.png imports in typescript
-import img from '../assets/lit.png';
+import img from "../assets/lit.png";
 
-import styles from './my-app.scss';
+import styles from "./my-app.scss";
 
 export class MyAppElement extends LitElement {
 	static styles = styles;
@@ -17,11 +17,11 @@ export class MyAppElement extends LitElement {
 		/* cspell:ignore kenobi */
 		return html`
 			<h1 id="translated"
-				>${msg(str`Help me, ${this.name ?? 'Obi-Wan Kenobi'}`)}</h1
+				>${msg(str`Help me, ${this.name ?? "Obi-Wan Kenobi"}`)}</h1
 			>
 			<img .src=${img} />
 		`;
 	}
 }
 
-customElements.define('my-app', MyAppElement);
+customElements.define("my-app", MyAppElement);

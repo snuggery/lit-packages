@@ -2,18 +2,18 @@ import {
 	type BuilderContext,
 	BuildFailureError,
 	resolveWorkspacePath,
-} from '@snuggery/architect';
-import {dirname} from 'node:path';
+} from "@snuggery/architect";
+import {dirname} from "node:path";
 import type {
 	ParsedCommandLine,
 	Program,
 	FormatDiagnosticsHost,
-} from 'typescript';
+} from "typescript";
 
 // eslint-disable-next-line import/no-mutable-exports
-export let getTypescript: () => Promise<typeof import('typescript')> = () => {
-	const typescript = import('typescript').then(
-		m => m.default,
+export let getTypescript: () => Promise<typeof import("typescript")> = () => {
+	const typescript = import("typescript").then(
+		(m) => m.default,
 		() => {
 			throw new Error(
 				`Couldn't find typescript, did you enable a feature that requires typescript without installing it?`,
@@ -34,7 +34,7 @@ export async function getFormatDiagnosticsHost(
 		// We need to normalize the path separators here because by default, TypeScript
 		// compiler hosts use posix canonical paths. In order to print consistent diagnostics,
 		// we also normalize the paths.
-		getCanonicalFileName: fileName => fileName,
+		getCanonicalFileName: (fileName) => fileName,
 		getNewLine: () => ts.sys.newLine,
 	};
 }
@@ -58,7 +58,7 @@ export async function createProgram(
 		return createProgramFromConfig(context, options.tsconfig);
 	} else {
 		throw new BuildFailureError(
-			'Expected inputFiles or tsconfig to be provided',
+			"Expected inputFiles or tsconfig to be provided",
 		);
 	}
 }
@@ -81,7 +81,7 @@ export async function getFiles(
 		);
 	} else {
 		throw new BuildFailureError(
-			'Expected inputFiles or tsconfig to be provided',
+			"Expected inputFiles or tsconfig to be provided",
 		);
 	}
 }
@@ -160,12 +160,13 @@ async function parseCommandLine(context: BuilderContext, tsconfig: string) {
 }
 
 async function glob(context: BuilderContext, patterns: string[]) {
-	const {glob} = await import('glob');
+	const {glob} = await import("glob");
 
 	return await glob(patterns, {
 		cwd: context.workspaceRoot,
 		absolute: true,
 
+		// cspell:ignore nodir
 		nodir: true,
 	});
 }

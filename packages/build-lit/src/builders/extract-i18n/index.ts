@@ -3,13 +3,13 @@ import {
 	createBuilder,
 	resolveTargetString,
 	targetFromTargetString,
-} from '@snuggery/architect';
-import type {JsonObject} from '@snuggery/core';
+} from "@snuggery/architect";
+import type {JsonObject} from "@snuggery/core";
 
-import {readLocalizeToolsConfig} from '../../helpers/i18n-config.js';
-import type {Schema as ApplicationSchema} from '../application/schema.js';
+import {readLocalizeToolsConfig} from "../../helpers/i18n-config.js";
+import type {Schema as ApplicationSchema} from "../application/schema.js";
 
-import type {Schema} from './schema.js';
+import type {Schema} from "./schema.js";
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
@@ -18,10 +18,10 @@ export default createBuilder<Schema>(
 		>(
 			await context.getTargetOptions(
 				targetFromTargetString(
-					resolveTargetString(context, input.applicationTarget ?? 'build'),
+					resolveTargetString(context, input.applicationTarget ?? "build"),
 				),
 			),
-			'@snuggery/build-lit:application',
+			"@snuggery/build-lit:application",
 		);
 
 		const localizeConfiguration = await readLocalizeToolsConfig(
@@ -30,7 +30,7 @@ export default createBuilder<Schema>(
 		);
 
 		const {TransformLitLocalizer} = await import(
-			'#@lit/localize-tools/lib/modes/transform.js'
+			"#@lit/localize-tools/lib/modes/transform.js"
 		);
 
 		const localizer = new TransformLitLocalizer(localizeConfiguration);
