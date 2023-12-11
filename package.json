@@ -11,7 +11,7 @@
 		"lint": "sn lint",
 		"test": "sn test"
 	},
-	"packageManager": "yarn@4.0.1",
+	"packageManager": "yarn@4.0.2",
 	"devDependencies": {
 		"@angular-eslint/builder": "15.1.0",
 		"@angular/cdk": "15.0.3",
@@ -36,7 +36,7 @@
 		"is-ci": "3.0.1",
 		"prettier": "2.8.1",
 		"rxjs": "7.8.0",
-		"typescript": "5.2.2",
+		"typescript": "5.3.3",
 		"zone.js": "0.12.0"
 	},
 	"dependencies": {
