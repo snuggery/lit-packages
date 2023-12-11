@@ -6,6 +6,7 @@ import {
 	BuildFailureError,
 	relativeWorkspacePath,
 	copyAssets,
+	runPackager,
 } from '@snuggery/architect';
 import {isJsonObject, type JsonObject} from '@snuggery/core';
 import {readFile, rm, writeFile} from 'node:fs/promises';
@@ -85,15 +86,40 @@ export default createBuilder<Schema>(
 
 		if (tsconfig) {
 			context.logger.debug('Running typescript...');
-			const {tsc} = await import('@snuggery/node');
-			await tsc(
-				context,
-				{
-					compile: true,
-					tsconfig: relativeWorkspacePath(context, tsconfig),
+			const {tsc} = await import('@snuggery/build-node');
+			await tsc(context, {
+				compile: true,
+				tsconfig: relativeWorkspacePath(context, tsconfig),
+				outputFolder: outdir,
+				validateConfiguration(compilerOptions) {
+					if (!compilerOptions.declaration) {
+						throw new BuildFailureError(
+							`Expected "declaration": true in ${relativeWorkspacePath(
+								context,
+								tsconfig,
+							)}`,
+						);
+					}
+					if (
+						compilerOptions.declarationDir &&
+						compilerOptions.declarationDir !== outdir
+					) {
+						throw new BuildFailureError(
+							`Expected declarationDir to be ${outdir} but found ${
+								compilerOptions.declarationDir
+							} in ${relativeWorkspacePath(context, tsconfig)}`,
+						);
+					}
+					if (!compilerOptions.emitDeclarationOnly) {
+						throw new BuildFailureError(
+							`Expected "emitDeclarationOnly": true in ${relativeWorkspacePath(
+								context,
+								tsconfig,
+							)}`,
+						);
+					}
 				},
-				outdir,
-			);
+			});
 		}
 
 		for (const optimize of [false, true]) {
@@ -200,6 +226,10 @@ export default createBuilder<Schema>(
 		if (input.assets?.length) {
 			context.logger.debug('Copying assets...');
 			await copyAssets(context, outdir, input.assets);
+		}
+
+		if (input.package ?? input.packager) {
+			await runPackager(context, {packager: input.packager, directory: outdir});
 		}
 
 		context.logger.info(

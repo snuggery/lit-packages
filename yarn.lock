@@ -15,6 +15,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-devkit/architect@npm:>= 0.1700.0 < 0.1800.0":
+  version: 0.1700.6
+  resolution: "@angular-devkit/architect@npm:0.1700.6"
+  dependencies:
+    "@angular-devkit/core": "npm:17.0.6"
+    rxjs: "npm:7.8.1"
+  checksum: c20237e2bec62aae3cd701e61c2cb5986643305fd61c24ddc097e61c3f3951aa6f2fccda008c1009b1031458f09817bf3205c6a08cb2f24eea40d259f3f4f0fe
+  languageName: node
+  linkType: hard
+
 "@angular-devkit/core@npm:16.2.8, @angular-devkit/core@npm:^16.0.0-rc.0":
   version: 16.2.8
   resolution: "@angular-devkit/core@npm:16.2.8"
@@ -34,6 +44,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-devkit/core@npm:17.0.6, @angular-devkit/core@npm:^17.0.0":
+  version: 17.0.6
+  resolution: "@angular-devkit/core@npm:17.0.6"
+  dependencies:
+    ajv: "npm:8.12.0"
+    ajv-formats: "npm:2.1.1"
+    jsonc-parser: "npm:3.2.0"
+    picomatch: "npm:3.0.1"
+    rxjs: "npm:7.8.1"
+    source-map: "npm:0.7.4"
+  peerDependencies:
+    chokidar: ^3.5.2
+  peerDependenciesMeta:
+    chokidar:
+      optional: true
+  checksum: 7bedf15349d464568a8c13c85f1385124b0912da38320e11c40e491ad1e0ae9d2fd50967c9787924c363561602a88293d17557e74b11ddd45ca8d519e5f56e5c
+  languageName: node
+  linkType: hard
+
 "@angular-devkit/schematics@npm:^16.0.0-rc.0, @angular-devkit/schematics@npm:^16.0.0-rc.1":
   version: 16.2.8
   resolution: "@angular-devkit/schematics@npm:16.2.8"
@@ -44,6 +73,19 @@ __metadata:
     ora: "npm:5.4.1"
     rxjs: "npm:7.8.1"
   checksum: 8657b5324c7a13d9a95ede9c9eda4240fe986a1923d24de86e7dc57e71247c8e3138618ae603dd68505b46a0916cb45b5ea817d51e57b56ba15abaec70a58b77
+  languageName: node
+  linkType: hard
+
+"@angular-devkit/schematics@npm:^17.0.0":
+  version: 17.0.6
+  resolution: "@angular-devkit/schematics@npm:17.0.6"
+  dependencies:
+    "@angular-devkit/core": "npm:17.0.6"
+    jsonc-parser: "npm:3.2.0"
+    magic-string: "npm:0.30.5"
+    ora: "npm:5.4.1"
+    rxjs: "npm:7.8.1"
+  checksum: 6d90fb3bb1eafc69acacadee88312d7c14c5f357925f113788971cb42b19d6387460f44dbfcacbe2d3f7e90434a5230d5e23843408094a133410fe4920728828
   languageName: node
   linkType: hard
 
@@ -949,16 +991,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@snuggery/architect@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@snuggery/architect@npm:0.9.1"
+  dependencies:
+    "@angular-devkit/architect": "npm:>= 0.1700.0 < 0.1800.0"
+    "@angular-devkit/core": "npm:^17.0.0"
+    "@snuggery/core": "npm:^0.7.1"
+    fs-extra: "npm:11.1.1"
+    glob: "npm:10.2.1"
+    rxjs: "npm:^7.8.0"
+  checksum: e02334da25f65890a43e5b89fdfc3fa8bab0613feba6f9e42f3eba3fa5a082be32ccc5aaead17450662c6f73d3384240ed5a6c865423064f0fb187d9bca14483
+  languageName: node
+  linkType: hard
+
 "@snuggery/build-lit@workspace:*, @snuggery/build-lit@workspace:packages/build-lit":
   version: 0.0.0-use.local
   resolution: "@snuggery/build-lit@workspace:packages/build-lit"
   dependencies:
     "@bgotink/list-exports": "npm:^0.1.2"
     "@lit/localize": "npm:^0.12.0"
-    "@snuggery/architect": "npm:^0.8.0"
-    "@snuggery/core": "npm:^0.6.1"
-    "@snuggery/node": "npm:^0.7.0"
-    "@snuggery/snuggery": "npm:^0.10.0"
+    "@snuggery/architect": "npm:^0.9.1"
+    "@snuggery/build-node": "npm:^0.9.1"
+    "@snuggery/core": "npm:^0.7.1"
+    "@snuggery/snuggery": "npm:^0.11.1"
     "@types/karma": "npm:^6.3.3"
     "@types/node": "npm:18.11.18"
     "@xmldom/xmldom": "npm:^0.8.2"
@@ -995,7 +1051,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@snuggery/core@npm:^0.6.0, @snuggery/core@npm:^0.6.1":
+"@snuggery/build-node@npm:0.9.1, @snuggery/build-node@npm:^0.9.1":
+  version: 0.9.1
+  resolution: "@snuggery/build-node@npm:0.9.1"
+  dependencies:
+    "@snuggery/architect": "npm:^0.9.1"
+    typanion: "npm:^3.12.1"
+  peerDependencies:
+    typescript: ">= 4.0.0 < 5.4.0"
+    uvu: ^0.5.6
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+    uvu:
+      optional: true
+  checksum: c16e1f77d33f8d2588c7e2e8ce9344d967cbb9e2c4d5db5e99aec6d5bf88f02fb77b4647a13f2b8e92a04ffbe7c023a6dff29a73dbd2af4d9a11ba2285af95fb
+  languageName: node
+  linkType: hard
+
+"@snuggery/core@npm:^0.6.0":
   version: 0.6.1
   resolution: "@snuggery/core@npm:0.6.1"
   dependencies:
@@ -1009,21 +1083,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/node@npm:0.7.0, @snuggery/node@npm:^0.7.0":
-  version: 0.7.0
-  resolution: "@snuggery/node@npm:0.7.0"
+"@snuggery/core@npm:^0.7.1":
+  version: 0.7.1
+  resolution: "@snuggery/core@npm:0.7.1"
   dependencies:
-    "@snuggery/architect": "npm:^0.8.0"
+    "@angular-devkit/core": "npm:^17.0.0"
+    "@bgotink/kdl": "npm:^0.1.6"
+    jsonc-parser: "npm:^3.2.0"
+    micromatch: "npm:^4.0.5"
     typanion: "npm:^3.12.1"
-  peerDependencies:
-    typescript: ">= 4.0.0 < 5.3.0"
-    uvu: ^0.5.6
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-    uvu:
-      optional: true
-  checksum: ab90661998aadb051ce057275dababb0f8de71508cbcad395243b275c7f19f7ff21d9c5e96aa023f5f1342057db5aa62ae1abb74ad9799ddf0d8ed61d8f5ada5
+    yaml: "npm:^2.2.1"
+  checksum: ce1c623520e966bf7dcf7ffc2a9f2928927263f38602f93cb873bf32fe64d6544989670479a5237016751be74bf8951e534b9cb7ab72426bc334a3d6d1bec5b3
   languageName: node
   linkType: hard
 
@@ -1043,7 +1113,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/snuggery@npm:0.10.0, @snuggery/snuggery@npm:^0.10.0":
+"@snuggery/snuggery@npm:0.11.1, @snuggery/snuggery@npm:^0.11.1":
+  version: 0.11.1
+  resolution: "@snuggery/snuggery@npm:0.11.1"
+  dependencies:
+    "@angular-devkit/architect": "npm:>= 0.1700.0 < 0.1800.0"
+    "@angular-devkit/core": "npm:^17.0.0"
+    "@angular-devkit/schematics": "npm:^17.0.0"
+    "@arcanis/slice-ansi": "npm:1.1.1"
+    "@snuggery/architect": "npm:^0.9.1"
+    "@snuggery/core": "npm:^0.7.1"
+    ajv: "npm:^8.12.0"
+    ajv-formats: "npm:^2.1.1"
+    clipanion: "npm:3.2.0"
+    json5: "npm:^2.2.3"
+    kleur: "npm:^4.1.5"
+    prompts: "npm:^2.4.2"
+    rxjs: "npm:^7.8.0"
+    semver: "npm:^7.5.0"
+    strip-ansi: "npm:^6.0.1"
+    typanion: "npm:^3.12.1"
+    which-pm-runs: "npm:^1.1.0"
+  bin:
+    sn: bin.js
+  checksum: 229049d73c1e79e0970c6e4f8a5f002db2bf26815e5bc2dea411575f134c67408674a9df1c77a15896bffe886eabdeac6f19071dd2a3bd41c466d754c09c664a
+  languageName: node
+  linkType: hard
+
+"@snuggery/snuggery@npm:^0.10.0":
   version: 0.10.0
   resolution: "@snuggery/snuggery@npm:0.10.0"
   dependencies:
@@ -1070,15 +1167,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/yarn@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@snuggery/yarn@npm:0.5.0"
+"@snuggery/yarn@npm:0.6.1":
+  version: 0.6.1
+  resolution: "@snuggery/yarn@npm:0.6.1"
   dependencies:
-    "@angular-devkit/schematics": "npm:^16.0.0-rc.0"
-    "@snuggery/architect": "npm:^0.8.0"
-    "@snuggery/core": "npm:^0.6.0"
+    "@angular-devkit/schematics": "npm:^17.0.0"
+    "@snuggery/architect": "npm:^0.9.1"
+    "@snuggery/core": "npm:^0.7.1"
     "@yarnpkg/parsers": "npm:^2.4.1"
-  checksum: 6ab38d677bd895bfae801f91ea9eded34a27636d71dd2fcea9d6e4e3014ea823dbf8844aff270caada513564d6681c294bddab7fc76fc901125dbb0937419b86
+  checksum: 9b079370d74e3fff257039beefd33a10f0f649a669647cd73af0b6954a612fffc4d57af12a21f1bb2248a8a44e3c15780bc379301bc10f3249bde15742d880df
   languageName: node
   linkType: hard
 
@@ -3909,6 +4006,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"magic-string@npm:0.30.5":
+  version: 0.30.5
+  resolution: "magic-string@npm:0.30.5"
+  dependencies:
+    "@jridgewell/sourcemap-codec": "npm:^1.4.15"
+  checksum: 38ac220ca7539e96da7ea2f38d85796bdf5c69b6bcae728c4bc2565084e6dc326b9174ee9770bea345cf6c9b3a24041b767167874fab5beca874d2356a9d1520
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^3.0.0":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
@@ -4507,6 +4613,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"picomatch@npm:3.0.1":
+  version: 3.0.1
+  resolution: "picomatch@npm:3.0.1"
+  checksum: 70ec738569f1864658378b7abdab8939d15dae0718c1df994eae3346fd33daf6a3c1ff4e0c1a0cd1e2c0319130985b63a2cff34d192f2f2acbb78aca76111736
+  languageName: node
+  linkType: hard
+
 "playwright-core@npm:1.29.1":
   version: 1.29.1
   resolution: "playwright-core@npm:1.29.1"
@@ -4789,9 +4902,9 @@ __metadata:
     "@ngx-playwright/test": "npm:0.4.2"
     "@prettier/plugin-xml": "npm:^2.2.0"
     "@snuggery/build-lit": "workspace:*"
-    "@snuggery/node": "npm:0.7.0"
-    "@snuggery/snuggery": "npm:0.10.0"
-    "@snuggery/yarn": "npm:0.5.0"
+    "@snuggery/build-node": "npm:0.9.1"
+    "@snuggery/snuggery": "npm:0.11.1"
+    "@snuggery/yarn": "npm:0.6.1"
     "@types/jasmine": "npm:^4.3.1"
     "@typescript-eslint/eslint-plugin": "npm:6.9.1"
     "@typescript-eslint/parser": "npm:6.9.1"

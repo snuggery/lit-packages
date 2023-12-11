@@ -11,6 +11,10 @@ export interface Schema {
 
 	tsconfig?: string | null;
 
+	package?: boolean | null;
+
+	packager?: string;
+
 	banner?: {
 		css?: string;
 		js?: string;

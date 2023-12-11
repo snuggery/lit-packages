@@ -97,7 +97,7 @@ project "demo" root="demo" projectType="application" {
 }
 
 (abstract)project "package" {
-	target "build" builder="@snuggery/node:build" {
+	target "build" builder="@snuggery/build-node:build" {
 		options {
 			assets {
 				- "README.md"
