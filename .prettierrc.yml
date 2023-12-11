@@ -2,3 +2,4 @@ bracketSpacing: false
 htmlWhitespaceSensitivity: strict
 plugins:
   - "@prettier/plugin-xml"
+experimentalTernaries: true
