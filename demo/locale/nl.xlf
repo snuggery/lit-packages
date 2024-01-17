@@ -10,11 +10,11 @@
 <trans-unit id="sb4af8bcc298bda72">
   <source>Help me, <x
 						id="0"
-						equiv-text="${this.name ?? 'Obi-Wan Kenobi'}"
+						equiv-text="${this.name ?? &quot;Obi-Wan Kenobi&quot;}"
 					/></source>
   <target>Help mij, <x
 						id="0"
-						equiv-text="${this.name ?? 'Obi-Wan Kenobi'}"
+						equiv-text="${this.name ?? &quot;Obi-Wan Kenobi&quot;}"
 					/></target>
 </trans-unit>
 </body>
