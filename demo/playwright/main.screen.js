@@ -7,3 +7,7 @@ export class MainScreen extends ComponentHarness {
 
 	translatedText = this.locatorFor("#translated");
 }
+
+export class AlternativelyRoutedMainScreen extends MainScreen {
+	static path = "/path/that/does/not/exist";
+}

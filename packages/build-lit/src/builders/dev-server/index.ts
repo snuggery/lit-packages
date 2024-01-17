@@ -98,7 +98,7 @@ export default createBuilder<Schema>(
 			transformerFactoryFactories.push(localizeTff);
 		}
 
-		const {entryPoints, outdir, processResult} =
+		const {entryPoints, fallback, outdir, processResult} =
 			await extractApplicationEntryPoints(context, {
 				...applicationInput,
 				outdir: tmpdir,
@@ -155,6 +155,7 @@ export default createBuilder<Schema>(
 				host: input.host ?? "localhost",
 				port: input.port,
 				servedir: tmpdir,
+				fallback,
 			});
 
 			let hostedUrl = `http://${host}:${port}`;

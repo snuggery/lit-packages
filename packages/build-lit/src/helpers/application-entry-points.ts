@@ -1,6 +1,7 @@
 import {type BuilderContext, resolveWorkspacePath} from "@snuggery/architect";
 import type {BuildResult} from "esbuild";
 import {copyFile, readFile, writeFile} from "node:fs/promises";
+import path from "node:path";
 import {dirname, join, relative, resolve} from "node:path/posix";
 import {
 	serialize,
@@ -260,9 +261,18 @@ export async function extractApplicationEntryPoints(
 		}
 	}
 
+	let fallback = findFallback(htmlEntryPoints);
+	if (fallback != null) {
+		fallback = join(
+			outdir,
+			/\.html?$/.test(fallback) ? fallback : `${fallback}.html`,
+		);
+	}
+
 	return {
 		entryPoints: actualEntryPoints,
 		outdir,
+		fallback,
 		async processResult(
 			result: BuildResult & {metafile: NonNullable<BuildResult["metafile"]>},
 		) {
@@ -312,4 +322,27 @@ function setAttribute(
 	} else {
 		element.attrs.push({name, value});
 	}
+}
+
+function findFallback(
+	entryPoints: readonly {readonly in: string; readonly out: string}[],
+): string | undefined {
+	const htmlEntryPoints = entryPoints.filter((ep) => ep.in.endsWith(".html"));
+	if (htmlEntryPoints.length < 2) {
+		return htmlEntryPoints[0]?.out;
+	}
+
+	// can't start a variable with a number
+	const _404s = htmlEntryPoints.filter((ep) =>
+		ep.in.endsWith(`${path.sep}404.html`),
+	);
+	if (_404s.length === 1) {
+		return _404s[0]!.out;
+	}
+
+	const indexes = htmlEntryPoints
+		.filter((ep) => ep.in.endsWith(`${path.sep}index.html`))
+		.sort((a, b) => a.out.length - b.out.length);
+
+	return indexes[0]?.out;
 }
