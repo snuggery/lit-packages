@@ -173,7 +173,12 @@ export async function findTsConfig(
 		return resolveWorkspacePath(context, tsconfig);
 	}
 
-	for (const filename of ["tsconfig.json", "jsconfig.json"]) {
+	for (const filename of [
+		"tsconfig.lib.json",
+		"jsconfig.lib.json",
+		"tsconfig.json",
+		"jsconfig.json",
+	]) {
 		const path = await resolveProjectPath(context, filename);
 		try {
 			if ((await stat(path)).isFile()) {
