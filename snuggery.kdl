@@ -18,7 +18,7 @@ project "all" root="" {
 
 	target "deploy" builder="@snuggery/yarn:deploy" {
 		options {
-			useWorkspacePlugin true
+			useWorkspacePlugin #true
       include "@snuggery/*"
 			buildTarget ":build:pre-deploy"
 		}
@@ -47,7 +47,7 @@ project "demo" root="demo" projectType="application" {
 				- "demo/src/index.html"
 				- "demo/src/lib.ts"
 			}
-			inlineLitDecorators true
+			inlineLitDecorators #true
 		}
 
 		configuration "translated" {
@@ -68,7 +68,7 @@ project "demo" root="demo" projectType="application" {
 		options {
 			karmaConfig "demo/karma.conf.cjs"
 			tsconfig "demo/tsconfig.spec.json"
-			inlineLitDecorators true
+			inlineLitDecorators #true
 		}
 	}
 
@@ -84,7 +84,7 @@ project "demo" root="demo" projectType="application" {
 			devServerTarget ":serve:e2e"
 		}
 		configuration "ci" {
-			forbidOnly true
+			forbidOnly #true
 		}
 	}
 
@@ -106,7 +106,7 @@ project "demo-lib" root="demo/lib" projectType="library" {
 			assets {
 				- "README.md"
 				- "LICENSE.md" from="."
-				- "**/*.d.ts" "**/*.json" from=(project-relative)"src" allowEmpty=true {
+				- "**/*.d.ts" "**/*.json" from=(project-relative)"src" allowEmpty=#true {
 					exclude {
 						- "dist/**"
 						- "node_modules/**"

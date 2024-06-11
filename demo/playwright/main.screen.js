@@ -1,4 +1,4 @@
-import {ComponentHarness} from "@angular/cdk/testing";
+import {ComponentHarness} from "@ngx-playwright/harness";
 
 export class MainScreen extends ComponentHarness {
 	static path = "";
