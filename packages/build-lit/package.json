@@ -1,6 +1,6 @@
 {
 	"name": "@snuggery/build-lit",
-	"version": "0.2.6",
+	"version": "0.2.7",
 	"type": "module",
 	"schematics": "./collection.json",
 	"bin": "./bin.js",
