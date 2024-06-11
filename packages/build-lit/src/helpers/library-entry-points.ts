@@ -9,6 +9,7 @@ type ExportValue = ExportObject | string | null | ExportValue[];
 
 export interface LibraryEntryPoint {
 	exportKey: string;
+	exportValue: string;
 	outputBasename: string;
 	inputFilename: string;
 }
@@ -29,7 +30,14 @@ export async function extractLibraryEntryPoints(
 
 		delete packageJson.main;
 
-		return [{exportKey: ".", outputBasename: "./index", inputFilename}];
+		return [
+			{
+				exportKey: ".",
+				exportValue: inputFilename,
+				outputBasename: "./index",
+				inputFilename,
+			},
+		];
 	}
 
 	const exportedPaths = await listExports(packageJsonPath, {
@@ -42,8 +50,9 @@ export async function extractLibraryEntryPoints(
 		.filter(
 			({path}) => /\.[cm]?[jt]sx?$/.test(path) && !/\.d\.[cm]?ts$/.test(path),
 		)
-		.map(({registeredExport, name, path}) => ({
-			exportKey: registeredExport,
+		.map(({registeredName, registeredPath, name, path}) => ({
+			exportKey: registeredName,
+			exportValue: registeredPath,
 			inputFilename: path,
 			outputBasename: name === "." ? "./index" : name.replace(/\.m?js$/, ""),
 		}));

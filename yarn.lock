@@ -183,12 +183,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bgotink/list-exports@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "@bgotink/list-exports@npm:0.1.2"
+"@bgotink/list-exports@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@bgotink/list-exports@npm:0.2.0"
   dependencies:
     glob: "npm:^10.3.10"
-  checksum: 5cc9368faa6ec970b630738d9639cee7d76a2fc98fb9663b6175ef20ac0684ccfd27e03558d30720dc9f4e20c2216926dc74b7f5b8e03e2540d53df8f6bb6ca7
+  checksum: 0ef02499f5c8fbbdec83b76824b0bb8e8403028faa9b584ca152be39f886a3365c322b068cbc127e07772a3f5c0df0aa5848a319cd8916c8ecdac923bf057ef9
   languageName: node
   linkType: hard
 
@@ -1010,7 +1010,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@snuggery/build-lit@workspace:packages/build-lit"
   dependencies:
-    "@bgotink/list-exports": "npm:^0.1.2"
+    "@bgotink/list-exports": "npm:^0.2.0"
     "@lit/localize": "npm:^0.12.0"
     "@snuggery/architect": "npm:^0.9.1"
     "@snuggery/build-node": "npm:^0.9.1"
@@ -2269,6 +2269,12 @@ __metadata:
     karma-chrome-launcher: "npm:3.1.1"
     karma-jasmine: "npm:^5.1.0"
     lit: "npm:3.0.1"
+  languageName: unknown
+  linkType: soft
+
+"demo-lib@workspace:demo/lib":
+  version: 0.0.0-use.local
+  resolution: "demo-lib@workspace:demo/lib"
   languageName: unknown
   linkType: soft
 

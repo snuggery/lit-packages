@@ -96,6 +96,10 @@ project "demo" root="demo" projectType="application" {
 	}
 }
 
+project "demo-lib" root="demo/lib" projectType="library" {
+	target "build" builder="@snuggery/build-lit/dist:library"
+}
+
 (abstract)project "package" {
 	target "build" builder="@snuggery/build-node:build" {
 		options {

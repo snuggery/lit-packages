@@ -10,7 +10,7 @@ import {
 } from "@snuggery/architect";
 import {isJsonObject, type JsonObject} from "@snuggery/core";
 import {readFile, rm, writeFile} from "node:fs/promises";
-import path from "node:path";
+import path, {posix} from "node:path";
 
 import {build, isBuildFailure} from "../../esbuild.js";
 import {forwardEsbuildOptions} from "../../helpers/esbuild-options.js";
@@ -84,10 +84,12 @@ export default createBuilder<Schema>(
 
 		const entryPoints = await extractLibraryEntryPoints(manifestPath, manifest);
 
+		let compilerOptions: import("typescript").CompilerOptions | undefined;
+
 		if (tsconfig) {
 			context.logger.debug("Running typescript...");
 			const {tsc} = await import("@snuggery/build-node");
-			await tsc(context, {
+			const {project} = await tsc(context, {
 				compile: true,
 				tsconfig: relativeWorkspacePath(context, tsconfig),
 				outputFolder: outdir,
@@ -100,6 +102,7 @@ export default createBuilder<Schema>(
 							)}`,
 						);
 					}
+
 					if (
 						compilerOptions.declarationDir &&
 						compilerOptions.declarationDir !== outdir
@@ -110,6 +113,7 @@ export default createBuilder<Schema>(
 							} in ${relativeWorkspacePath(context, tsconfig)}`,
 						);
 					}
+
 					if (!compilerOptions.emitDeclarationOnly) {
 						throw new BuildFailureError(
 							`Expected "emitDeclarationOnly": true in ${relativeWorkspacePath(
@@ -120,6 +124,8 @@ export default createBuilder<Schema>(
 					}
 				},
 			});
+
+			compilerOptions = project.options;
 		}
 
 		for (const optimize of [false, true]) {
@@ -176,7 +182,7 @@ export default createBuilder<Schema>(
 		const allExports = manifest.exports as JsonObject;
 
 		const handledKeys = new Set<string>();
-		for (const {exportKey, outputBasename} of entryPoints) {
+		for (const {exportKey, exportValue, outputBasename} of entryPoints) {
 			if (handledKeys.has(exportKey)) {
 				continue;
 			}
@@ -204,9 +210,21 @@ export default createBuilder<Schema>(
 			}
 
 			allExports[exportKey] = {
-				...(tsconfig ?
+				...(compilerOptions ?
 					{
-						types: `${basenameToUse}.d.ts`,
+						types: `./${(compilerOptions.declarationDir ?
+							posix.join(
+								posix.relative(outdir!, compilerOptions.declarationDir),
+								posix.relative(
+									compilerOptions.rootDir ?? manifestFolder,
+									posix.resolve(manifestFolder, exportValue),
+								),
+							)
+						:	posix.relative(
+								compilerOptions.rootDir ?? manifestFolder,
+								posix.resolve(manifestFolder, exportValue),
+							)
+						).replace(/\.([cm]?ts)$/, ".d.$1")}`,
 					}
 				:	{}),
 

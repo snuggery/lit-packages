@@ -1,0 +1,8 @@
+{
+	"name": "demo-lib",
+	"exports": {
+		".": "./src/index.ts",
+		"./*.js": "./src/internal/*.ts",
+		"./package.json": "./package.json"
+	}
+}
