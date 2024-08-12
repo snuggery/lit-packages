@@ -8,6 +8,7 @@
 				"type": "object",
 				"properties": {
 					"include": {
+						"aliases": ["$implicit"],
 						"oneOf": [
 							{"type": "string"},
 							{
