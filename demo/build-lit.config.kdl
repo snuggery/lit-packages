@@ -3,7 +3,7 @@ build {
 		tsconfig "tsconfig.json"
 		baseHref "/lorem/ipsum"
 		entryPoints "src/index.html" "src/lib.ts"
-		inlineLitDecorators true
+		inlineLitDecorators #true
 	}
 
 	configuration "translated" {
@@ -15,7 +15,7 @@ test {
 	options {
 		karmaConfig "karma.conf.cjs"
 		tsconfig "tsconfig.spec.json"
-		inlineLitDecorators true
+		inlineLitDecorators #true
 	}
 }
 
