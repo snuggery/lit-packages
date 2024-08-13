@@ -1,7 +1,10 @@
 {
 	"name": "demo-lib",
 	"exports": {
-		".": "./src/index.ts",
+		".": {
+			"sass": "./sass/_index.scss",
+			"default": "./src/index.ts"
+		},
 		"./*.js": "./src/internal/*.ts",
 		"./package.json": "./package.json"
 	}

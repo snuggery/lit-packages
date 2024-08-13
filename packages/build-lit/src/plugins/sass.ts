@@ -1,17 +1,13 @@
 import {readFile} from "node:fs/promises";
-import {createRequire} from "node:module";
-import {dirname, extname, join} from "node:path";
+import {dirname, extname} from "node:path";
 import {fileURLToPath, pathToFileURL} from "node:url";
-import {exports} from "resolve.exports";
 
-function getPackageName(url: string) {
-	let idx = url.indexOf("/");
-	if (idx !== -1 && url.startsWith("@")) {
-		idx = url.indexOf("/", idx + 1);
-	}
-
-	return idx === -1 ? url : url.slice(0, idx);
-}
+import {
+	DirectoryEntry,
+	createModuleCanonicalizer,
+	createRelativeCanonicalizer,
+} from "./sass/canonicalize.js";
+import {createSassLoader} from "./sass/load.js";
 
 export function sassPlugin(): import("esbuild").Plugin {
 	return {
@@ -48,6 +44,12 @@ export function sassPlugin(): import("esbuild").Plugin {
 				},
 			);
 
+			const directoryCache = new Map<string, DirectoryEntry>();
+
+			build.onEnd(() => {
+				directoryCache.clear();
+			});
+
 			build.onLoad(
 				{filter: /\.(?:sass|scss|css)$/},
 				async ({path, pluginData}) => {
@@ -58,9 +60,9 @@ export function sassPlugin(): import("esbuild").Plugin {
 					pluginData = {...pluginData};
 					delete pluginData.litSass;
 
-					const require = createRequire(path);
-
 					let css: string, watchFiles: string[];
+
+					const entryDirectory = dirname(path);
 
 					switch (extname(path)) {
 						case ".sass":
@@ -73,47 +75,22 @@ export function sassPlugin(): import("esbuild").Plugin {
 									);
 								}
 
-								const {compile} = await sassPromise;
+								const {compileString} = await sassPromise;
+								const load = createSassLoader(
+									entryDirectory,
+									litSass === "css",
+								);
 
-								const result = compile(path, {
+								const result = compileString(await readFile(path, "utf-8"), {
+									url: pathToFileURL(path),
+									importer: {
+										canonicalize: createRelativeCanonicalizer(directoryCache),
+										load,
+									},
 									importers: [
 										{
-											findFileUrl(url) {
-												if (url.startsWith(".")) {
-													return null;
-												}
-
-												const packageName = getPackageName(url);
-												let packageJsonPath;
-
-												try {
-													packageJsonPath = require.resolve(
-														`${packageName}/package.json`,
-													);
-												} catch (e) {
-													if (
-														!e ||
-														(e as NodeJS.ErrnoException).code ===
-															"MODULE_NOT_FOUND"
-													) {
-														return null;
-													}
-
-													throw e;
-												}
-
-												const packageJson = require(packageJsonPath);
-												const deepImport = "." + url.slice(packageName.length);
-												return pathToFileURL(
-													join(
-														dirname(packageJsonPath),
-														(exports(packageJson, deepImport, {
-															unsafe: true,
-															conditions: ["sass", "css", "style"],
-														}) ?? [deepImport])[0]!,
-													),
-												);
-											},
+											canonicalize: createModuleCanonicalizer(directoryCache),
+											load,
 										},
 									],
 								});

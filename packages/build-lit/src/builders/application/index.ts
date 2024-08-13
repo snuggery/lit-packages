@@ -14,6 +14,7 @@ import {extractApplicationEntryPoints} from "../../helpers/application-entry-poi
 import {forwardEsbuildOptions} from "../../helpers/esbuild-options.js";
 import {readLocalizeToolsConfig} from "../../helpers/i18n-config.js";
 import {assetPlugin} from "../../plugins/asset.js";
+import {createCssResourcePlugin} from "../../plugins/css-resources.js";
 import {sassPlugin} from "../../plugins/sass.js";
 import {
 	type TransformerFactoryFactory,
@@ -144,7 +145,7 @@ export default createBuilder<Schema>(
 		}
 
 		for (const {transformerFactoryFactories, ...c} of configurations) {
-			const plugins = [assetPlugin(), sassPlugin()];
+			const plugins = [assetPlugin(), createCssResourcePlugin(), sassPlugin()];
 
 			if (transformerFactoryFactories.length > 0) {
 				plugins.push(

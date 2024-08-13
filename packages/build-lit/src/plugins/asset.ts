@@ -9,7 +9,7 @@ export function assetPlugin(): import("esbuild").Plugin {
 			build.onResolve(
 				{filter: assetRe},
 				async ({importer, kind, path, pluginData, ...rest}) => {
-					if (pluginData?.litAsset) {
+					if (pluginData?.litAsset || kind === "url-token") {
 						return;
 					}
 

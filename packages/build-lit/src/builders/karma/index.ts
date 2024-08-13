@@ -12,6 +12,7 @@ import {forwardEsbuildOptions} from "../../helpers/esbuild-options.js";
 import {Deferred} from "../../helpers/promise.js";
 import {getFiles} from "../../helpers/typescript.js";
 import {assetPlugin} from "../../plugins/asset.js";
+import {createCssResourcePlugin} from "../../plugins/css-resources.js";
 import {sassPlugin} from "../../plugins/sass.js";
 import {typescriptPluginFactory} from "../../plugins/typescript.js";
 import {createDecoratorTransformerFactory} from "../../plugins/typescript/decorators.js";
@@ -32,7 +33,7 @@ export default createBuilder<Schema>(
 			};
 		}
 
-		const plugins = [assetPlugin(), sassPlugin()];
+		const plugins = [assetPlugin(), createCssResourcePlugin(), sassPlugin()];
 
 		if (input.inlineLitDecorators) {
 			plugins.push(
