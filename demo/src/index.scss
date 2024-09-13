@@ -1,3 +1,5 @@
+@use "demo-lib/colors";
+
 @import "demo-lib";
 
 html,
@@ -7,5 +9,6 @@ body {
 }
 
 .foo {
+	background: colors.$red;
 	background: url("./assets/css.png");
 }

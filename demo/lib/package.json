@@ -5,6 +5,9 @@
 			"sass": "./sass/_index.scss",
 			"default": "./src/index.ts"
 		},
+		"./colors": {
+			"sass": "./sass/_colors.scss"
+		},
 		"./*.js": "./src/internal/*.ts",
 		"./package.json": "./package.json"
 	}

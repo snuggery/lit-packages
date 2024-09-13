@@ -97,7 +97,7 @@ export function createRelativeCanonicalizer(
 				entries = readdirSync(directory, {withFileTypes: true});
 			} catch (e) {
 				// If the containing directory does not exist return null to indicate it cannot be resolved
-				if (!e && (e as NodeJS.ErrnoException).code === "ENOENT") {
+				if ((e as NodeJS.ErrnoException)?.code === "ENOENT") {
 					return null;
 				}
 
