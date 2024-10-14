@@ -43,7 +43,7 @@
 		"@lit/localize": "^0.12.0",
 		"karma": "^6.4.1",
 		"sass": "^1.77.8",
-		"typescript": "~5.2.2 || ~5.3.3 || ~5.4.5"
+		"typescript": "~5.2.2 || ~5.3.3 || ~5.4.5 || ~5.5.4 || ~5.6.3"
 	},
 	"peerDependenciesMeta": {
 		"@lit/localize": {
@@ -83,6 +83,6 @@
 		"@types/node": "18.11.18",
 		"karma": "^6.4.1",
 		"sass": "^1.77.8",
-		"typescript": "~5.4.5"
+		"typescript": "~5.6.3"
 	}
 }
