@@ -81,15 +81,19 @@ export function sassPlugin(): import("esbuild").Plugin {
 									litSass === "css",
 								);
 
+								const relativeCanonicalizer =
+									createRelativeCanonicalizer(directoryCache);
 								const result = compileString(await readFile(path, "utf-8"), {
 									url: pathToFileURL(path),
 									importer: {
-										canonicalize: createRelativeCanonicalizer(directoryCache),
+										canonicalize: relativeCanonicalizer,
 										load,
 									},
 									importers: [
 										{
-											canonicalize: createModuleCanonicalizer(directoryCache),
+											canonicalize: createModuleCanonicalizer(
+												relativeCanonicalizer,
+											),
 											load,
 										},
 									],

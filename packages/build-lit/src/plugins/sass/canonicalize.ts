@@ -1,7 +1,6 @@
 /*
  * Heavily influenced by `@angular/build`'s sass resolvers
  */
-
 import {readdirSync, statSync} from "node:fs";
 import {createRequire} from "node:module";
 import {basename, dirname, extname, join} from "node:path";
@@ -171,18 +170,16 @@ export function createRelativeCanonicalizer(
 }
 
 export function createModuleCanonicalizer(
-	directoryCache = new Map<string, DirectoryEntry>(),
+	_super: import("sass").Importer<"sync">["canonicalize"],
 ): import("sass").Importer<"sync">["canonicalize"] {
-	const _super = createRelativeCanonicalizer(directoryCache);
-
 	return (url, opts) => {
 		if (!opts.containingUrl) {
-			return null;
+			return _super(url, opts);
 		}
 
 		if (url.startsWith(".")) {
 			// can't be a node package
-			return null;
+			return _super(url, opts);
 		}
 
 		const require = createRequire(opts.containingUrl);
@@ -194,7 +191,7 @@ export function createModuleCanonicalizer(
 			packageJsonPath = require.resolve(`${packageName}/package.json`);
 		} catch (e) {
 			if (!e || (e as NodeJS.ErrnoException).code === "MODULE_NOT_FOUND") {
-				return null;
+				return _super(url, opts);
 			}
 
 			throw e;
