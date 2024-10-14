@@ -3,7 +3,7 @@ import {dirname, extname} from "node:path";
 import {fileURLToPath, pathToFileURL} from "node:url";
 
 import {
-	DirectoryEntry,
+	type DirectoryEntry,
 	createModuleCanonicalizer,
 	createRelativeCanonicalizer,
 } from "./sass/canonicalize.js";

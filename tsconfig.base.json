@@ -15,11 +15,10 @@
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
-		"importsNotUsedAsValues": "error",
+		"verbatimModuleSyntax": true,
 		"forceConsistentCasingInFileNames": true,
 		"useUnknownInCatchVariables": true,
 		"skipLibCheck": true,
-		"declaration": true,
-		"ignoreDeprecations": "5.0"
+		"declaration": true
 	}
 }

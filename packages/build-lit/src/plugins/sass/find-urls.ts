@@ -20,7 +20,7 @@ function isWhitespace(code: number) {
 	);
 }
 
-function isQuote(code: number) {
+function isQuote(code: number): boolean {
 	return (
 		code === 0x22 || // "
 		code === 0x27 // '
