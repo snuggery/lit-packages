@@ -18,8 +18,8 @@
 		"@ngx-playwright/test": "^0.5.6",
 		"@prettier/plugin-xml": "^3.4.1",
 		"@snuggery/build-lit": "workspace:*",
-		"@snuggery/build-node": "0.10.1",
-		"@snuggery/snuggery": "0.12.3",
+		"@snuggery/build-node": "0.11.1",
+		"@snuggery/snuggery": "0.13.0",
 		"@snuggery/yarn": "0.7.1",
 		"@types/jasmine": "^4.3.1",
 		"@typescript-eslint/eslint-plugin": "7.13.0",
@@ -30,13 +30,10 @@
 		"eslint-import-resolver-node": "0.3.6",
 		"eslint-plugin-import": "2.26.0",
 		"express-check-in": "0.2.0",
-		"husky": "9.0.11",
+		"husky": "9.1.6",
 		"is-ci": "3.0.1",
-		"prettier": "^3.3.2",
+		"prettier": "^3.3.3",
 		"rxjs": "7.8.1",
-		"typescript": "5.4.5"
-	},
-	"dependencies": {
-		"@lit/ts-transformers": "^2.0.1"
+		"typescript": "5.6.3"
 	}
 }

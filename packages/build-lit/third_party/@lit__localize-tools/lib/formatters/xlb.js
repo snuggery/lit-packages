@@ -48,7 +48,7 @@ class XlbFormatter {
      * Parse the given XLB XML string and return its translations.
      */
     parseXmb(xmlStr) {
-        const doc = new xmldom.DOMParser().parseFromString(xmlStr);
+        const doc = new xmldom.DOMParser().parseFromString(xmlStr, 'text/xml');
         const bundle = getOneElementByTagNameOrThrow(doc, 'localizationbundle');
         const locale = getNonEmptyAttributeOrThrow(bundle, 'locale');
         const msgNodes = doc.getElementsByTagName('msg');

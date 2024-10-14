@@ -47,7 +47,7 @@ export class XliffFormatter {
      * Parse the given XLIFF XML string and return its translations.
      */
     parseXliff(xmlStr) {
-        const doc = new xmldom.DOMParser().parseFromString(xmlStr);
+        const doc = new xmldom.DOMParser().parseFromString(xmlStr, 'text/xml');
         const file = getOneElementByTagNameOrThrow(doc, 'file');
         const locale = getNonEmptyAttributeOrThrow(file, 'target-language');
         const messages = [];
@@ -114,7 +114,7 @@ export class XliffFormatter {
         for (const targetLocale of this.config.targetLocales) {
             const existingTargetXmlStr = this.readTranslationFile(targetLocale);
             const xmlStr = this.encodeLocale(sourceMessages, targetLocale, translations.get(targetLocale) || [], existingTargetXmlStr
-                ? new xmldom.DOMParser().parseFromString(existingTargetXmlStr)
+                ? new xmldom.DOMParser().parseFromString(existingTargetXmlStr, 'text/xml')
                 : undefined);
             const path = pathLib.join(xliffDir, `${targetLocale}.xlf`);
             writes.push(fsPromises.writeFile(path, xmlStr, 'utf8').catch((e) => {
