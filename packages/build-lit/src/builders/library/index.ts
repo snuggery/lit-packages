@@ -52,7 +52,10 @@ export default createBuilder<Schema>(
 			);
 		}
 
-		const plugins = [externalPlugin(), assetPlugin(), sassPlugin()];
+		const plugins = [assetPlugin(), sassPlugin()];
+		if (!input.bundleDependencies) {
+			plugins.push(externalPlugin());
+		}
 
 		if (transformerFactoryFactories.length > 0) {
 			plugins.push(

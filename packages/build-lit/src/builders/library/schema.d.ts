@@ -32,4 +32,6 @@ export interface Schema {
 	metafile?: boolean;
 
 	inlineLitDecorators?: boolean;
+
+	bundleDependencies?: boolean;
 }
