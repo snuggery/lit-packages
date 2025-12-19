@@ -4,12 +4,12 @@ Build lit-based web applications
 
 ## Commands
 
-The `build-lit` command exposed by this package currently supports four subcommands:
+The `build-lit` command exposed by this package currently supports five subcommands:
 
 - `build-lit build` builds a application using [`esbuild`][esbuild]
 - `build-lit serve` serves a application for local development, including support for hot reload and more
 - `build-lit extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
-- `build-lit test` runs tests via [`karma`][karma]
+- `build-lit test` runs tests via [`vitest`][vitest]
 
 These commands accept options, add `--help` to see them listed.
 Options can also be configured in a file called `build-lit.config.json`, `build-lit.config.yaml`, or `build-lit.config.kdl`.
@@ -34,7 +34,7 @@ Here's an example configuration file:
 	},
 	"test": {
 		"options": {
-			"karmaConfig": "karma.conf.cjs",
+			"vitestConfig": "vitest.conf.cjs",
 			"tsconfig": "tsconfig.spec.json"
 		}
 	},
@@ -57,7 +57,8 @@ If you're already using either CLI, you can configure the following builders to 
 - `@snuggery/build-lit:application` builds a lit application using [`esbuild`][esbuild]
 - `@snuggery/build-lit:dev-server` serves a lit application for local development, including support for hot reload and more
 - `@snuggery/build-lit:extract-i18n` extracts XLIFF or XLB files from usage of `@lit/localize` in the source code
-- `@snuggery/build-lit:karma` runs tests via [`karma`][karma]
+- `@snuggery/build-lit:vitest` runs tests via [`vitest`][vitest]
+- `@snuggery/build-lit:karma` runs tests via [`karma`][karma] (deprecated)
 
 ### `build-lit build` / `@snuggery/build-lit:application`
 
@@ -89,18 +90,18 @@ Applications can be translated into multiple locales. This requires configuratio
 
 ```jsonc
 {
-  "i18n": {
-    // The locale source code is written in, defaults to en-US
-    "sourceLocale": "en-US",
-    // Supported target locales for translation
+	"i18n": {
+		// The locale source code is written in, defaults to en-US
+		"sourceLocale": "en-US",
+		// Supported target locales for translation
 		"targetLocales": ["nl", "en"],
-    // An interchange object as defined in a lit-localize.json file,
-    // see https://lit.dev/docs/localization/cli-and-config/#cli
-    "interchange": {
-      "format": "xliff",
-			"xliffDir" "application/locales"
-    }
-  }
+		// An interchange object as defined in a lit-localize.json file,
+		// see https://lit.dev/docs/localization/cli-and-config/#cli
+		"interchange": {
+			"format": "xliff",
+			"xliffDir": "application/locales",
+		},
+	},
 }
 ```
 
@@ -112,10 +113,7 @@ Custom conditions can be added via the `conditions` option. The `development` or
 
 #### Decorators
 
-The [`lit` decorators](https://lit.dev/docs/components/decorators/) (e.g. `@customElement('my-element')` and `@property()`) can be transformed into equivalent code that doesn't depend on typescript's or esbuild's decorator shims.
-To enable this, set `inlineLitDecorators` to `true` in the configuration of your build and/or test.
-
-> The current version of `esbuild` doesn't support the standard decorators yet, so if you're not using decorators and you don't have `enableExperimentalDecorators` in your typescript config, you have to enable this feature.
+The [`lit` decorators](https://lit.dev/docs/components/decorators/) (e.g. `@customElement('my-element')` and `@property()`) are fully supported by esbuild. Use the standard decorator syntax with the `accessor` keyword for reactive properties.
 
 ### `build-lit serve` / `@snuggery/build-lit:dev-server`
 
@@ -154,9 +152,11 @@ Build options are configured via a `applicationTarget` property, just like in `@
 
 The only options required for the `extract-i18n` builder are the `i18n` section as described in the "Internationalization" section.
 
-### `build-lit test` / `@snuggery/build-lit:karma`
+### `build-lit test-legacy` / `@snuggery/build-lit:karma`
 
 Run tests via karma
+
+⚠️ **Deprecated: Karma is no longer actively maintained.** Please migrate to Vitest for better performance and modern features. See the [migration guide](./docs/migrating-from-karma.md).
 
 #### Build Options
 
@@ -172,6 +172,14 @@ Karma requires configuration via a configuration file. Pass the path to this fil
 
 Your karma configuration file can configure its own framework, pre-processors, reporters, etc. Your karma configuration doesn't configure the included files and you don't have to configure how to build the project. You also can't configure `watch` and `singleRun`, these options are handled via the `watch` option in this builder.
 
+### `build-lit test` / `@snuggery/build-lit:vitest`
+
+Run tests via [Vitest][vitest], a modern test runner powered by Vite.
+For configuration options, examples, and guides, see:
+
+- [Complete options reference and examples](./docs/vitest-builder.md)
+- [Migrating from Karma to Vitest](./docs/migrating-from-karma.md)
+
 ## License
 
 Licensed under the MIT license, see `LICENSE.md`.
@@ -182,4 +190,5 @@ This package contains a modified and trimmed copy of [`@lit/localize-tools`][lit
 
 [esbuild]: https://esbuild.github.io/
 [karma]: https://karma-runner.github.io/6.4/index.html
+[vitest]: https://vitest.dev/
 [lit]: https://github.com/lit/lit

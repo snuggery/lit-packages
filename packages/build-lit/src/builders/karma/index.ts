@@ -21,6 +21,12 @@ import type {Schema} from "./schema.js";
 
 export default createBuilder<Schema>(
 	async (input, context): Promise<BuilderOutput> => {
+		// Warn users about moving to Vitest
+		console.warn(
+			"\n⚠️  Karma is no longer actively maintained. We recommend migrating to Vitest for better performance and modern features.\n" +
+				"   See the migration guide: https://github.com/snuggery/lit-packages#migrating-from-karma-to-vitest\n",
+		);
+
 		const require = createRequire(import.meta.url);
 
 		let karma;

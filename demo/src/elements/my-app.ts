@@ -11,7 +11,7 @@ export class MyAppElement extends LitElement {
 	static styles = styles;
 
 	@property()
-	declare name: string;
+	accessor name: string = "Obi-Wan Kenobi";
 
 	render() {
 		/* cspell:ignore kenobi */

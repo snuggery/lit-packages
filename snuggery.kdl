@@ -64,11 +64,18 @@ project "demo" root="demo" projectType="application" {
 		}
 	}
 
-	target "test" builder="@snuggery/build-lit/dist:karma" {
+	target "test-karma" builder="@snuggery/build-lit/dist:karma" {
 		options {
 			karmaConfig "demo/karma.conf.cjs"
 			tsconfig "demo/tsconfig.spec.json"
 			inlineLitDecorators #true
+		}
+	}
+
+	target "test-vitest" builder="@snuggery/build-lit/dist:vitest" {
+		options {
+			vitestConfig "demo/vitest.config.js"
+			tsconfig "demo/tsconfig.vitest.json"
 		}
 	}
 
@@ -98,6 +105,19 @@ project "demo" root="demo" projectType="application" {
 
 project "demo-lib" root="demo/lib" projectType="library" {
 	target "build" builder="@snuggery/build-lit/dist:library"
+
+	target "test" builder="@snuggery/build-lit/dist:vitest" {
+		options {
+			vitestConfig #true
+			browsers {
+				- chromiumheadless
+			}
+			coverageReporters {
+				- html
+				- text-summary
+			}
+		}
+	}
 }
 
 (abstract)project "package" {

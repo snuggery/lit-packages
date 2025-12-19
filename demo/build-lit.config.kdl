@@ -11,11 +11,22 @@ build {
 	}
 }
 
-test {
+test-legacy {
 	options {
 		karmaConfig "karma.conf.cjs"
 		tsconfig "tsconfig.spec.json"
 		inlineLitDecorators #true
+	}
+}
+
+test {
+	builder "@snuggery/build-lit:vitest"
+	options {
+		vitestConfig "vitest.config.js"
+		tsconfig "tsconfig.vitest.json"
+		coverage #true
+		coverageInclude "src/**/*.ts" "src/**/*.js"
+		coverageExclude "**/*.spec.ts" "**/*.vitest.spec.ts"
 	}
 }
 

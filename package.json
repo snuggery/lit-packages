@@ -10,7 +10,7 @@
 		"postinstall": "is-ci || husky install",
 		"build": "sn build",
 		"lint": "sn lint",
-		"test": "sn test"
+		"test": "sn test-karma && sn test-vitest"
 	},
 	"packageManager": "yarn@4.0.2",
 	"devDependencies": {
@@ -35,5 +35,13 @@
 		"prettier": "^3.3.3",
 		"rxjs": "7.8.1",
 		"typescript": "5.9.3"
+	},
+	"dependenciesMeta": {
+		"esbuild": {
+			"built": true
+		},
+		"playwright": {
+			"built": true
+		}
 	}
 }

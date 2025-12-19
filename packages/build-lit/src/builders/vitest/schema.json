@@ -1,0 +1,250 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"properties": {
+		"buildTarget": {
+			"type": "string",
+			"description": "Specifies the build target to use for the unit test build in the format `project:target[:configuration]`"
+		},
+		"tsconfig": {
+			"type": "string",
+			"description": "The path to the TypeScript configuration file, relative to the workspace root",
+			"alias": ["tsconfig"]
+		},
+		"vitestConfig": {
+			"oneOf": [{"type": "string"}, {"type": "boolean"}],
+			"description": "Specifies the configuration file for vitest. If a string is provided, it will be used as the path. If `true`, search for default config. If `false`, no external config will be used"
+		},
+		"browsers": {
+			"type": "array",
+			"items": {"type": "string"},
+			"minItems": 1,
+			"description": "Specifies the browsers to use for test execution. When not specified, tests are run in a Node.js environment using jsdom"
+		},
+		"browserViewport": {
+			"type": "string",
+			"pattern": "^\\d+x\\d+$",
+			"description": "Specifies the browser viewport dimensions for browser-based tests in the format `widthxheight`"
+		},
+		"include": {
+			"type": "array",
+			"items": {"type": "string"},
+			"description": "Specifies glob patterns of files to include for testing, relative to the project root"
+		},
+		"exclude": {
+			"type": "array",
+			"items": {"type": "string"},
+			"description": "Specifies glob patterns of files to exclude from testing, relative to the project root"
+		},
+		"filter": {
+			"type": "string",
+			"description": "Specifies a regular expression pattern to match against test suite and test names"
+		},
+		"watch": {
+			"type": "boolean",
+			"description": "Enables watch mode, which re-runs tests when source files change"
+		},
+		"debug": {
+			"type": "boolean",
+			"description": "Enables debugging mode for tests, allowing the use of the Node Inspector"
+		},
+		"ui": {
+			"type": "boolean",
+			"description": "Enables the Vitest UI for interactive test execution. This option is ignored in CI environments"
+		},
+		"coverage": {
+			"type": "boolean",
+			"description": "Enables coverage reporting for tests"
+		},
+		"coverageInclude": {
+			"type": "array",
+			"items": {"type": "string"},
+			"description": "Specifies glob patterns of files to include in the coverage report"
+		},
+		"coverageExclude": {
+			"type": "array",
+			"items": {"type": "string"},
+			"description": "Specifies glob patterns of files to exclude from the coverage report"
+		},
+		"coverageReporters": {
+			"type": "array",
+			"items": {
+				"oneOf": [
+					{
+						"type": "string",
+						"enum": [
+							"html",
+							"lcov",
+							"lcovonly",
+							"text",
+							"text-summary",
+							"cobertura",
+							"json",
+							"json-summary"
+						]
+					},
+					{
+						"type": "array",
+						"items": [
+							{
+								"type": "string",
+								"enum": [
+									"html",
+									"lcov",
+									"lcovonly",
+									"text",
+									"text-summary",
+									"cobertura",
+									"json",
+									"json-summary"
+								]
+							},
+							{"type": "object"}
+						],
+						"minItems": 2,
+						"maxItems": 2
+					}
+				]
+			},
+			"description": "Specifies the reporters to use for coverage results"
+		},
+		"coverageThresholds": {
+			"type": "object",
+			"properties": {
+				"perFile": {
+					"type": "boolean",
+					"description": "When true, thresholds are enforced for each file individually"
+				},
+				"statements": {
+					"type": "number",
+					"minimum": 0,
+					"maximum": 100,
+					"description": "Minimum percentage of statements covered"
+				},
+				"branches": {
+					"type": "number",
+					"minimum": 0,
+					"maximum": 100,
+					"description": "Minimum percentage of branches covered"
+				},
+				"functions": {
+					"type": "number",
+					"minimum": 0,
+					"maximum": 100,
+					"description": "Minimum percentage of functions covered"
+				},
+				"lines": {
+					"type": "number",
+					"minimum": 0,
+					"maximum": 100,
+					"description": "Minimum percentage of lines covered"
+				}
+			},
+			"additionalProperties": false,
+			"description": "Specifies minimum coverage thresholds that must be met"
+		},
+		"coverageWatermarks": {
+			"type": "object",
+			"properties": {
+				"statements": {
+					"type": "array",
+					"items": {"type": "number"},
+					"minItems": 2,
+					"maxItems": 2,
+					"description": "The high and low watermarks for statements coverage. [low, high]"
+				},
+				"branches": {
+					"type": "array",
+					"items": {"type": "number"},
+					"minItems": 2,
+					"maxItems": 2,
+					"description": "The high and low watermarks for branches coverage. [low, high]"
+				},
+				"functions": {
+					"type": "array",
+					"items": {"type": "number"},
+					"minItems": 2,
+					"maxItems": 2,
+					"description": "The high and low watermarks for functions coverage. [low, high]"
+				},
+				"lines": {
+					"type": "array",
+					"items": {"type": "number"},
+					"minItems": 2,
+					"maxItems": 2,
+					"description": "The high and low watermarks for lines coverage. [low, high]"
+				}
+			},
+			"additionalProperties": false,
+			"description": "Specifies coverage watermarks for the HTML reporter"
+		},
+		"reporters": {
+			"type": "array",
+			"items": {
+				"oneOf": [
+					{
+						"type": "string",
+						"enum": [
+							"default",
+							"verbose",
+							"dots",
+							"json",
+							"junit",
+							"tap",
+							"tap-flat",
+							"html"
+						]
+					},
+					{"type": "string"},
+					{
+						"type": "array",
+						"items": [{"type": "string"}, {"type": "object"}],
+						"minItems": 2,
+						"maxItems": 2
+					}
+				]
+			},
+			"description": "Specifies the reporters to use during test execution"
+		},
+		"outputFile": {
+			"type": "string",
+			"description": "Specifies a file path for the test report, applying only to the first reporter"
+		},
+		"setupFiles": {
+			"type": "array",
+			"items": {"type": "string"},
+			"description": "A list of paths to global setup files that are executed before the test files"
+		},
+		"progress": {
+			"type": "boolean",
+			"description": "Shows build progress information in the console"
+		},
+		"target": {
+			"oneOf": [
+				{"type": "string"},
+				{
+					"type": "array",
+					"items": {"type": "string"}
+				}
+			],
+			"description": "Environment target(s) (e.g. es2017, chrome58, firefox57, safari11, edge16, node10, ie9, opera45, esnext)"
+		},
+		"conditions": {
+			"type": "array",
+			"items": {"type": "string"},
+			"description": "Custom conditions to include during resolution"
+		},
+		"listTests": {
+			"type": "boolean",
+			"description": "Lists all discovered test files and exits the process without building or executing the tests.",
+			"default": false
+		},
+		"keepBuiltFiles": {
+			"type": "boolean",
+			"description": "Keep the temporary folder the tests are built into & log its path",
+			"default": false,
+			"visible": false
+		}
+	},
+	"additionalProperties": false
+}

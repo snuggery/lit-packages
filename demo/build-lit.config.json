@@ -12,11 +12,20 @@
 			}
 		}
 	},
-	"test": {
+	"test-legacy": {
 		"options": {
 			"karmaConfig": "karma.conf.cjs",
 			"tsconfig": "tsconfig.spec.json",
 			"inlineLitDecorators": true
+		}
+	},
+	"test": {
+		"options": {
+			"vitestConfig": "vitest.config.js",
+			"tsconfig": "tsconfig.spec.json",
+			"coverage": true,
+			"coverageInclude": ["src/**/*.ts", "src/**/*.js"],
+			"coverageExclude": ["**/*.spec.ts", "**/*.vitest.spec.ts"]
 		}
 	},
 	"i18n": {

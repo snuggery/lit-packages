@@ -29,6 +29,7 @@ export function forwardEsbuildOptions({
 	| "banner"
 	| "footer"
 	| "inject"
+	| "define"
 > {
 	return {
 		...(minify ?

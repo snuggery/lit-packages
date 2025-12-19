@@ -24,6 +24,11 @@
 			"implementation": "./dist/builders/karma/index.js",
 			"schema": "./src/builders/karma/schema.json",
 			"description": "Run tests via karma"
+		},
+		"vitest": {
+			"implementation": "./dist/builders/vitest/index.js",
+			"schema": "./src/builders/vitest/schema.json",
+			"description": "Run tests via vitest"
 		}
 	}
 }
