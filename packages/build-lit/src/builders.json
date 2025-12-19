@@ -25,6 +25,11 @@
 			"implementation": "./builders/karma/index.js",
 			"schema": "./builders/karma/schema.json",
 			"description": "Test a lit project using karma and esbuild"
+		},
+		"vitest": {
+			"implementation": "./builders/vitest/index.js",
+			"schema": "./builders/vitest/schema.json",
+			"description": "Run tests via vitest"
 		}
 	}
 }

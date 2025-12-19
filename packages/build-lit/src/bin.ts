@@ -1,7 +1,7 @@
 import {run} from "@snuggery/snuggery/mini";
 import {createRequire} from "node:module";
 
-await run({
+void run({
 	binaryLabel: "build-lit",
 	binaryName: "build-lit",
 	binaryVersion: createRequire(import.meta.url)("./package.json").version,
@@ -11,6 +11,7 @@ await run({
 		["build", "@snuggery/build-lit:application"],
 		["extract-i18n", "@snuggery/build-lit:extract-i18n"],
 		["serve", "@snuggery/build-lit:dev-server"],
-		["test", "@snuggery/build-lit:karma"],
+		["test", "@snuggery/build-lit:vitest"],
+		["test-legacy", "@snuggery/build-lit:karma"],
 	]),
 });

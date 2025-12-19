@@ -2,8 +2,8 @@
 	"compilerOptions": {
 		"module": "Node16",
 		"moduleResolution": "node16",
-		"types": ["@snuggery/build-lit/styles", "jasmine"],
-		"experimentalDecorators": false
+		"types": ["@snuggery/build-lit/styles", "jasmine"]
 	},
-	"include": ["src/**/*.spec.ts"]
+	"include": ["src/**/*.spec.ts"],
+	"exclude": ["src/**/*.vitest.spec.ts"]
 }

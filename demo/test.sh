@@ -69,3 +69,9 @@ echo "Testing serve..." >&2
 echo >&2
 
 sn e2e
+
+# Test tests
+
+CI=1 sn test demo-lib
+CI=1 sn test-karma demo
+CI=1 build-lit test

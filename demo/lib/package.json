@@ -10,5 +10,8 @@
 		},
 		"./*.js": "./src/internal/*.ts",
 		"./package.json": "./package.json"
+	},
+	"devDependencies": {
+		"vitest": "^4.0.0"
 	}
 }

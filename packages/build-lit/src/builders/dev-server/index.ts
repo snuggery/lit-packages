@@ -152,13 +152,14 @@ export default createBuilder<Schema>(
 				}
 			}
 
-			const {host, port} = await esbuildContext.serve({
+			const {hosts, port} = await esbuildContext.serve({
 				host: input.host ?? "localhost",
 				port: input.port,
 				servedir: tmpdir,
 				fallback,
 			});
 
+			const host = hosts[0] ?? "0.0.0.0";
 			let hostedUrl = `http://${host}:${port}`;
 			if (baseHref) {
 				hostedUrl = `${hostedUrl}${
