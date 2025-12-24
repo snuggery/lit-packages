@@ -3,7 +3,7 @@ import {fileURLToPath} from "node:url";
 
 export default /** @type {import('@ngx-playwright/test').PlaywrightTestConfig} */ ({
 	use: {
-		channel: "chrome",
+		browserName: "chromium",
 		headless: true,
 	},
 
