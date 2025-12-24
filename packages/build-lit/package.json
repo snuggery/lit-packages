@@ -43,7 +43,7 @@
 		"@lit/localize": "^0.12.0",
 		"karma": "^6.4.1",
 		"sass": "^1.77.8",
-		"typescript": "~5.2.2 || ~5.3.3 || ~5.4.5 || ~5.5.4 || ~5.6.3"
+		"typescript": "~5.2.2 || ~5.3.3 || ~5.4.5 || ~5.5.4 || ~5.6.3 || ~5.7.3 || ~5.8.3 || ~5.9.3"
 	},
 	"peerDependenciesMeta": {
 		"@lit/localize": {
@@ -61,10 +61,10 @@
 	},
 	"dependencies": {
 		"@bgotink/list-exports": "^0.2.1",
-		"@snuggery/architect": "^0.11.0",
-		"@snuggery/build-node": "^0.11.1",
-		"@snuggery/core": "^0.9.0",
-		"@snuggery/snuggery": "^0.13.0",
+		"@snuggery/architect": "^0.13.0",
+		"@snuggery/build-node": "^0.13.0",
+		"@snuggery/core": "^0.11.0",
+		"@snuggery/snuggery": "^0.15.0",
 		"@xmldom/xmldom": "^0.9.4",
 		"chokidar": "^4.0.1",
 		"esbuild-wasm": "^0.24.0",
@@ -82,6 +82,6 @@
 		"@types/node": "18.11.18",
 		"karma": "^6.4.1",
 		"sass": "^1.77.8",
-		"typescript": "~5.6.3"
+		"typescript": "~5.9.3"
 	}
 }
