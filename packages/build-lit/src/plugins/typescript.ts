@@ -104,6 +104,7 @@ export async function typescriptPluginFactory(
 									reference.sourceFile.fileName,
 									referencedProgram,
 								);
+								queue.push(referencedProgram);
 							}
 						}
 					}
